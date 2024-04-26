@@ -1,0 +1,503 @@
+<?php
+$id = $block->getId();
+if (empty($id)) { return; }
+$data = $block->getSpinInfo($id);
+if (empty($data)) { return; }
+
+$segments = $data['segments'];
+$viewFileUrl = $block->getViewFileUrl("Webkul_SpinToWin::css/widget/lottery.css");
+$line = ['line-right', 'line-bottom', 'line-left', 'line-top'];
+$json = [
+    'id' => $data['spin_id'],
+    'segments' => [],
+    'tasks' => [],
+];
+$fakeIcon = [
+    'https://d1zajr8axnrmfh.cloudfront.net/static/shop/image/3c6446d00755590ee7b5c55b50a7c1b3.png', // 0 $500
+    'https://d1zajr8axnrmfh.cloudfront.net/static/shop/image/f21de2d51e09d82b1b05f1fbdfcf7db1.png', // 1 10%
+    'https://d1zajr8axnrmfh.cloudfront.net/static/shop/image/6aa000104318c0a13a60735fd8abb2a6.png', // 2 20%
+    'https://d1zajr8axnrmfh.cloudfront.net/static/shop/image/6177956418872525c1a1062b0fee1f35.png', // 3 40%
+    'https://d1zajr8axnrmfh.cloudfront.net/static/shop/image/6bca4d3a67c9ac20986b0655fb516b46.png', // 4 50%
+    'https://d1zajr8axnrmfh.cloudfront.net/static/shop/image/0ecf6c3336513a1e0b347738ab901299.png', // 5 free
+    'https://d1zajr8axnrmfh.cloudfront.net/static/shop/image/4693bdd820d882981043c008bb084fff.png', // 6 Diffuser $1
+    'https://d1zajr8axnrmfh.cloudfront.net/static/shop/image/57210949498d35f88a677dbe26f5023c.png', // 7 gift_white
+];
+$fake = [
+    [$fakeIcon[4], 'Lu**r won 50% off select products'],
+    // [$fakeIcon[0], 'Ta**er won Get an air fryer for $9'],
+    [$fakeIcon[3], 'Al**n won 40% off select products'],
+    [$fakeIcon[5], 'Ma***ci won buy one get one free'],
+    [$fakeIcon[4], 'Ti***ll won 50% off select products'],
+    [$fakeIcon[3], 'Ag*es won 40% off select products'],
+    // [$fakeIcon[0], 'Hu**ti won Get an air fryer for $9'],
+    [$fakeIcon[6], 'Ta**ya won get a humidifier for $1'],
+    [$fakeIcon[4], 'Ri**ardwon 50% off select products'],
+    [$fakeIcon[4], 'Je***er won 50% off select products'],
+    [$fakeIcon[2], 'Dy**ke won 20% off select products'],
+    // [$fakeIcon[0], 'St**en won get an air fryer for $9'],
+    [$fakeIcon[5], 'Ti***hy won buy one get one free'],
+    [$fakeIcon[3], 'Kr***en won 40% off select products'],
+    [$fakeIcon[6], 'Sh****te won get a humidifier for $1'],
+    [$fakeIcon[1], 'E**c won 10% off all products'],
+    [$fakeIcon[4], 'Ni**le won 50% off select products'],
+    [$fakeIcon[3], 'Ro**ld won 40% off select products'],
+    // [$fakeIcon[0], 'Ma*****ll won get an air fryer for $9'],
+    [$fakeIcon[1], 'Da****le won 10% off all products'],
+];
+?>
+<link rel='stylesheet' href='<?= $block->escapeUrl($viewFileUrl) ?>' type='text/css' media='screen' />
+<div class="lottery">
+
+<div class="lottery__container">
+    <div class="lottery__bg-outer">
+        <div class="lottery__bg-inner">
+            <picture>
+                <source type="image/webp" srcset="<?= $block->getViewFileUrl('Webkul_SpinToWin::images/bf_bg.webp') ?>">
+                <img class="lottery__bg" src="<?= $block->getViewFileUrl('Webkul_SpinToWin::images/bf_bg.png') ?>" width="1500" height="1570">
+            </picture>
+            <div class="lottery__wrapper">
+                <div class="draw-container">
+                    <div><?php foreach ($line as $l): ?>
+                        <div class="dot-line <?= $l ?>"><?php foreach (range(1, 6) as $i): ?><i class="flicker-dot"></i><?php endforeach; ?></div>
+                    <?php endforeach; ?></div>
+                    <div class="awards-list">
+                        <?php foreach ($segments as $i => $item): ?>
+                            <?php $item['index'] = $i; ?>
+                            <?php $json['segments'][$item['segment_id']] = $item; ?>
+                            <div class="awards-item" data-index="<?= $i ?>" data-id="<?= $item['segment_id'] ?>">
+                                <div class="awards-item-wrapper">
+                                    <div class="awards-item-container">
+                                    <div class="awards-item-img"><div style="background-image: url(<?= $item['image'] ?>);"></div></div>
+                                    <div class="awards-item-name"><?= $item['label'] ?></div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                        <button class="awards-item go-btn">
+                            <picture>
+                                <source type="image/webp" srcset="<?= $block->getViewFileUrl('Webkul_SpinToWin::images/bf_go.webp') ?>">
+                                <img src="<?= $block->getViewFileUrl('Webkul_SpinToWin::images/bf_go.png') ?>" width="1500" height="1570">
+                            </picture>
+                            <div>
+                                <strong>Go</strong>
+                                <span><b id="lottery-chances">1</b>Chances</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="lottery__info">
+        <div class="lottery__winner">
+            <h3>Winner List</h3>
+            <div class="content">
+                <div class="inner"><ul><?php foreach ($fake as $c): ?><li><img src="<?= $c[0] ?>"><?= $c[1] ?></li><?php endforeach; ?></ul></div>
+            </div>
+        </div>
+        <div>
+            <div class="lottery__tasks">
+                <h3>Earn More Lottery Entries</h3>
+                <div class="content">
+                    <ul>
+                    <?php foreach ($data['tasks'] as $task): ?>
+                        <?php $id = $task['value']; ?>
+                        <?php $label = $task['label']->getText(); ?>
+                        <?php $json['tasks'][$id] = $label; ?>
+                        <li data-type="<?= $id ?>"><span><?= $label ?></span><button class="action primary btn-lottery-task-action" data-id="<?= $id ?>">Go</button></li>
+                    <?php endforeach; ?>
+                    </ul>
+                </div>
+            </div>
+            <div class="lottery__toolbar">
+                <button class="action primary" id="btn-show-lottery-info">Prize Information</button>
+                <button class="action primary" id="btn-show-lottery-rules">Lucky Draw Rules</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="lottery__modal__record-wrapper">
+    <button class="lottery__modal__record-button btn-transparent" id="btn-show-lottery-record">
+        <picture>
+            <source type="image/webp" srcset="<?= $block->getViewFileUrl('Webkul_SpinToWin::images/bf_box.webp') ?>">
+            <img src="<?= $block->getViewFileUrl('Webkul_SpinToWin::images/bf_box.png') ?>" width="100" height="86">
+        </picture>
+    </button>
+    <div class="block-modal lottery__modal__record" id="lottery-modal-record">
+        <div class="modal-overlay"></div>
+        <div class="modal-wrap">
+            <div class="modal-inner-wrap empty">
+                <div class="modal-inner-wrap-2"><div class="modal-inner-wrap-3">
+                    <header class="modal-header">
+                        <a class="modal-close" data-action="close-modal">&times;</a>
+                    </header>
+                    <div class="modal-content">
+                        <div class="content__empty">
+                            <picture>
+                                <source type="image/webp" srcset="<?= $block->getViewFileUrl('Webkul_SpinToWin::images/bf_box-empty.webp') ?>">
+                                <img class="icon-gift" src="<?= $block->getViewFileUrl('Webkul_SpinToWin::images/bf_box-empty.png') ?>" width="600" height="370">
+                            </picture>
+                            <h3>No rewards yet</h3>
+                            <p>Enter the lucky draw for coupons</p>
+                            <div><button class="action primary btn-lottery">Luck Now</button></div>
+                        </div>
+                        <div class="content__list">
+                            <h3>Congratulations! You won!</h3>
+                            <p>The code has been sent directly to your account.</p>
+                            <ul class="record-list"></ul>
+                        </div>
+                    </div>
+                </div></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="block-modal lottery__modal__awards" id="lottery-modal-awards">
+    <div class="modal-overlay"></div>
+    <div class="modal-wrap">
+        <div class="modal-inner-wrap">
+            <picture>
+                <source type="image/webp" srcset="<?= $block->getViewFileUrl('Webkul_SpinToWin::images/bf_gift.webp') ?>">
+                <img class="icon-gift" src="<?= $block->getViewFileUrl('Webkul_SpinToWin::images/bf_gift.png') ?>" width="301" height="265">
+            </picture>
+            <header class="modal-header">
+                <a class="modal-close" data-action="close-modal">&times;</a>
+            </header>
+            <div class="modal-content">
+                <h3>Congratulations! You won!</h3>
+                <img class="awards-img" src="" alt="">
+                <p class="awards-desc"></p>
+                <div class="awards-code">
+                    <button class="btn-copy"><span class="fs-copy"></span></button>
+                    <span>Code:</span>
+                    <code></code>
+                </div>
+                <p class="awards-tips">The code has been sent directly to your account.</p>
+                <div><button class="action primary btn-shop">Shop Now</button></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="block-modal lottery__modal__rules" id="lottery-modal-rules">
+    <div class="modal-overlay"></div>
+    <div class="modal-wrap">
+        <div class="modal-inner-wrap">
+            <header class="modal-header">
+                <div class="modal-title">Lucky Draw Rules</div>
+                <a class="modal-close" data-action="close-modal">&times;</a>
+            </header>
+            <div class="modal-content"><?= $data['rule'] ?></div>
+        </div>
+    </div>
+</div>
+<div class="block-modal lottery__modal__info" id="lottery-modal-info">
+    <div class="modal-overlay"></div>
+    <div class="modal-wrap">
+        <div class="modal-inner-wrap">
+            <header class="modal-header">
+                <div class="modal-title">Prize Information</div>
+                <a class="modal-close" data-action="close-modal">&times;</a>
+            </header>
+            <div class="modal-content">
+                <p><b>1. How to Participate in Our Crazy Black Friday:</b></p>
+                <p>New Users: Click 'GO' at the center of the prize wheel, enter your email to register for an AiDot account, and you'll receive 1 lottery entry. (Each email can participate only once.)<br>Returning Users: Click 'GO' at the center of the wheel, log in to your AiDot account, and you'll receive 1 lottery entry. (Each email can participate only once.)<br>Eligibility: Open to legal residents of the fifty (50) states of the United States and the District of Columbia only (excluding Alaska, Florida, Hawaii, New York, Rhode Island, Bermuda, and other U.S. territories).</p>
+                <p><b>2. How to Earn More Lottery Entries:</b></p>
+                <p>a. View any product details page listed for more than 15 seconds. (1 chance per account )<br>b. Share this promotion with friends. (1 chance per account )<br>c. Post about it on forums.(1 chance per account )</p>
+                <p><b>3. How to Redeem Rewards:</b></p>
+                <p>All rewards will appear in your account immediately in the form of coupons. You can use them during checkout.</p>
+                <p><b>4. About Coupons:</b></p>
+                <p>Get a $500 Coupon on Orders Over $600: Applicable to all products on the site (excluding flash sale items), valid from November 17th to December 20th, 2023, PDT.<br>50% OFF: Applicable to selected products only, valid from  November 17th to December 20th, 2023, PDT.<br>10% Coupon: Applicable to all products on the site (excluding flash sale items), valid from November 17th to December 20th, 2023, PDT.</p>
+                <p><b>5. Registration and Lottery Period:</b></p>
+                <p>November 17th to December 20th, 2023, PDT.<br>Please use your lottery entries before the draw ends.<br>Already issued to your account</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="block-modal lottery__modal__tasks" id="lottery-modal-tasks">
+    <div class="modal-overlay"></div>
+    <div class="modal-wrap">
+        <div class="modal-inner-wrap">
+            <header class="modal-header">
+                <div class="modal-title">Free chances have run out</div>
+                <a class="modal-close" data-action="close-modal">&times;</a>
+            </header>
+            <div class="modal-content">
+                <ul>
+                <?php foreach ($data['tasks'] as $task): ?>
+                    <?php $id = $task['value']; ?>
+                    <?php $label = $task['label']->getText(); ?>
+                    <li data-type="<?= $id ?>"><span><?= $label ?></span><button class="action primary btn-lottery-task-action" data-id="<?= $id ?>">Go</button></li>
+                <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+<script>
+require(["jquery"], function($) {
+    const $root = $('.lottery');
+    const $awardsList = $root.find('.awards-list');
+    const $awardsModal = $root.find('#lottery-modal-awards');
+    const $recordModal = $root.find('#lottery-modal-record');
+    const $chances = $root.find('#lottery-chances');
+    const lottery = <?= json_encode($json) ?>;
+    const LUCKY_DRAW_REVOLUTION = 4 * 8;
+    let lastEndIndex = 0;
+    let targetIndex = 0;
+    let rotateSpeed = 0;
+    let rotateCount = 0;
+    let rotating = false;
+    let chances = 1;
+    let isLogin;
+
+    function openUrl(url, target, params) {
+        if (window.__is_app__ && window.native) {
+            window.native.openWebView({
+                url,
+                navBar: {
+                    backgroundColor: '#FFFFFF',
+                    backButtonColor: '#1F2429',
+                    titleColor: '#1F2429',
+                },
+                closeButton: { hidden: true },
+            });
+        } else {
+            window.open(url, target, params);
+        }
+    }
+
+    function socialWindow(url) {
+        const left = (screen.width -570) / 2;
+        const top = (screen.height -570) / 2;
+        const params = "menubar=no,toolbar=no,status=no,width=570,height=570,top=" + top + ",left=" + left;
+        openUrl(url, 'feedDialog', params);
+    }
+
+    function getInfo() {
+        $.ajax({
+            url: '/spintowin/draw/info',
+            data: { spin_id: lottery.id },
+            success: function(res) {
+                if (res) {
+                    if (res.code === 200 && res.data) {
+                        if (res.data.tasks) {
+                            Object.entries(res.data.tasks).forEach(function(item) {
+                                if (item[1]) {
+                                    $root.find(`.btn-lottery-task-action[data-id="${item[0]}"]`).attr('disabled', true).text('Done');
+                                }
+                            });
+                        }
+                        chances = res.data.free_num || 0;
+                        $chances.text(chances);
+                        isLogin = true;
+                    } else if (res.code === 1000) {
+                        isLogin = false;
+                    }
+                }
+            },
+        });
+    }
+    function getRecord() {
+        $.ajax({
+            url: '/spintowin/ajax/record',
+            data: { spin_id: lottery.id },
+            success: function(res) {
+                if (res) {
+                    $list = $recordModal.find('.record-list');
+                    $empty = $recordModal.find('.content__empty');
+                    $content = $recordModal.find('.content__list');
+                    $list.empty();
+                    $empty.show();
+                    $content.hide();
+                    if (res.code === 200 && res.data && res.data.list && res.data.list.length) {
+                        $empty.hide();
+                        $content.show();
+                        res.data.list.forEach(function(item) {
+                            $recordModal.find('.modal-inner-wrap').removeClass('empty');
+                            $list.append('<li>' + `<div class="image-wrapper"><div><img src="${item.image}" alt=""></div></div>` +
+                                `<div>` +
+                                    `<div class="awards-code">` +
+                                        `<button class="btn-copy" data-clipboard-text="${item.coupon_code}"><span class="fs-copy"></span></button>` +
+                                        `<span>Code:</span>` +
+                                        `<code>${item.coupon_code}</code>` +
+                                    `</div>` +
+                                    `<p>${item.label}</p>` +
+                                `</div>` +
+                                `<button class="action primary btn-shop" data-url=${item.segment_url}>Shop Now</button>` +
+                            '</li>');
+                        });
+                    } else {
+                        $recordModal.find('.modal-inner-wrap').addClass('empty');
+                    }
+                }
+            },
+        });
+    }
+    function taskDone(type) {
+        $.ajax({
+            url: '/spintowin/draw/task',
+            method: 'POST',
+            data: { spin_id: lottery.id, type: type },
+            success: function(res) {
+                if (res && res.code === 200) {
+                    getInfo();
+                }
+            },
+        });
+    }
+    function doLottery() {
+        if (rotating) {
+            return;
+        }
+        if (chances <= 0) {
+            $('#lottery-modal-tasks').show();
+            return;
+        }
+        $.ajax({
+            url: '/spintowin/draw/win',
+            method: 'POST',
+            data: { spin_id: lottery.id },
+            success: function(res) {
+                if (res) {
+                    if (res.code === 200 && res.data && res.data.segment_id) {
+                        targetIndex = -1;
+                        const award = lottery.segments[res.data.segment_id];
+                        if (award) {
+                            targetIndex = award.index;
+                        }
+                        if (targetIndex > -1) {
+                            chances -= 1;
+                            $chances.text(chances);
+                            luckyDrawStart(res.data);
+                        }
+                    } else if (res.code === 1000 && window.__auth_popup__) {
+                        window.__auth_popup__.showModal();
+                    } else if (res.code === 1002) {
+                    }
+                }
+            },
+        });
+    }
+    function luckyDrawRotating(count, data, cb) {
+        if (count > rotateCount) {
+            getRecord();
+            lastEndIndex = targetIndex;
+            rotating = false;
+            if (data) {
+                const segment = lottery.segments[data.segment_id];
+                if (segment) {
+                    $awardsModal.find('.awards-img').attr('src', segment.image);
+                    $awardsModal.find('.awards-desc').text(segment.label);
+                    $awardsModal.find('.awards-code code').text(data.coupon_code);
+                    $awardsModal.find('.btn-copy').data('clipboard-text', data.coupon_code);
+                    $awardsModal.find('.btn-shop').data('url', data.segment_url);
+                    $awardsModal.show();
+                    $root.find('.lottery__winner ul').append(`<li><img src="${segment.image}">${data.nickname} won ${segment.label}</li>`);
+                }
+            }
+            return;
+        }
+
+        if (rotateCount - count < 5) {
+            rotateSpeed += 170;
+        } else {
+            rotateSpeed = 100;
+        }
+
+        const currentIndex = (lastEndIndex + count) % 8;
+        $awardsList.find('.awards-item.active').removeClass('active');
+        $awardsList.find(`.awards-item[data-index="${currentIndex}"]`).addClass('active');
+
+        setTimeout(function() {
+            luckyDrawRotating(count + 1, data, cb);
+        }, rotateSpeed);
+    }
+    function luckyDrawStart(data, cb) {
+        rotateCount = targetIndex + LUCKY_DRAW_REVOLUTION - lastEndIndex;
+        rotating = true;
+        luckyDrawRotating(0, data, cb);
+    }
+    function handleTaskAction(id) {
+        if (isLogin === false) {
+            window.__auth_popup__ && window.__auth_popup__.showModal();
+        } else if (isLogin === true) {
+            if (id == 1) {
+                taskDone(id);
+                setTimeout(() => { window.location = '/products.html'; }, 100);
+            } else if (id == 2) {
+                const params = new URLSearchParams();
+                params.append('u', 'https://www.aidot.com/black-friday-sale');
+                params.append('t', 'Black Friday Sale');
+                const url = `https://www.facebook.com/sharer.php?${params.toString()}`;
+                if (window.__is_app__) {
+                    if (window.native) {
+                        taskDone(id);
+                        window.native.openBrowser(url);
+                    }
+                } else {
+                    taskDone(id);
+                    socialWindow(url);
+                }
+            } else if (id == 3) {
+                if (window.native) {
+                    taskDone(id);
+                    const host = window.location.host === 'pre-aidot.arnoo.com' ? 'pre-us-community.aidot.com' : 'us-community.aidot.com';
+                    window.native.openWebView({
+                        url: `https://${host}/compose?cid=2`,
+                        infuseJsBridge: true,
+                        newWebViewCanBack: true,
+                        navBar: {
+                            title: '',
+                            backgroundColor: '#FFFFFF',
+                            backButtonColor: '#1F2429',
+                            titleColor: '#1F2429',
+                        },
+                        closeButton: {
+                            hidden: true,
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+    getInfo();
+    getRecord();
+
+    $awardsList.find('.awards-item.go-btn').click(doLottery);
+    $root.find('.btn-lottery').click(function() {
+        $recordModal.hide();
+        doLottery();
+    });
+    $root.find('.block-modal .modal-close').on('click', function() { $(this).closest('.block-modal').hide(); });
+    $root.find('#btn-show-lottery-rules').on('click', function() { $('#lottery-modal-rules').show(); });
+    $root.find('#btn-show-lottery-info').on('click', function() { $('#lottery-modal-info').show(); });
+    $root.find('#btn-show-lottery-record').on('click', function() {
+        $recordModal.show();
+    });
+    $root.find('.lottery__tasks .action, #lottery-modal-tasks .action').on('click', function() {
+        handleTaskAction($(this).data('id'));
+    });
+    $awardsModal.add($recordModal).on('click', '.btn-shop', function() {
+        const url = $(this).data('url');
+        if (url) {
+            window.location.href = url;
+        }
+    });
+    $awardsModal.add($recordModal).on('click', '.btn-copy', function() {
+        const code = $(this).data('clipboard-text');
+        if (code) {
+            require(['utils'], function(utils) {
+                utils.copyToClipboard(code);
+                utils.showMessages('Copied');
+            });
+        }
+    });
+    require(['utils']);
+});
+</script>

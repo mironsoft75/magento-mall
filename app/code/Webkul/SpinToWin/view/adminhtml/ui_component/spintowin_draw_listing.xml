@@ -1,0 +1,136 @@
+<?xml version="1.0"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">spintowin_draw_listing.spintowin_draw_listing_data_source</item>
+            <item name="deps" xsi:type="string">spintowin_draw_listing.spintowin_draw_listing_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">spinner_columns</item>
+    </argument>
+    <dataSource name="nameOfDataSource">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+            <argument name="name" xsi:type="string">spintowin_draw_listing_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">entity_id</argument>
+            <argument name="requestFieldName" xsi:type="string">entity_id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">entity_id</item>
+                    </item>
+                </item>
+            </argument>
+        </argument>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <columnsControls name="columns_controls"/>
+        <filters name="listing_filters" />
+        <exportButton name="export_button"/>
+        <paging name="listing_paging"/>
+        <massaction name="listing_massaction">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/tree-massactions</item>
+                </item>
+            </argument>
+            <action name="status">
+                <settings>
+                    <type>Status</type>
+                    <label translate="true">Change Status</label>
+                    <actions class="Webkul\SpinToWin\Ui\Component\MassAction\Status\Options"></actions>
+                </settings>
+            </action>
+        </massaction>
+    </listingToolbar>
+    <columns name="spinner_columns">
+       <selectionsColumn name="ids">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">55</item>
+                    <item name="indexField" xsi:type="string">entity_id</item>
+                </item>
+            </argument>
+        </selectionsColumn>
+        <column name="entity_id">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="sorting" xsi:type="string">desc</item>
+                    <item name="label" xsi:type="string" translate="true">ID</item>
+                </item>
+            </argument>
+        </column>
+        <column name="email" sortOrder="20">
+            <settings>
+                <filter>text</filter>
+                <label translate="true">邮箱</label>
+            </settings>
+        </column>
+        <column name="timestamp" sortOrder="30">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">dateRange</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+                    <item name="dataType" xsi:type="string">date</item>
+                    <item name="label" xsi:type="string" translate="true">中奖日期</item>
+                </item>
+            </argument>
+        </column>
+        <column name="status" class="Webkul\SpinToWin\Ui\Component\Listing\Columns\Status" sortOrder="40">
+            <settings>
+                <filter>select</filter>
+                <options class="Webkul\SpinToWin\Ui\Component\Listing\Columns\Status\Option"/>
+                <dataType>select</dataType>
+                <label translate="true">是否发货</label>
+            </settings>
+        </column>
+        <column name="segment_product_sku" sortOrder="50">
+            <settings>
+                <label translate="true">抽中商品</label>
+            </settings>
+        </column>
+        <column name="firstname" sortOrder="60">
+            <settings>
+                <label translate="true">First Name</label>
+            </settings>
+        </column>
+        <column name="lastname" sortOrder="70">
+            <settings>
+                <label translate="true">Last Name</label>
+            </settings>
+        </column>
+        <column name="street" sortOrder="80">
+            <settings>
+                <label translate="true">Street Address</label>
+            </settings>
+        </column>
+        <column name="country_id" sortOrder="100">
+            <settings>
+                <label translate="true">Country</label>
+            </settings>
+        </column>
+        <column name="region" sortOrder="110">
+            <settings>
+                <label translate="true">State</label>
+            </settings>
+        </column>
+        <column name="city" sortOrder="120">
+            <settings>
+                <label translate="true">City</label>
+            </settings>
+        </column>
+        <column name="postcode" sortOrder="130">
+            <settings>
+                <label translate="true">Zip</label>
+            </settings>
+        </column>
+        <column name="telephone" sortOrder="140">
+            <settings>
+                <label translate="true">Phone</label>
+            </settings>
+        </column>      
+    </columns>
+</listing>

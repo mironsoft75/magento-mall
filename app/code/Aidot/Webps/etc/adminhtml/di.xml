@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+     <type name="Magento\Framework\File\Uploader">
+        <plugin name="aidot_webps_uploader" type="Aidot\Webps\Plugin\UploaderPlugin" sortOrder="1" disabled="false"/>
+    </type>
+
+    <type name="Magento\Catalog\Model\ImageUploader">
+        <plugin name="aidot_webps_image_uploader" type="Aidot\Webps\Plugin\MoveFileFromTmpPlugin" sortOrder="1" disabled="false"/>
+    </type>
+    <preference for="Magento\Catalog\Model\Product\Gallery\CreateHandler" type="Aidot\Webps\Helper\Rewrite\CreateHandler"></preference>
+    <preference for="Magento\Catalog\Model\Product\Gallery\UpdateHandler" type="Aidot\Webps\Helper\Rewrite\UpdateHandler"></preference>
+</config>

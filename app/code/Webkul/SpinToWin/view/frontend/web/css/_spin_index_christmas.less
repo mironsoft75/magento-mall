@@ -1,0 +1,67 @@
+@keyframes christmas-tree {
+    50% {background-image: url(https://d1zajr8axnrmfh.cloudfront.net/static/shop/image/495f0d50d13b3f4be788a90b106ab398.png);}
+}
+.icon-tree() {
+    background-image: url(https://d1zajr8axnrmfh.cloudfront.net/static/shop/image/6738d48ff8fafbe5d06bca6749e3cd36.png);
+    animation: christmas-tree 1s linear infinite;
+}
+
+@keyframes christmas-snow {
+    100% {transform: rotate(360deg);}
+}
+.icon-snow() {
+    background-image: url(https://d1zajr8axnrmfh.cloudfront.net/static/shop/image/7e58f5fc52dbf39a3ec35ee878bf834d.png);
+    animation: christmas-snow 1.5s linear infinite;
+}
+
+.lucky-draw.theme-christmas {
+    background-image: linear-gradient(0deg, #1F7B62 0%, #22755F 100%);
+
+    .to-my-rewards { color: #fff !important; }
+
+    .free-chance {
+        background: #E4DBAF;
+        color: #1F2429;
+    }
+
+    .awards-item {
+        &.active {
+            background: #22A27F;
+
+            .awards-item-wrapper {
+                background: #22A27F;
+            }
+        }
+        &.go-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url(https://d1zajr8axnrmfh.cloudfront.net/static/shop/image/8fe7feabcb41d657c0684ac70c81aba5.png);
+            &::after {
+                content: 'Go';
+                color: #fff;
+                font-size: 28px;
+                font-weight: 800;
+            }
+        }
+    }
+
+    .draw-container {
+        background: #D64645;
+
+        .flicker-dot {
+            width: 22px;
+            height: 22px;
+            background-color: transparent;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            border-radius: 0;
+            box-shadow: none;
+            animation: none;
+
+            &:nth-child(2n+1) {.icon-tree();}
+            &:nth-child(2n+2) {.icon-snow();}
+        }
+    }
+}

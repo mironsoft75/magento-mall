@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="tiny_account" resource="default" engine="innodb" comment="Tiny Png Account Table">
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" padding="10" identity="true" comment="Entity Id"/>
+        <column name="enabled" xsi:type="tinyint" nullable="true" default= '1' comment="Is Enabled"></column>
+        <column xsi:type="int" name="free_num" unsigned="true" nullable="false"  identity="false" comment="Free Count"/>
+        <column xsi:type="varchar" name="app_key" nullable="false" length="255" default="" comment="App Key"/>
+        <column xsi:type="varchar" name="email" nullable="false" length="255" default="" comment="Email"/>
+        <column name="created_at" xsi:type="timestamp" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="app_key">
+            <column name="app_key"/>
+        </constraint>
+    </table>
+</schema>

@@ -1,0 +1,235 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_SpinToWin
+ * @author    Webkul
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="spintowin_info" resource="default" engine="innodb" comment="Spin to win information Table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" padding="10" identity="true" comment="Entity Id"/>
+        <column xsi:type="text" name="name" nullable="true" comment="name"/>
+        <column xsi:type="text" name="website_ids" nullable="true" comment="websites where available"/>
+        <column xsi:type="timestamp" name="start_date" nullable="true" on_update="false" comment="start date"/>
+        <column xsi:type="timestamp" name="end_date" nullable="true" on_update="false" comment="end date"/>
+        <column xsi:type="smallint" name="scheduled" unsigned="true" nullable="false" identity="false" default="0" comment="scheduled"/>
+        <column xsi:type="smallint" name="status" unsigned="true" nullable="false" identity="false" default="0" comment="status"/>
+        <column xsi:type="int" name="priority" unsigned="true" nullable="false" default="0" identity="false" comment="priority"/>
+        <column xsi:type="int" name="free_num" unsigned="true" nullable="false" default="0" identity="false" comment="free time"/>
+        <column xsi:type="smallint" name="source_type" unsigned="true" nullable="false" identity="false" default="1" comment="Source Type 0 All  1 APP 2 PC"/>
+        <column xsi:type="int" name="point" unsigned="true" nullable="false" default="0" identity="false" comment="reduce point"/>
+        <column xsi:type="varchar" name="image" nullable="false" length="800" default="" comment=" app image"/>
+        <column xsi:type="text" name="spin_rule" nullable="false" comment="spin rule"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="spintowin_editform" resource="default" engine="innodb" comment="Spin to win edit form Table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" padding="10" identity="true" comment="Entity Id"/>
+        <column xsi:type="int" name="spin_id" unsigned="true" nullable="false" identity="false" comment="Spin Campaign ID"/>
+        <column xsi:type="varchar" name="background_color" nullable="false" length="20" default="#FFFFFF" comment="background color"/>
+        <column xsi:type="varchar" name="text_color" nullable="true" length="20" default="#333333" comment="text color"/>
+        <column xsi:type="text" name="logo" nullable="true" comment="brand logo"/>
+        <column xsi:type="text" name="heading" nullable="true" comment="heading"/>
+        <column xsi:type="text" name="description" nullable="true" comment="description"/>
+        <column xsi:type="smallint" name="cname_status" unsigned="true" nullable="false" identity="false" default="1" comment="customer name enable?"/>
+        <column xsi:type="smallint" name="cname_required" unsigned="true" nullable="false" identity="false" default="1" comment="customer name required?"/>
+        <column xsi:type="varchar" name="cname_label" nullable="true" length="250" default="Name" comment="customer name label"/>
+        <column xsi:type="smallint" name="cemail_status" unsigned="true" nullable="false" identity="false" default="1" comment="customer email enable?"/>
+        <column xsi:type="smallint" name="cemail_required" unsigned="true" nullable="false" identity="false" default="1" comment="customer email required?"/>
+        <column xsi:type="varchar" name="cemail_label" nullable="true" length="250" default="Email Address" comment="customer email label"/>
+        <column xsi:type="varchar" name="button_background_color" nullable="true" length="20" default="#FC3367" comment="button background color"/>
+        <column xsi:type="varchar" name="button_text_color" nullable="true" length="20" default="#FFFFFF" comment="button text color"/>
+        <column xsi:type="varchar" name="button_label" nullable="true" length="250" default="Spin Wheel" comment="button label"/>
+        <column xsi:type="smallint" name="show_progress" unsigned="true" nullable="false" identity="false" default="1" comment="Show progress meter"/>
+        <column xsi:type="int" name="progress_percent" unsigned="true" nullable="false" identity="false" default="35" comment="progress meter percentage"/>
+        <column xsi:type="varchar" name="progress_label" nullable="true" length="250" default="35% Offers Claimed, Hurry Up!" comment="progress label"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="spintowin_resultform" resource="default" engine="innodb" comment="Spin to win result form Table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" padding="10" identity="true" comment="Entity Id"/>
+        <column xsi:type="int" name="spin_id" unsigned="true" nullable="false" identity="false" comment="Spin Campaign ID"/>
+        <column xsi:type="varchar" name="background_color" nullable="true" length="20" default="#FFFFFF" comment="background color"/>
+        <column xsi:type="varchar" name="text_color" nullable="true" length="20" default="#333333" comment="text color"/>
+        <column xsi:type="text" name="logo" nullable="true" comment="brand logo"/>
+        <column xsi:type="varchar" name="coupon_background_color" nullable="true" length="20" default="#E3FEDF" comment="coupon background color"/>
+        <column xsi:type="varchar" name="coupon_text_color" nullable="true" length="20" default="#31582D" comment="coupon text color"/>
+        <column xsi:type="varchar" name="coupon_button_background_color" nullable="true" length="20" default="#23A900" comment="coupon button background color"/>
+        <column xsi:type="varchar" name="coupon_button_text_color" nullable="true" length="20" default="#FFFFFF" comment="coupon button text color"/>
+        <column xsi:type="varchar" name="button_background_color" nullable="true" length="20" default="#FF3131" comment="button background color"/>
+        <column xsi:type="varchar" name="button_text_color" nullable="true" length="20" default="#FFFFFF" comment="button text color"/>
+        <column xsi:type="varchar" name="button_label" nullable="true" length="250" default="Shop Now" comment="button label"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="spintowin_wheel" resource="default" engine="innodb" comment="Spin to win wheel Table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" padding="10" identity="true" comment="Entity Id"/>
+        <column xsi:type="int" name="spin_id" unsigned="true" nullable="false" identity="false" comment="Spin Campaign ID"/>
+        <column xsi:type="varchar" name="background_color" nullable="true" length="20" default="#5355FB" comment="background color"/>
+        <column xsi:type="text" name="background_image" nullable="true" comment="background image"/>
+        <column xsi:type="varchar" name="background_image_repeat" nullable="true" length="20" default="repeat" comment="background image repeat property"/>
+        <column xsi:type="smallint" name="inner_wheel" unsigned="true" nullable="false" identity="false" default="1" comment="Show Inner Wheel"/>
+        <column xsi:type="int" name="inner_radius" unsigned="true" nullable="false" identity="false" default="30" comment="Inner Wheel Radius"/>
+        <column xsi:type="text" name="center_image" nullable="true" comment="center logo"/>
+        <column xsi:type="varchar" name="center_color" nullable="true" length="20" default="#00FFDE" comment="center board color"/>
+        <column xsi:type="varchar" name="result_background_color" nullable="true" length="20" default="#fbc602" comment="result segment background color"/>
+        <column xsi:type="varchar" name="result_text_color" nullable="true" length="20" default="#9e5201" comment="result segment text color"/>
+        <column xsi:type="varchar" name="pin_image" nullable="true" length="250" default="spintowin/image/red_pin.png" comment="Pin Image"/>
+        <column xsi:type="varchar" name="stroke_color" nullable="true" length="20" default="#FFFFFF" comment="strokeStyle"/>
+        <column xsi:type="varchar" name="text_direction" nullable="true" length="20" default="normal" comment="Text Direction"/>
+        <column xsi:type="int" name="font_size" unsigned="true" nullable="false" identity="false" default="14" comment="segment font size"/>
+        <column xsi:type="text" name="segments" nullable="true" comment="segments [background-color,text-color]"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="spintowin_layout" resource="default" engine="innodb" comment="Spin to win layout Table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" padding="10" identity="true" comment="Entity Id"/>
+        <column xsi:type="int" name="spin_id" unsigned="true" nullable="false" identity="false" comment="Spin Campaign ID"/>
+        <column xsi:type="varchar" name="view" nullable="true" length="20" default="popup" comment="View type"/>
+        <column xsi:type="varchar" name="position" nullable="true" length="20" comment="Position"/>
+        <column xsi:type="varchar" name="wheel_view" nullable="true" length="20" default="full" comment="Spin wheel view"/>
+        <column xsi:type="varchar" name="trigger_button_position" nullable="true" length="20" default="bottom-right" comment="brand logo"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="spintowin_visibility" resource="default" engine="innodb" comment="Spin to win visibility Table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" padding="10" identity="true" comment="Entity Id"/>
+        <column xsi:type="int" name="spin_id" unsigned="true" nullable="false" identity="false" comment="Spin Campaign ID"/>
+        <column xsi:type="text" name="wheel" nullable="true" comment="Spin wheel visibility"/>
+        <column xsi:type="text" name="button" nullable="true" comment="Spin to win button visibility"/>
+        <column xsi:type="varchar" name="events" nullable="true" length="50" default="immediate" comment="Spin to win visibility events"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="spintowin_button" resource="default" engine="innodb" comment="Spin to win visibility Table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" padding="10" identity="true" comment="Entity Id"/>
+        <column xsi:type="int" name="spin_id" unsigned="true" nullable="false" identity="false" comment="Spin Campaign ID"/>
+        <column xsi:type="smallint" name="show" unsigned="true" nullable="false" identity="false" default="1" comment="Show spin to win button"/>
+        <column xsi:type="varchar" name="label" nullable="true" length="250" default="Spin to Win" comment="Spin to win button label"/>
+        <column xsi:type="varchar" name="background_color" nullable="true" length="20" default="#000000" comment="Spin to win button background color"/>
+        <column xsi:type="varchar" name="text_color" nullable="true" length="20" default="#FFFFFF" comment="Spin to win button text color"/>
+        <column xsi:type="varchar" name="image" nullable="true" length="250" default="spintowin/image/red.png" comment="Spin to win image"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="spintowin_coupon" resource="default" engine="innodb" comment="Spin to win coupon Table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" padding="10" identity="true" comment="Entity Id"/>
+        <column xsi:type="int" name="spin_id" unsigned="true" nullable="false" identity="false" comment="Spin Campaign ID"/>
+        <column xsi:type="smallint" name="show" unsigned="true" nullable="false" identity="false" default="1" comment="Show spin to win coupon"/>
+        <column xsi:type="varchar" name="label" nullable="true" length="250" default="Won Coupon" comment="Spin to win coupon label"/>
+        <column xsi:type="varchar" name="background_color" nullable="true" length="20" default="#f94c4c" comment="Spin to win coupon background color"/>
+        <column xsi:type="varchar" name="text_color" nullable="true" length="20" default="#FFFFFF" comment="Spin to win button text color"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="salesrule" resource="default" engine="innodb">
+        <column xsi:type="int" name="segment_id" unsigned="true" nullable="true" default="null" identity="false" comment="Spin Campaign Segment Id"/>
+    </table>
+    <table name="spintowin_segments" resource="default" engine="innodb" comment="Spin to win segments Table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" padding="10" identity="true" comment="Entity Id"/>
+        <column xsi:type="int" name="spin_id" unsigned="true" nullable="false" identity="false" comment="Spin Campaign ID"/>
+        <column xsi:type="int" name="rule_id" unsigned="true" nullable="false" identity="false" comment="Rule ID"/>
+        <column xsi:type="smallint" name="type" unsigned="true" nullable="false" identity="false" comment="Segment Type"/>
+        <column xsi:type="text" name="label" nullable="true" comment="Segment label"/>
+        <column xsi:type="text" name="heading" nullable="true" comment="Segment heading"/>
+        <column xsi:type="text" name="description" nullable="true" comment="Segment description"/>
+        <column xsi:type="int" name="limits" unsigned="true" nullable="true" default="null" identity="false" comment="Limit"/>
+        <column xsi:type="int" name="availed" unsigned="true" nullable="true" default="0" identity="false" comment="Availed number of times"/>
+        <column xsi:type="int" name="gravity" unsigned="true" nullable="false" identity="false" comment="Gravity/Probability"/>
+        <column xsi:type="int" name="position" unsigned="true" nullable="false" identity="false" default="0" comment="Position on the spin wheel"/>
+        <column xsi:type="smallint" name="spin_type" unsigned="true" nullable="false" identity="false" comment="Spin Type 1 coupon 2 product"/>
+        <column xsi:type="varchar" name="product_sku" nullable="true" length="250" default="null" comment="Product Sku"/>
+        <column xsi:type="int" name="point" unsigned="true" nullable="true" identity="false" default="0" comment="Point"/>
+        <column xsi:type="int" name="cloud_type" unsigned="true" nullable="true" identity="false" default="0" comment="Cloud Type"/>
+        <column xsi:type="varchar" name="image" nullable="true" length="800" default="null" comment="Image"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="spintowin_reports" resource="default" engine="innodb" comment="Spin to win reports Table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" padding="10" identity="true" comment="Entity Id"/>
+        <column xsi:type="int" name="spin_id" unsigned="true" nullable="false" identity="false" comment="Spin Campaign ID"/>
+        <column xsi:type="int" name="customer_id" unsigned="true" nullable="false" identity="false" comment="Customer Id"/>
+        <column xsi:type="varchar" name="name" nullable="true" length="250" default="null" comment="Customer name"/>
+        <column xsi:type="text" name="email" nullable="true" comment="Customer email"/>
+        <column xsi:type="timestamp" name="timestamp" nullable="true" on_update="false" default="CURRENT_TIMESTAMP" comment="Spined at"/>
+        <column xsi:type="smallint" name="result" unsigned="true" nullable="false" identity="false" comment="Result"/>
+        <column xsi:type="smallint" name="spin_type" unsigned="true" nullable="false" identity="false" comment="Spin Type"/>
+        <column xsi:type="varchar" name="coupon" nullable="true" length="250" default="" comment="coupon code"/>
+        <column xsi:type="smallint" name="status" unsigned="true" nullable="false" identity="false" comment="Status"/>
+        <column xsi:type="int" name="order_id" unsigned="true" nullable="true" default="null" identity="false" comment="order id"/>
+        <column xsi:type="decimal" name="order_amount" nullable="true" scale="2" precision="10" comment="order amount"/>
+
+        <column xsi:type="int" name="order_discount" unsigned="true" nullable="true" default="null" identity="false" comment="order discount"/>
+        <column xsi:type="varchar" name="segment_label" nullable="true" length="250" comment="Segment Label"/>
+        <column xsi:type="int" name="segment_id" unsigned="true" nullable="true" identity="false" comment="Segment Id"/>
+        <column xsi:type="varchar" name="segment_image" nullable="true" length="800" default="null" comment="Image"/>
+        <column xsi:type="varchar" name="segment_product_sku" nullable="true" length="250" default="null" comment="Product Sku"/>
+        <column xsi:type="int" name="segment_point" unsigned="true" nullable="true" identity="false" default="0" comment="Point"/>
+        <column xsi:type="varchar" name="segment_url" nullable="true" length="800" default="null" comment="Segment Jump Url"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+    </table>
+    <table name="spintowin_product_address"  resource="default" engine="innodb" comment="Spin Product Address Table">
+        <column xsi:type="int" name="address_id" unsigned="true" nullable="false" padding="10" identity="true" comment="address_id"/>
+        <column xsi:type="int" name="reports_id" unsigned="true" nullable="false" identity="false" comment="Spin Reports Id"/>
+        <column xsi:type="varchar" name="email" nullable="true" length="255" default="null" comment="Email"></column>
+        <column xsi:type="varchar" name="firstname" nullable="true" length="255" default="null" comment="Firstname"></column>
+        <column xsi:type="varchar" name="lastname" nullable="true" length="255" default="null" comment="Lastname"></column>
+        <column xsi:type="varchar" name="street" nullable="true" length="255" default="null" comment="Street"></column>
+        <column xsi:type="varchar" name="city" nullable="true" length="255" default="null" comment="City"></column>
+        <column xsi:type="varchar" name="region" nullable="true" length="255" default="null" comment="Region"></column>
+        <column xsi:type="varchar" name="country_id" nullable="true" length="30" default="null" comment="Country Id"></column>
+        <column xsi:type="int" name="region_id" nullable="true"  default="null" comment="Region ID"></column>
+        <column xsi:type="varchar" name="postcode" nullable="true" length="20" default="null" comment="Postcode"></column>
+        <column xsi:type="varchar" name="telephone" nullable="true" length="255" default="null" comment="Telephone"></column>
+        <column name="created_at" xsi:type="timestamp" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Creation Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="address_id"/>
+        </constraint>
+    </table>
+    <table name="spintowin_cloud_code"  resource="default" engine="innodb" comment="Spin Cloud Code">
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" padding="10" identity="true" comment="Id"/>
+        <column xsi:type="int" name="spin_id"  nullable="true" identity="false" comment="Spin Campaign ID"/>
+        <column xsi:type="int" name="reports_id" nullable="true" identity="false" comment="Spin Reports Id"/>
+        <column xsi:type="varchar" name="code" nullable="false" length="50" default="null" comment="Cloud Server Code"/>
+        <column xsi:type="int" name="cloud_type" unsigned="true" nullable="false" identity="false" default="0" comment="Cloud Type"/>
+        <column xsi:type="smallint" name="status" unsigned="true" nullable="false" default="0" identity="false" comment="Status 0 unused 1 used 2 failure"/>
+        <column name="created_at" xsi:type="timestamp" on_update="false" nullable="true" default="CURRENT_TIMESTAMP" comment="Creation Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="code">
+            <column name="code"></column>
+        </constraint>
+    </table>
+    <table name="spintowin_task"  resource="default" engine="innodb" comment="Spin Task">
+        <column xsi:type="int" name="id" unsigned="true" nullable="false" padding="10" identity="true" comment="Id"/>
+        <column xsi:type="int" name="spin_id"  nullable="true" identity="false" comment="Spin Campaign ID"/>
+        <column xsi:type="int" name="customer_id" unsigned="true" nullable="false" identity="false" comment="Customer Id"/>
+        <column xsi:type="smallint" name="type" unsigned="true" nullable="true"  default="null" comment="Type"/>
+        <column name="created_at" xsi:type="timestamp" on_update="false" nullable="true" default="CURRENT_TIMESTAMP" comment="Creation Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="SPIN_ID_CUSTOMER_ID_TYPE">
+            <column name="spin_id"></column>
+            <column name="customer_id"></column>
+            <column name="type"></column>
+        </constraint>
+    </table>
+</schema>

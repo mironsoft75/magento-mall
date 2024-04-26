@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<form xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">cloud_code_new_form.cloud_code_data_source</item>
+            <item name="deps" xsi:type="string">cloud_code_new_form.cloud_code_data_source</item>
+        </item>
+        <item name="buttons" xsi:type="array">
+            <item name="back" xsi:type="string">Webkul\SpinToWin\Block\Adminhtml\Code\Edit\BackButton</item>
+            <item name="save" xsi:type="string">Webkul\SpinToWin\Block\Adminhtml\Code\Add\CreateButton</item>
+        </item>
+        <item name="label" xsi:type="string" translate="true">Issuing Code</item>
+        <item name="config" xsi:type="array">
+            <item name="dataScope" xsi:type="string">data</item>
+            <item name="namespace" xsi:type="string">cloud_code_new_form</item>
+        </item>
+        <item name="template" xsi:type="string">templates/form/collapsible</item>
+    </argument>
+
+    <dataSource name="cloud_code_data_source">
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Webkul\SpinToWin\Ui\DataProvider\Code\Form\CloudCodeDataProvider</argument>
+            <argument name="name" xsi:type="string">cloud_code_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="submit_url" xsi:type="url" path="spintowin/code/save"/>
+                </item>
+            </argument>
+        </argument>
+        <argument name="data" xsi:type="array">
+            <item name="js_config" xsi:type="array">
+                <item name="component" xsi:type="string">Magento_Ui/js/form/provider</item>
+            </item>
+        </argument>
+    </dataSource>
+    <fieldset name="general">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="label" xsi:type="string"/>
+            </item>
+        </argument>
+         <file name="filesubmission">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string">Import File</item>
+                    <item name="visible" xsi:type="boolean">true</item>
+                    <item name="disaled" xsi:type="boolean">true</item>
+                    <item name="formElement" xsi:type="string">fileUploader</item>
+                    <item name="required" xsi:type="boolean">true</item>
+                </item>
+            </argument>
+        </file>
+        <htmlContent name="html_content">
+                <block class="Magento\Backend\Block\Template" name="webkul_spintowin_code" template="Webkul_SpinToWin::down.phtml"></block>
+            </htmlContent>
+        <field name="spin_id">
+            <argument name="data" xsi:type="array">
+                <item name="options" xsi:type="object">Webkul\SpinToWin\Model\Config\Source\Spin</item>
+                <item name="config" xsi:type="array">
+                    <item name="label" xsi:type="string" translate="true">Spin</item>
+                    <item name="dataType" xsi:type="string">int</item>
+                    <item name="formElement" xsi:type="string">select</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/form/element/select</item>
+                    <item name="template" xsi:type="string">ui/form/field</item>
+                </item>
+            </argument>
+        </field>
+    </fieldset>
+    
+</form>

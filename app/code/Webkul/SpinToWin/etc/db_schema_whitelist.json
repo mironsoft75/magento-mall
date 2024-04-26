@@ -1,0 +1,180 @@
+{
+    "spintowin_info": {
+        "column": {
+            "entity_id": true,
+            "name": true,
+            "website_ids": true,
+            "start_date": true,
+            "end_date": true,
+            "scheduled": true,
+            "status": true,
+            "priority": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "spintowin_editform": {
+        "column": {
+            "entity_id": true,
+            "spin_id": true,
+            "background_color": true,
+            "text_color": true,
+            "logo": true,
+            "heading": true,
+            "description": true,
+            "cname_status": true,
+            "cname_required": true,
+            "cname_label": true,
+            "cemail_status": true,
+            "cemail_required": true,
+            "cemail_label": true,
+            "button_background_color": true,
+            "button_text_color": true,
+            "button_label": true,
+            "show_progress": true,
+            "progress_percent": true,
+            "progress_label": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "spintowin_resultform": {
+        "column": {
+            "entity_id": true,
+            "spin_id": true,
+            "background_color": true,
+            "text_color": true,
+            "logo": true,
+            "coupon_background_color": true,
+            "coupon_text_color": true,
+            "coupon_button_background_color": true,
+            "coupon_button_text_color": true,
+            "button_background_color": true,
+            "button_text_color": true,
+            "button_label": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "spintowin_wheel": {
+        "column": {
+            "entity_id": true,
+            "spin_id": true,
+            "background_color": true,
+            "background_image": true,
+            "background_image_repeat": true,
+            "inner_wheel": true,
+            "inner_radius": true,
+            "center_image": true,
+            "center_color": true,
+            "result_background_color": true,
+            "result_text_color": true,
+            "pin_image": true,
+            "stroke_color": true,
+            "text_direction": true,
+            "font_size": true,
+            "segments": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "spintowin_layout": {
+        "column": {
+            "entity_id": true,
+            "spin_id": true,
+            "view": true,
+            "position": true,
+            "wheel_view": true,
+            "trigger_button_position": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "spintowin_visibility": {
+        "column": {
+            "entity_id": true,
+            "spin_id": true,
+            "wheel": true,
+            "button": true,
+            "events": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "spintowin_button": {
+        "column": {
+            "entity_id": true,
+            "spin_id": true,
+            "show": true,
+            "label": true,
+            "background_color": true,
+            "text_color": true,
+            "image": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "spintowin_coupon": {
+        "column": {
+            "entity_id": true,
+            "spin_id": true,
+            "show": true,
+            "label": true,
+            "background_color": true,
+            "text_color": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "salesrule": {
+        "column": {
+            "segment_id": true
+        }
+    },
+    "spintowin_segments": {
+        "column": {
+            "entity_id": true,
+            "spin_id": true,
+            "rule_id": true,
+            "type": true,
+            "label": true,
+            "heading": true,
+            "description": true,
+            "limits": true,
+            "availed": true,
+            "gravity": true,
+            "position": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "spintowin_reports": {
+        "column": {
+            "entity_id": true,
+            "spin_id": true,
+            "name": true,
+            "email": true,
+            "timestamp": true,
+            "result": true,
+            "coupon": true,
+            "status": true,
+            "order_id": true,
+            "order_amount": true,
+            "order_discount": true,
+            "segment_label": true,
+            "segment_id": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    }
+}

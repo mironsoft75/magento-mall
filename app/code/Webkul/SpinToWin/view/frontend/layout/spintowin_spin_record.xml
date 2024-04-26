@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<page layout="cms-full-width" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>My Rewards</title>
+        <remove src="css/print.css" />
+        <remove src="mage/calendar.css"/>
+        <remove src="mage/gallery/gallery.css"/>
+        <!-- Amasty -->
+        <remove src="Amasty_BannersLite::css/style.css"/>
+        <!-- blog -->
+        <remove src="Magefan_Blog::css/blog-m.css" />
+        <remove src="Magefan_Blog::css/blog-new.css" />
+        <remove src="Magefan_Blog::css/blog-custom.css" />
+        <!-- Hexamarvel_FlexibleForm -->
+        <remove src="Hexamarvel_FlexibleForm::css/form.css"/>
+        <remove src="https://www.google.com/recaptcha/api.js" />
+        <!-- MageWorx -->
+        <remove src="MageWorx_RewardPoints::css/rewardpoints.css"/>
+        <!-- Stripe -->
+        <remove src="StripeIntegration_Payments::css/stripe_payments.css" />
+        <css src="Webkul_SpinToWin::css/spin_record.css" />
+    </head>
+    <body>
+        <referenceContainer name="main.content" htmlClass="page-main" />
+        <referenceBlock name="page.main.title" remove="true" />
+        <referenceContainer name="content">
+            <block class="Magento\Framework\View\Element\Template" name="spintowin_record" template="Webkul_SpinToWin::spin_record.phtml" cacheable="false" />
+        </referenceContainer>
+    </body>
+</page>

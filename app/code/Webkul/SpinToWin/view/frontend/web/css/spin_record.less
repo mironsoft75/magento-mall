@@ -1,0 +1,175 @@
+@baseDir: "../../";
+
+.spintowin-spin-record {
+    background: #eff2f5;
+    .page-main {
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+
+@keyframes LoadingSpan1 {
+    0% {
+        opacity: 0;
+    }
+    30% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+@keyframes LoadingSpan2 {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+@keyframes LoadingSpan3 {
+    0% {
+        opacity: 0;
+    }
+    75% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+.my-rewards-wrapper {
+    width: 100%;
+    padding: 20px 12px;
+    padding-bottom: ~"calc(constant(safe-area-inset-bottom) + 84px)";
+    padding-bottom: ~"calc(env(safe-area-inset-bottom) + 84px)";
+    overflow: hidden;
+    .my-rewards-item {
+        background: #ffffff;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        padding: 16px 12px;
+        & + .my-rewards-item {
+            margin-top: 12px;
+        }
+    }
+    .rewards-item-img {
+        height: 36px;
+        width: 36px;
+        margin-right: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img {
+            width: 100%;
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+        }
+    }
+    .rewards-item-content {
+        flex: 1;
+    }
+    .rewards-item-name {
+        font-size: 16px;
+        color: #1f2429;
+        letter-spacing: 0;
+        line-height: 22px;
+        font-weight: 400;
+    }
+    .rewards-item-time {
+        font-size: 13px;
+        color: #585f66;
+        letter-spacing: 0;
+        line-height: 18px;
+        font-weight: 400;
+        margin-top: 4px;
+    }
+    .rewards-item-arrow {
+        height: 20px;
+        width: 20px;
+        line-height: 20px;
+        font-size: 20px;
+        color: #585f66;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+    .rewards-item-redeem {
+        background: #fc8e35;
+        border-radius: 8px;
+        color: #ffffff !important;
+        text-decoration: none !important;
+        display: block;
+        height: 30px;
+        padding: 0 12px;
+        line-height: 30px;
+        cursor: pointer;
+    }
+    .my-rewards-empty {
+        background-image: url("@{baseDir}/images/scene/common_empty.png");
+        background-size: 343px auto;
+        background-repeat: no-repeat;
+        background-position: center 80px;
+        padding-top: 276px;
+        text-align: center;
+        font-size: 14px;
+        color: #8c9399;
+        letter-spacing: 0;
+        text-align: center;
+        line-height: 36px;
+        font-weight: 400;
+    }
+    .my-rewards-no-more {
+        margin-top: 12px;
+        font-size: 14px;
+        color: #8c9399;
+        letter-spacing: 0;
+        text-align: center;
+        line-height: 36px;
+    }
+    .my-rewards-loading {
+        height: 60px;
+    }
+    .aiDot-bubble-list {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 0;
+        height: 100%;
+    }
+    .bubble-1,
+    .bubble-2,
+    .bubble-3 {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        animation-fill-mode: both;
+        animation-duration: 1.3s;
+        background-color: #f29952;
+        opacity: 0.4;
+    }
+    .bubble-1 {
+        margin-right: 8px;
+    }
+    .bubble-2 {
+        margin-right: 8px;
+    }
+    .my-rewards-loading .bubble-1 {
+        animation-name: LoadingSpan1;
+    }
+    .my-rewards-loading .bubble-2 {
+        animation-name: LoadingSpan2;
+    }
+    .my-rewards-loading .bubble-3 {
+        animation-name: LoadingSpan3;
+    }
+}

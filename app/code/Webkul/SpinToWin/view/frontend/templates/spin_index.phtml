@@ -1,0 +1,347 @@
+<div class="lucky-draw" id="luckydrawpage">
+    <div class="my-rewards">
+        <div class="my-coins"></div>
+        <a class="to-my-rewards" href="/spintowin/spin/record">
+            <span>My Rewards</span><i class="fs-enter"></i>
+        </a>
+    </div>
+    <div class="free-chance hidden">You still have <span id="freeChanceAmount">0</span> free chance to win!</div>
+    <div class="draw-wrapper">
+        <div class="draw-container">
+            <div>
+                <div class="dot-line line-right"><i class="flicker-dot"></i><i class="flicker-dot"></i><i class="flicker-dot"></i><i class="flicker-dot"></i><i class="flicker-dot"></i><i class="flicker-dot"></i></div>
+                <div class="dot-line line-bottom"><i class="flicker-dot"></i><i class="flicker-dot"></i><i class="flicker-dot"></i><i class="flicker-dot"></i><i class="flicker-dot"></i><i class="flicker-dot"></i></div>
+                <div class="dot-line line-left"><i class="flicker-dot"></i><i class="flicker-dot"></i><i class="flicker-dot"></i><i class="flicker-dot"></i><i class="flicker-dot"></i><i class="flicker-dot"></i></div>
+                <div class="dot-line line-top"><i class="flicker-dot"></i><i class="flicker-dot"></i><i class="flicker-dot"></i><i class="flicker-dot"></i><i class="flicker-dot"></i><i class="flicker-dot"></i></div>
+            </div>
+            <div class="awards-list"></div>
+        </div>
+    </div>
+    <div class="awards-winners">
+        <div class="awards-block-title">WINNERS LIST</div>
+        <div class="awards-winners-content">
+            <div class="awards-winners-list"></div>
+            <div class="awards-winners-list2"></div>
+        </div>
+    </div>
+    <div class="awards-rules">
+        <div class="awards-block-title">OFFICIAL LUCKY DRAW RULES</div>
+        <div class="awards-block-content"></div>
+    </div>
+    <div class="lucky-draw-tips lucky-draw-result">
+        <div class="lucky-draw-tips-container">
+            <div class="lucky-draw-result-icon"></div>
+            <div class="lucky-draw-result-content">
+                <div class="lucky-draw-result-title">Congratulations! You won!</div>
+                <div class="awards-item-img"></div>
+                <div class="awards-item-name"></div>
+            </div>
+            <div class="lucky-draw-tips-btns">
+                <a class="tips-btn btn-ok" href="/spintowin/spin/record">View Your Prize</a>
+            </div>
+            <div class="fs-close lucky-draw-tips-close"></div>
+        </div>
+    </div>
+    <div class="lucky-draw-tips no-enough-points">
+        <div class="lucky-draw-tips-container">
+            <div class="lucky-draw-tips-text">Each draw will cost 10 points. And you don’t have enough points.</div>
+            <div class="lucky-draw-tips-btns">
+                <div class="tips-btn btn-ok">OK</div>
+            </div>
+        </div>
+    </div>
+    <div class="lucky-draw-tips cost-points">
+        <div class="lucky-draw-tips-container">
+            <div class="lucky-draw-tips-text">Cost 10 points to Draw</div>
+            <div class="lucky-draw-tips-btns">
+                <div class="tips-btn btn-cancel">Cancel</div>
+                <div class="tips-btn btn-ok">OK</div>
+            </div>
+        </div>
+    </div>
+    <div class="lucky-draw-tips unlucky">
+        <div class="lucky-draw-tips-container">
+            <div class="lucky-draw-tips-text">Don't be upset. Try Again!</div>
+            <div class="lucky-draw-tips-btns">
+                <div class="tips-btn btn-ok">OK</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    require(["jquery", "domReady!"], function($) {
+        // 抽奖转盘滚动
+        const spinId = "<?= $block->getSpinId(); ?>";
+        const form_key = $('input[name="form_key"]').val();
+        let awards = [];
+        let free_num = -1;
+        let redeem_point = -1;
+        let lastEndIndex = 0;
+        let targetIndex = 0;
+        let rotateSpeed = 0;
+        let rotateCount = 0; // 跳转总数
+        let rotating = false; // 转盘转动中
+        let loading = false;
+        let costPointsTipTimes = 0; // 消费积分提醒次数
+        const LUCKY_DRAW_REVOLUTION = 4 * 8; // 跳转数
+
+        function getAwardsHtml(list) {
+            const res = list.map((i, index) => `
+                <div data-index="${index}" class="awards-item">
+                    <div class="awards-item-wrapper">
+                        <div class="awards-item-container">
+                        <div class="awards-item-img" style="background-image: url(${i.image});"></div>
+                        <div class="awards-item-name">${i.label}</div>
+                        </div>
+                    </div>
+                </div>
+            `);
+            res.push('<div class="awards-item go-btn"></div>');
+            return res.join('');
+        }
+
+        function luckyDrawRotating(count, data, cb) {
+            if (count > rotateCount) {
+                lastEndIndex = targetIndex;
+                rotating = false;
+                const award = awards[targetIndex];
+                if (award) {
+                    if (award && award.type !== '0') {
+                        $('.lucky-draw-result .awards-item-img').css({
+                            "background-image": `url(${award.image}`
+                        });
+                        $('.lucky-draw-result .awards-item-name').text(award.label);
+                        if (award.spin_type === '2' && data.reports_id) {
+                            $('.lucky-draw-result .btn-ok').attr('href', `/spintowin/spin/detail/reports_id/${data.reports_id}`).text('Redeem Now');
+                        } else {
+                            $('.lucky-draw-result .btn-ok').attr('href', '/spintowin/spin/record').text('View Your Prize');
+                        }
+                        $('.lucky-draw-tips.lucky-draw-result').show();
+                        afterShowDialog();
+                        updateWinners();
+                    } else if (award && award.type === '0') {
+                        $('.lucky-draw-tips.unlucky').show();
+                        afterShowDialog();
+                    }
+                    if (cb) {
+                        cb();
+                    }
+                }
+
+                return;
+            }
+
+            if (rotateCount - count < 5) {
+                // 减速
+                rotateSpeed += 170;
+            } else {
+                rotateSpeed = 100;
+            }
+
+            const currentIndex = (lastEndIndex + count) % 8;
+            $('.awards-item').removeClass('active');
+            $(`.awards-item[data-index="${currentIndex}"]`).addClass('active');
+
+            setTimeout(function() {
+                luckyDrawRotating(count + 1, data, cb);
+            }, rotateSpeed);
+        }
+
+        function luckyDrawStart(data, cb) {
+            if (awards[targetIndex]) {
+                rotateCount = targetIndex + LUCKY_DRAW_REVOLUTION - lastEndIndex;
+                rotating = true;
+                luckyDrawRotating(0, data, cb);
+                require(['track'], function (track) {
+                    track('LuckyDrawGo', {
+                        is_success: data.type === '1',
+                        lucky_draw_type: data.type === '1' ? ['', '优惠券', '商品', '积分'][data.spin_type] : '',
+                        coupon: data.spin_type === '1' ? data.spin_coupon : '',
+                        sku_id: data.spin_type === '2' ? data.spin_product_sku : '',
+                        point: data.spin_type === '3' ? parseInt(data.spin_point, 10) : 0,
+                    });
+                });
+            }
+        }
+
+        function doLuckyDraw(costPointsConfirm) {
+            if (loading || rotating) {
+                return;
+            }
+            loading = true;
+            $.ajax({
+                url: '/spintowin/ajax/win',
+                type: 'POST',
+                data: {
+                    spin_id: spinId,
+                    spin_point: costPointsTipTimes ? 1 : 0,
+                    form_key: form_key,
+                },
+                dataType: "json",
+            }).done((res) => {
+                if (costPointsConfirm) {
+                    $('.lucky-draw-tips.cost-points').hide();
+                    afterHideDialog();
+                }
+                if (res && res.code === 200 && res.data.segment_id) {
+                    targetIndex = -1;
+                    awards.forEach((i, index) => {
+                        if (i.segment_id === res.data.segment_id) {
+                            targetIndex = index;
+                        }
+                    });
+                    if (targetIndex > -1) {
+                        if (res.data.reduce_point) {
+                            // 消费积分
+                            let currentPoint = $('.my-coins').text() || '0';
+                            currentPoint = parseInt(currentPoint, 10) - redeem_point;
+                            $('.my-coins').text(currentPoint || 0);
+                        } else {
+                            // 消费免费次数
+                            free_num -= 1;
+                            if (free_num && free_num > 0) {
+                                $('#freeChanceAmount').text(free_num);
+                                $('.free-chance').removeClass('hidden');
+                            } else {
+                                $('.free-chance').addClass('hidden');
+                            }
+                        }
+
+                        luckyDrawStart(res.data, function () {
+                            // 更新积分
+                            if (typeof res.data.point !== 'undefined') {
+                                $('.my-coins').text(res.data.point || 0);
+                            }
+                        });
+                    }
+                } else if (res.code === 1003 && res.msg) {
+                    // 没有免费抽奖机会
+                    if (costPointsTipTimes === 0) {
+                        $('.lucky-draw-tips.cost-points .lucky-draw-tips-text').text(res.msg);
+                        $('.lucky-draw-tips.cost-points').show();
+                        afterShowDialog();
+                        costPointsTipTimes += 1;
+                    }
+                    free_num = -1;
+                    $('.free-chance').addClass('hidden');
+                } else if (res.msg) {
+                    $('.lucky-draw-tips.no-enough-points .lucky-draw-tips-text').text(res.msg);
+                    $('.lucky-draw-tips.no-enough-points').show();
+                    afterShowDialog();
+                }
+            }).always(() => {
+                loading = false;
+            });
+        }
+
+        function afterShowDialog() {
+            $(document.body).css({
+                overflow: 'hidden'
+            });
+        }
+
+        function afterHideDialog() {
+            $(document.body).css({
+                overflow: 'visible'
+            });
+        }
+
+        (function() {
+            // 获取奖项列表
+            if (!spinId) {
+                return;
+            }
+            $.ajax({
+                url: `/spintowin/ajax/index?spin_id=${spinId}`,
+                type: 'GET',
+                dataType: "json",
+            }).done((res) => {
+                if (res && res.code === 200) {
+                    $('.my-coins').text(res.data.point || 0);
+                    if (res.data.free_num && res.data.free_num > 0) {
+                        free_num = res.data.free_num || 0;
+                        $('#freeChanceAmount').text(res.data.free_num || 0);
+                        $('.free-chance').removeClass('hidden');
+                    } else {
+                        free_num = -1;
+                        $('.free-chance').addClass('hidden');
+                    }
+                    redeem_point = parseInt(res.data.redeem_point, 10) || 0;
+                    $('.awards-rules .awards-block-content').html(res.data.rule || '');
+                    awards = res.data.segments;
+                    $('.awards-list').html(getAwardsHtml(awards));
+                }
+            });
+
+            $('.lucky-draw').on('click', '.awards-item.go-btn', function() {
+                doLuckyDraw();
+            });
+            $('.lucky-draw-tips.lucky-draw-result').on('click', '.lucky-draw-tips-close', function() {
+                $('.lucky-draw-tips.lucky-draw-result').hide();
+                afterHideDialog();
+            });
+            $('.lucky-draw-tips.no-enough-points').on('click', '.btn-ok', function() {
+                $('.lucky-draw-tips.no-enough-points').hide();
+                afterHideDialog();
+            });
+            $('.lucky-draw-tips.unlucky').on('click', '.btn-ok', function() {
+                $('.lucky-draw-tips.unlucky').hide();
+                afterHideDialog();
+            });
+            $('.lucky-draw-tips.cost-points').on('click', '.btn-ok', function () {
+                doLuckyDraw(true);
+            });
+            $('.lucky-draw-tips.cost-points').on('click', '.btn-cancel', function() {
+                $('.lucky-draw-tips.cost-points').hide();
+                afterHideDialog();
+            });
+        })();
+
+        // 获奖列表滚动
+        function getWinnersHtml(list) {
+            return list.map(i =>
+                `<div class="awards-winners-item">
+                    <div class="awards-winners-icon" style="background-image: url(${i.image});"></div>
+                    <div class="awards-winners-info">${i.content}</div>
+                </div>`
+            ).join('');
+        }
+
+        function setWinnersScroll(winners) {
+            let newWinners = [];
+            let newWinnersLength = 0;
+            if (winners.length <= 3) {
+                newWinners = [...winners, ...winners, ...winners];
+                newWinnersLength = winners.length * 3;
+            } else {
+                newWinners = [...winners];
+                newWinnersLength = winners.length;
+            }
+            document.documentElement.style.setProperty('--data-winners-length', newWinnersLength + 's');
+            const html = getWinnersHtml(newWinners);
+            $('.awards-winners-list').html(html);
+            $('.awards-winners-list2').html(html);
+        }
+
+        function updateWinners() {
+            if (!spinId) {
+                return;
+            }
+            // 获取获奖列表
+            $.ajax({
+                url: `/spintowin/ajax/log?spin_id=${spinId}`,
+                type: 'GET',
+                dataType: "json",
+            }).done((res) => {
+                if (res && res.code === 200 && res.data.list && res.data.list.length > 0) {
+                    setWinnersScroll(res.data.list);
+                }
+            });
+        }
+
+        (function() {
+            updateWinners();
+        })();
+    });
+</script>

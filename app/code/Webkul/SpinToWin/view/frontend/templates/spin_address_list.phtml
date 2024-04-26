@@ -1,0 +1,99 @@
+<?php
+    $addresses = $block->getAddresses();
+    $defaultAddress = '';
+    foreach ($addresses as $a) {
+        if ($a->isDefaultShipping()) {
+            $defaultAddress = $a->getId();
+        }
+    }
+?>
+<div class="shipping-page-title"><?= $block->escapeHtml(__('Shipping addresses')) ?></div>
+<?php if ($addresses) : ?>
+<div class="address-list">
+    <?php foreach ($addresses as $address) : ?>
+    <?php $addressId = $address->getId() ?>
+    <div
+        class="address-item<?php if ($addressId === $defaultAddress) : ?> selected<?php endif ?>"
+        data-id="<?= $block->escapeHtml($addressId) ?>"
+    >
+        <i class="address-select"></i>
+        <div class="address-container">
+            <div class="address-user-name"><?= $block->escapeHtml($address->getFirstname()) ?> <?= $block->escapeHtml($address->getLastname()) ?></div>
+            <div class="address-info">
+                <?= $block->escapeHtml($block->getStreetAddress($address)) ?>,
+                <?= $block->escapeHtml($address->getCity()) ?>,
+                <?= $block->escapeHtml($address->getRegion()->getRegion()) ?> <?= $block->escapeHtml($address->getPostcode()) ?>,
+                <?= $block->escapeHtml($block->getCountryByCode($address->getCountryId())) ?>
+                <?php if ($address->getTelephone()) : ?>
+                , <a href="tel: <?= $block->escapeHtml($address->getTelephone()) ?>"><?= $block->escapeHtml($address->getTelephone()) ?></a>
+                <?php endif ?>
+            </div>
+        </div>
+    </div>
+    <?php endforeach; ?>
+</div>
+<?php else : ?>
+<div class="address-empty" style="border-radius: 12px; margin: 20px 0; padding-bottom: 20px;"><?= $block->escapeHtml(__('You have no other address entries in your address book.')) ?></div>
+<?php endif ?>
+<div class="address-add-btn">
+    <i class="fs-plus"></i><span><?= $block->escapeHtml(__('Add New Address')) ?></span>
+</div>
+<div id="new-shipping-address">
+    <?= $block->getChildBlock('spintowin_address_edit')->toHtml(); ?>
+</div>
+
+<script>
+    require(['jquery', 'Magento_Ui/js/modal/modal'], function ($, modal) {
+        let selectedId = "<?= $defaultAddress ?>";
+        $('.address-item').on('click', function () {
+            const id = $(this).attr('data-id');
+            if (selectedId !== id) {
+                selectedId = id;
+                $('.address-item').removeClass('selected');
+                $(`.address-item[data-id="${id}"]`).addClass('selected');
+            }
+        });
+
+        $('.address-add-btn').on('click', function () {
+            $('#form-address-edit')[0].reset();
+            if ($('#form-address-edit').data('validator')) {
+                $('#form-address-edit').data('validator').resetForm();
+            }
+            $('#new-shipping-address').modal('openModal');
+        });
+
+        var options = {
+            type: 'popup',
+            title: 'Add Shipping Address',
+            modalClass: 'shipping-address-edit-model',
+            innerScroll: true,
+            buttons: [{
+                text: $.mage.__('Save'),
+                class: 'shipping-address-save',
+                click: function (e) {
+                    if ($('#form-address-edit').valid()) {
+                        $('.shipping-address-save').attr('disabled', true);
+                        const form = $('#form-address-edit')[0];
+                        const formData = new FormData(form);
+                        $.ajax({
+                            url: '/integrations/account_address/save',
+                            type: 'post',
+                            data: formData,
+                            processData: false,
+                            contentType: false,
+                            showLoader: true,
+                        }).done(function (res) {
+                            if (res.code === 200) {
+                                window.location.reload();
+                            }
+                        }).complete(function () {
+                            $('.shipping-address-save').attr('disabled', false);
+                        });
+                        return false;
+                    }
+                }
+            }]
+        };
+        modal(options, $('#new-shipping-address'));
+    })
+</script>

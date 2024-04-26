@@ -1,0 +1,243 @@
+@baseDir: "../../";
+
+.spintowin-spin-address {
+    background: #edf2f7;
+    .page-main {
+        padding: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
+.shipping-address-wrapper {
+    width: 100%;
+    padding: 20px 16px;
+    padding-bottom: ~"calc(constant(safe-area-inset-bottom) + 84px)";
+    padding-bottom: ~"calc(env(safe-area-inset-bottom) + 84px)";
+    .shipping-page-title {
+        font-size: 20px;
+        color: #1f2429;
+        letter-spacing: 0;
+        line-height: 32px;
+        font-weight: 500;
+    }
+    .address-list {
+        overflow: hidden;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .address-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &.selected {
+            .address-select {
+                border: 4px solid #fa7010;
+            }
+            .address-container {
+                border-color: #fa7010;
+            }
+        }
+        & + .address-item {
+            margin-top: 16px;
+        }
+    }
+    .address-select {
+        display: block;
+        height: 16px;
+        width: 16px;
+        background-color: #ffffff;
+        border: 1px solid #bfc5c9;
+        border-radius: 50%;
+        margin-right: 16px;
+    }
+    .address-container {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        flex: 1;
+        padding: 20px;
+    }
+    .address-user-name {
+        font-size: 14px;
+        color: #1f2429;
+        letter-spacing: 0;
+        line-height: 22px;
+        font-weight: 500;
+    }
+    .address-info {
+        margin-top: 4px;
+        font-size: 14px;
+        color: #585f66;
+        letter-spacing: 0;
+        line-height: 22px;
+        font-weight: 500;
+    }
+    .address-empty {
+        display: block;
+        font-size: 16px;
+        color: #585f66;
+        letter-spacing: 0;
+        text-align: center;
+        line-height: 26px;
+        font-weight: 400;
+        padding-top: 204px;
+        padding-left: 15px;
+        padding-right: 15px;
+        background: #ffffff url("@{baseDir}/images/scene/common_empty.png")
+            center 8px no-repeat;
+        background-size: 343px auto;
+    }
+    .address-add-btn {
+        border-radius: 22px;
+        height: 44px;
+        line-height: 44px;
+        color: #fa7010;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: rgba(250, 112, 16, 0.05);
+        border: 1px solid #fa7010;
+        > i {
+            height: 18px;
+            width: 18px;
+            color: #fa7010;
+            border-radius: 50%;
+            border: 2px solid #fa7010;
+            line-height: 14px;
+            font-size: 14px;
+            margin-right: 12px;
+            font-weight: 800;
+        }
+    }
+    #new-shipping-address {
+        display: none;
+    }
+    .address-save-wrapper {
+        padding: 20px 0;
+    }
+    .redeem-link-community {
+        font-size: 14px;
+        color: #8C9399;
+        letter-spacing: 0;
+        line-height: 20px;
+        font-weight: 400;
+        position: relative;
+        padding-left: 38px;
+        margin-top: 20px;
+        .community-select {
+            position: absolute;
+            display: block;
+            height: 16px;
+            width: 16px;
+            background-image: url('https://d1zajr8axnrmfh.cloudfront.net/static/shop/image/a7f0ee49b65624f67c2d52f72b0eece3.svg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            left: 11px;
+            top: 1px;
+        }
+        &.selected {
+            .community-select {
+                background-image: url('https://d1zajr8axnrmfh.cloudfront.net/static/shop/image/3768dd229f9334b94a0513df3132b0e4.svg');
+            }
+        }
+    }
+    .address-save-btn {
+        height: 44px;
+        line-height: 44px;
+        color: #ffffff;
+        background: #1f2429;
+        border-radius: 22px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
+        letter-spacing: 0;
+        font-weight: 500;
+    }
+    .shipping-address-tips {
+        display: none;
+        .shipping-address-tips-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            border-radius: 12px;
+            width: 270px;
+        }
+        &::before {
+            content: "";
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.5;
+            background: #000000;
+        }
+        .shipping-address-tips-text {
+            font-size: 13px;
+            color: #1f2429;
+            letter-spacing: 0;
+            text-align: center;
+            line-height: 18px;
+            font-weight: 400;
+            padding: 16px 16px 20px;
+        }
+        .shipping-address-tips-btns {
+            height: 44px;
+            text-align: center;
+            display: flex;
+            font-size: 16px;
+            color: #fc8e35;
+            text-align: center;
+            line-height: 21px;
+            font-weight: 400;
+            position: relative;
+            &::after {
+                content: "";
+                display: block;
+                height: 1px;
+                background-color: #d2d6d9;
+                top: 0;
+                left: 0;
+                right: 0;
+                position: absolute;
+            }
+            .tips-btn {
+                display: block;
+                flex: 1;
+                height: 100%;
+                line-height: 44px;
+                text-decoration: none;
+                color: #fc8e35;
+            }
+        }
+    }
+}
+.shipping-address-edit-model {
+    #new-shipping-address {
+        display: block;
+    }
+    .shipping-address-save {
+        background: #fc8e35;
+        border-radius: 12px;
+        width: 100%;
+        height: 38px;
+        font-size: 16px;
+        color: #ffffff;
+        letter-spacing: 0;
+        text-align: center;
+        font-weight: 500;
+        border-color: #fc8e35;
+    }
+    label {
+        font-size: 16px;
+        color: #1f2429;
+        letter-spacing: 0;
+        line-height: 22px;
+        font-weight: 500;
+    }
+}

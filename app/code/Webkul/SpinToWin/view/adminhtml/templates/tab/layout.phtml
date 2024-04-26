@@ -1,0 +1,112 @@
+<?php
+$spinLayout = $block->getLayoutData();
+$triggerBtnPosn = $spinLayout->getTriggerButtonPosition();
+$wheelView = $spinLayout->getWheelView();
+$helper = $block->spinHelper();
+?>
+<div class="spin-content-layoutform admin__scope-old">
+    <form data-mage-init='{"validation":{}}' class= "spin-form"
+    action="<?= /* @noEscape */ $block->getUrl('spintowin/manage/savelayout') ?>"
+    enctype="multipart/form-data" method="post" id="spinlayoutformedit">
+    <input type="hidden" value="<?= /* @noEscape */ $spinLayout->getId()?>" name="entity_id" />
+    <?= /* @noEscape */ $block->getBlockHtml('formkey')?> 
+    <fieldset class="fieldset admin__fieldset">
+        <legend class="legend">
+            <span><?= /* @noEscape */ __('Layout Configuration') ?></span>
+        </legend>
+        <div class="spin-content-layoutform-container">
+            <div class="field admin__field field-attribute_label required _required">
+                <label class="label" for="layout_view">
+                    <span><?= /* @noEscape */ __('View')?></span>
+                </label>
+                <div class="control">
+                    <select id="layout_view" name="view" type="text" class="input-text required-entry">
+                        <?php
+                        $layoutView = $helper->getLayoutView();
+                        foreach ($layoutView as $layoutViewKey => $layoutViewValue) { ?>
+                            <option <?= /* @noEscape */ $layoutViewKey==$spinLayout->getView()? 'selected':''; ?>
+                            value="<?= /* @noEscape */ $layoutViewKey ?>">
+                            <?= /* @noEscape */ __($layoutViewValue)?></option>
+                        <?php }
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <div class="field admin__field field-attribute_label required _required">
+                <label class="label" for="layout_position">
+                    <span><?= /* @noEscape */ __('Position')?></span>
+                </label>
+                <div class="control">
+                    <select id="layout_position" name="position" type="text" class="input-text required-entry">
+                        <?php
+                        $layoutPosition = $helper->getLayoutPosition();
+                        foreach ($layoutPosition as $key => $value) { ?>
+                            <option <?= /* @noEscape */ $key==$spinLayout->getPosition()? 'selected':''; ?>
+                            value="<?= /* @noEscape */ $key ?>"><?= /* @noEscape */ __($value)?>
+                            </option>
+                        <?php }
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <div class="field admin__field field-attribute_label required _required">
+                <label class="label" for="layout_wheel_view">
+                    <span><?= /* @noEscape */ __('Wheel View')?></span>
+                </label>
+                <div class="control">
+                    <select id="layout_wheel_view" name="wheel_view" type="text"
+                    class="input-text required-entry">
+                        <?php
+                        $layoutWheelView = $helper->getLayoutWheelView();
+                        foreach ($layoutWheelView as $key => $val) { ?>
+                            <option <?= /* @noEscape */ $key==$wheelView? 'selected':''; ?>
+                            value="<?= /* @noEscape */ $key ?>"><?= /* @noEscape */ __($val)?>
+                            </option>
+                        <?php }
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <div class="field admin__field field-attribute_label required _required">
+                <label class="label" for="layout_trigger_button_position">
+                    <span><?= /* @noEscape */ __('Trigger Button Position')?></span>
+                </label>
+                <div class="control">
+                    <select id="layout_trigger_button_position" name="trigger_button_position"
+                    type="text" class="input-text required-entry">
+                        <?php
+                        $layoutTriggerButtonPosition = $helper->getLayoutTriggerButtonPosition();
+                        foreach ($layoutTriggerButtonPosition as $key => $value) { ?>
+                            <option <?= /* @noEscape */ $key==$triggerBtnPosn? 'selected':''; ?>
+                            value="<?= /* @noEscape */ $key ?>">
+                            <?= /* @noEscape */ __($value)?>
+                            </option>
+                        <?php }
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <button title="<?= /* @noEscape */ __('Update Layout') ?>"
+            type="button" id="update-spinwheelform"
+            class="action-default save spin-save spin-save-ajax"
+            data-spin-bind-form="spinlayoutformedit">
+                <span><?= /* @noEscape */ __('Update Layout') ?></span>
+                <span class="admin__page-nav-item-messages">
+                    <span class="admin__page-nav-item-message _changed">
+                        <span class="admin__page-nav-item-message-icon"></span>
+                        <span class="admin__page-nav-item-message-tooltip"
+                        data-bind="i18n:'Changes have been made to this section that have not been saved.'">
+                        </span>
+                    </span>
+                </span>
+            </button>
+        </div>
+    </fieldset>
+</div>
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "layout": {}
+        }
+    }
+</script>

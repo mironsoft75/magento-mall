@@ -1,0 +1,293 @@
+<!--
+-->
+<!--@subject {{var subject}}  @-->
+<!--@vars {
+"var subject":"Subject",
+"var segmentlabel":"Segment label",
+"var code|raw":"Coupon"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+<table border="0" cellpadding="0" cellspacing="0" style="width: 100%; min-width: 750px;">
+    <tr>
+      <td style="vertical-align: top;"></td>
+      <td style="vertical-align: top; background-color: #ffffff; margin: 0 auto !important; width: 600px;max-width: 600px; border-top: 3px solid #2E3942;">
+        <table border="0" cellpadding="0" cellspacing="0" style="width: 600px; max-width: 600px; color: #585F66; line-height: 1.5; font-size: 16px; font-family: SFProDisplay-Regular, -apple-system, system-ui, 'Helvetica Neue', sans-serif;">
+          <!-- header -->
+          <tr>
+            <td style="padding: 0 34px;">
+              <table border="0" cellpadding="0" cellspacing="0" style="width: 532px; max-width: 532px;">
+                <tr>
+                  <td style="padding: 17px 0 27px; border-bottom: 1px solid #E6E8F0;">
+                    <img style="display: block;" src="https://d1zajr8axnrmfh.cloudfront.net/static/a3ae5d405bdc45f53e09b30aae078c6a.png" alt="AiDot" width="77">
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- title -->
+          <tr>
+            <td style="padding: 26px 34px 24px; color: #1F2429; font-size: 20px; line-height: 24px; font-weight: 500;">
+                {{trans 'You have won the [%segmentlabel] Redemption Code!' segmentlabel=$segmentlabel }}
+            </td>
+          </tr>
+          <!-- coupons code -->
+          <tr>
+            <td style="padding: 0 34px;">
+              <table border="0" cellpadding="0" cellspacing="0" style="width: 532px;max-width: 532px;background-color: #f1fbf5;border-radius:8px;">
+                <tr>
+                  <td style="padding: 32px 0 16px;; text-align: center; color: #1F2429; font-weight: 600;">
+                    <img width="56" style="width:56px;max-width:56px;" src="https://pre-cdn-aidot-shop.arnoo.com/media/webkul/spin/c/l/cloud_protection_2.png" />
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 16px 0 5px; text-align: center; font-size: 20px; color: #3BC698; font-weight: 800;">
+                    {{var code|raw}}
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 0 0 5px; text-align: center;font-size: 16px;color: #585F66;">
+                    Redemption Code
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding: 12px 24px 24px; text-align: center; border-radius: 0 0 8px 8px;">
+                    <a href="https://us-payment.aidot.com/giftCard" style="text-decoration: none; margin: 0 auto; display: block; width: auto;">
+                      <div style="text-decoration: none; border-top: #3BC698 12px solid; border-right: #3BC698 40px solid; border-bottom: #3BC698 12px solid; border-left: #3BC698 40px solid; border-radius: 26px;background: #3BC698; color: #fff; text-align: center; font-size: 20px;">
+                        Use Now
+                      </div>
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- rules -->
+          <tr>
+            <td style="padding: 0 34px;">
+              <p style="margin: 32px 0 24px; font-size: 16px; line-height: 25px; color: #1F2429;">We want to make sure that you can easily and smoothly redeem your prize. Please follow the instructions below based on the operating system of your device:</p>
+              <p style="margin: 24px 0 16px; font-size: 16px; line-height: 25px; color: #1F2429;">1. For Android and IOS Users:</p>
+              <p style="margin: 16px 0 8px; font-size: 16px; line-height: 25px; color: #8C9399;">To redeem your cloud service code , please follow these steps:</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 0 34px;">
+              <table border="0" cellpadding="0" cellspacing="0" style="width: 532px; max-width: 532px;">
+                <tr>
+                  <td style="vertical-align: top; width: 20px; max-width: 20px;"><p style="margin: 8px 8px 8px 0px; font-size: 25px; line-height: 25px; font-weight: 800; color: #f96f12;"> · </p></td>
+                  <td style="vertical-align: top;"><p style="margin: 8px 0; font-size: 16px; line-height: 25px; color: #585F66;"> Log in to the AiDot website using your AiDot app account (<a style="color: #FA7010;" href="https://us-payment.aidot.com/giftCard">https://us-payment.aidot.com/giftCard</a>)</p></td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top; width: 20px; max-width: 20px;"><p style="margin: 8px 8px 8px 0px; font-size: 25px; line-height: 25px; font-weight: 800; color: #f96f12;"> · </p></td>
+                  <td style="vertical-align: top;"><p style="margin: 8px 0; font-size: 16px; line-height: 25px; color: #585F66;"> Fill in your redemption code in the provided space and click "Redeem"</p></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 0 34px;">
+              <p style="margin: 24px 0 16px; font-size: 16px; line-height: 25px; color: #1F2429;">2. Only for Android Users:</p>
+              <p style="margin: 16px 0 8px; font-size: 16px; line-height: 25px; color: #8C9399;">To redeem your cloud service code, please download the AiDot app firstly. Once you have installed the app, please follow these steps:</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 0 34px;">
+              <table border="0" cellpadding="0" cellspacing="0" style="width: 532px; max-width: 532px;">
+                <tr>
+                  <td style="vertical-align: top; width: 20px; max-width: 20px;"><p style="margin: 8px 8px 8px 0;font-size: 25px; line-height: 25px; font-weight: 800; color: #f96f12;"> · </p></td>
+                  <td style="vertical-align: top;"><p style="margin: 8px 0; font-size: 16px; line-height: 25px; color: #585F66;"> Open the AiDot app</p></td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top; width: 20px; max-width: 20px;"><p style="margin: 8px 8px 8px 0;font-size: 25px; line-height: 25px; font-weight: 800; color: #f96f12;"> · </p></td>
+                  <td style="vertical-align: top;"><p style="margin: 8px 0; font-size: 16px; line-height: 25px; color: #585F66;"> Go to AiDotor > Cloud Service > Gift Card</p></td>
+                </tr>
+                <tr>
+                  <td style="vertical-align: top; width: 20px; max-width: 20px;"><p style="margin: 8px 8px 0 0px; font-size: 25px; line-height: 25px; font-weight: 800; color: #f96f12;"> · </p></td>
+                  <td style="vertical-align: top;"><p style="margin: 8px 0 0; font-size: 16px; line-height: 25px; color: #585F66;"> Fill in your redemption code in the provided space and click "Submit"</p></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 0 34px;">
+              <p style="margin: 24px 0 32px; font-size: 16px; color: #585F66;">Please note that if you encounter any issues during the redemption process, our team is ready and happy to assist you. Please don't hesitate to contact us at <a style="color: #FA7010;" href="mailto:event@aidot.com">event@aidot.com</a> if you have any questions or concerns.</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 0 34px;">
+              <div style="border-top: 1px solid #E2E7EB; padding-top: 32px; margin-bottom: 24px; font-size: 16px; color: #1F2429;">
+                The cloud service is used in conjunction with the camera. In case you do not currently own our cameras, we have carefully recommended some models for you.
+              </div>
+            </td>
+          </tr>
+          <!-- products -->
+          <tr>
+            <td style="padding: 0 34px;">
+              <table border="0" cellpadding="0" cellspacing="0" style="width: 532px; max-width: 532px; margin-bottom: 32px;">
+                <tr>
+                  <td style="vertical-align: top; width: 168px;  text-align: center;">
+                    <a style="text-decoration: none; display: block;" href="https://www.aidot.com/solar-security-cameras-wireless-outdoor-with-wifi-camera-for-human-pet-motion-detection.html?utm_source=SpringSaleH5&utm_medium=EDM&utm_campaign=SpringSale">
+                      <div style="width: 166px; padding-bottom: 12px; border: 1px solid #E2E7EB; border-radius: 8px;">
+                        <img style="margin: 10px 10px 8px 10px; width: 146px; max-width: 146px;" width="146" src="https://shop-cdn.aidot.com/media/catalog/product/cache/c9e32fb693977243ef938ca519500099/l/s/ls101-1.jpg" >
+                        <div style="margin: 8px 10px 0px 10px;">
+                          <div style="padding-top: 30px; padding-bottom: 22px; font-size: 16px; line-height: 22px; text-align: center; color: #1F2429; text-decoration: none;">L1 Solar Security Camera</div>
+                        </div>
+                        <div style="padding-bottom: 12px;">
+                          <div style="margin: 12px 33px 0px;text-decoration: none; border-top: #3BC698 7px solid; border-right: #3BC698 20px solid; border-bottom: #3BC698 7px solid; border-left: #3BC698 20px solid; border-radius: 26px;background: #3BC698; color: #fff; text-align: center; font-size: 12px;">
+                            Buy Now
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </td>
+                  <td style="vertical-align: top; width: 196px;text-align: center;">
+                    <a style="text-decoration: none; display: block;" href="https://www.aidot.com/outdoor-security-camera.html?utm_source=SpringSaleH5&utm_medium=EDM&utm_campaign=SpringSale">
+                      <div style="margin: 0 14px; padding-bottom: 12px; width: 166px; border: 1px solid #E2E7EB; border-radius: 8px;">
+                        <img style="margin: 10px 10px 8px 10px; width: 146px; max-width: 146px;" width="146" src="https://shop-cdn.aidot.com/media/catalog/product/cache/c9e32fb693977243ef938ca519500099/f/1/f1_zhuti_1_.jpg" >
+                        <div style="margin: 8px 19px; ">
+                          <div style="padding: 3px; border-radius: 4px; width: 126px; font-size: 10px; line-height: 14px; color: #FA7010; border: 1px solid #FA7010;background-color: #fff1e8;text-decoration: none;">Buy One Get One</div>
+                        </div>
+                        <div style="margin: 8px 10px 0px 10px;">
+                          <div style="padding-bottom: 12px; font-size: 16px; line-height: 22px; text-align: center; color: #1F2429; text-decoration: none;">F1 Smart Wire Outdoor Security Camera</div>
+                        </div>
+                        <div style="padding-bottom: 12px;">
+                          <div style="margin: 0 33px 0px;text-decoration: none; border-top: #3BC698 7px solid; border-right: #3BC698 20px solid; border-bottom: #3BC698 7px solid; border-left: #3BC698 20px solid; border-radius: 26px;background: #3BC698; color: #fff; text-align: center; font-size: 12px;">
+                            Buy Now
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </td>
+                  <td style="vertical-align: top; width: 168px; text-align: center;">
+                    <a style="text-decoration: none; display: block;" href="https://www.aidot.com/indoor-security-camera-2k-with-wifi-camera-for-human-pet-motion-detection.html?utm_source=SpringSaleH5&utm_medium=EDM&utm_campaign=SpringSale">
+                      <div style="width: 166px; padding-bottom: 12px; border: 1px solid #E2E7EB; border-radius: 8px;">
+                        <img style="margin: 10px 10px 8px 10px;width: 146px;max-width: 146px;" width="146" src="https://shop-cdn.aidot.com/media/catalog/product/cache/c9e32fb693977243ef938ca519500099/2/_/2_1_1.jpg" >
+                        <div style="margin: 8px 19px;">
+                          <div style="padding: 3px; border-radius: 4px; width: 126px; font-size: 10px; line-height: 14px; color: #FA7010; border: 1px solid #FA7010;background-color: #fff1e8;text-decoration: none;">Buy One Get One</div>
+                        </div>
+                        <div style="margin: 8px 10px 0px 10px;">
+                          <div style="padding-bottom: 22px; font-size: 16px; line-height: 22px; text-align: center; color: #1F2429; text-decoration: none;">M2X Indoor Security Camera</div>
+                        </div>
+                        <div style="padding-bottom: 12px;">
+                          <div style="margin: 12px 33px 0px; text-decoration: none; border-top: #3BC698 7px solid; border-right: #3BC698 20px solid; border-bottom: #3BC698 7px solid; border-left: #3BC698 20px solid; border-radius: 26px;background: #3BC698; color: #fff; text-align: center; font-size: 12px;">
+                            Buy Now
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <!-- footer -->
+          <tr>
+            <td style="padding: 20px 34px; background-color: #f6f6f6;">
+              <table border="0" cellpadding="0" cellspacing="0" style="width: 532px; max-width: 532px;">
+                <tr>
+                  <td>
+                    <img src="https://d1zajr8axnrmfh.cloudfront.net/static/a3ae5d405bdc45f53e09b30aae078c6a.png" alt="AiDot" width="77" style="display: block;">
+                  </td>
+                  <td align="right">
+                    <table border="0" cellpadding="0" cellspacing="0" style="width: 424px;max-width: 424px;">
+                      <tr>
+                        <td style="width: 99px; text-align: right; border-left: 1px solid #dddddd">
+                          <a href="https://shop.aidot.com/about-us" style="color: #585F66; text-decoration: none; font-size: 14px">About us</a>
+                        </td>
+                        <td style="width: 169px; text-align: right;">
+                          <a href="https://www.facebook.com/groups/aidotcorecommunity" style="color: #585F66; text-decoration: none; font-size: 14px">Join the community</a>
+                        </td>
+                        <td style="width: 153px; text-align: right;">
+                          <a href="https://www.aidot.com/referral" style="color: #585F66; text-decoration: none; font-size: 14px">Referral program</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="padding-top: 16px; font-size: 14px;color: #585F66;line-height: 24px;">
+                    AiDot reserves the right of final explanation. If you have any concerns or questions, pls feel free to contact us at <a style="color: #FA7010;" href="mailto:help@aidot.com">help@aidot.com</a>. By offering your email you agree to the <a href="https://www.aidot.com/page/privacy" style="color: #EF1E1E;">Privacy Policy</a>, and <a href="https://whttps://www.aidot.com/page/terms" style="color: #EF1E1E;">Terms of Use</a>.
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 16px 34px 0; background-color: #efefef;">
+              <table border="0" cellpadding="0" cellspacing="0" style="width: 532px; max-width: 532px; font-size: 14px; line-height: 1.7;">
+                <!-- market -->
+                <tr>
+                  <td align="center">
+                    <table border="0" cellpadding="0" cellspacing="0" style="width: 208px;max-width: 208px;">
+                      <tr>
+                        <td>
+                          <a href="" style="display: block;">
+                            <img src="https://d1zajr8axnrmfh.cloudfront.net/static/dd7f83812aaae374f189c378c2f1e2aa.png" width="117" alt="Google Play" style="width: 117px; max-width: 117px; height: 35px;border: none; display: block;">
+                          </a>
+                        </td>
+                        <td rowspan="2" style="padding-left: 11px;">
+                          <img src="https://d1zajr8axnrmfh.cloudfront.net/static/e97b8ba8f2d64c2251bb08a8dc6877d5.png" width="80" alt="qrcode" style="width: 80px; max-width: 80px;border:none; display: block;">
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding-top: 10px;">
+                          <a href="" style="display: block;">
+                            <img src="https://d1zajr8axnrmfh.cloudfront.net/static/c32abf0ed0d9efdd7ee36fb28cb6a333.png" width="117" alt="App Store" style="width: 117px; max-width: 117px; height: 35px;border: none; display: block;">
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <!-- social -->
+                <tr>
+                  <td style="padding: 16px 0; text-align: center;color: #585F66;">Connect with AiDot</td>
+                </tr>
+                <tr>
+                  <td align="center" style="padding-bottom: 16px;">
+                    <table border="0" cellpadding="0" cellspacing="0" style="width: 200px; max-width: 200px; margin: 0 auto;">
+                      <tr align="center">
+                        <td align="center" style="flex: 1;width: 20px;max-width: 20px;">
+                          <a href="https://www.facebook.com/groups/aidotcorecommunity">
+                            <img src="https://d1zajr8axnrmfh.cloudfront.net/static/771ad914b11ca00e3d9ec40ebd3d0f0a.png" alt="Facebook" height="20" style="display: block; height: 20px;max-width: 20px; max-height: 20px;border: none; display: block;">
+                          </a>
+                        </td>
+                        <td align="center" style="flex: 1;width: 20px;max-width: 20px;">
+                          <a href="https://www.tiktok.com/@aidotofficial">
+                            <img src="https://d1zajr8axnrmfh.cloudfront.net/static/8985987e74c947eb0b9c739e685475b7.png" alt="TikTok" height="20" style="display: block; height: 20px; max-width: 20px; max-height: 20px;border: none; display: block;">
+                          </a>
+                        </td>
+                        <td align="center" style="flex: 1;width: 20px;max-width: 20px;">
+                          <a href="https://www.instagram.com/aidotofficial/">
+                            <img src="https://d1zajr8axnrmfh.cloudfront.net/static/00f28c2ae43113ef1d4641baf9bdd443.png" alt="Instagram" width="20" style="display: block;width: 20px; max-width: 20px; max-height: 20px;border: none; display: block;">
+                          </a>
+                        </td>
+                        <td align="center" style="flex: 1;width: 20px;max-width: 20px;">
+                          <a href="https://www.youtube.com/channel/UCPQ9ZJarqzn8lF9MclhQ-gA/videos">
+                            <img src="https://d1zajr8axnrmfh.cloudfront.net/static/1b864e5e6048412b9909e4095bb2b942.png" alt="YouTube" width="20" style="display: block;width: 20px; max-width: 20px; max-height: 20px;border: none; display: block;">
+                          </a>
+                        </td>
+                        <td align="center" style="flex: 1;width: 20px;max-width: 20px;">
+                          <a href="https://www.reddit.com/user/AiDot-Team/">
+                            <img src="https://d1zajr8axnrmfh.cloudfront.net/static/56a5afec3de64df63efd077c2639ffe5.png" alt="Reddit" width="20" style="display: block; width: 20px; max-width: 20px; max-height: 20px;border: none; display: block;">
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-bottom: 28px; padding-top: 8px; border-top: 1px solid #e4e4e4; text-align: center;color: #585F66;">
+                    Copyright@2023 AiDot Inc. All rights reserved.
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+        </table>
+      </td>
+      <td style="vertical-align: top;"></td>
+    </tr>
+  </table>
+
+{{template config_path="design/email/footer_template"}}

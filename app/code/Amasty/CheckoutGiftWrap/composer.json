@@ -1,0 +1,23 @@
+{
+    "name": "amasty/module-checkout-gift-wrap",
+    "description": "One Step Checkout Gift Wrap by Amasty",
+    "require": {
+        "php": ">=7.3",
+        "amasty/base": ">=1.13.2",
+        "amasty/module-one-step-checkout-core": "*"
+    },
+    "homepage": "https://amasty.com/",
+    "type": "magento2-module",
+    "version": "1.0.1",
+    "license": [
+        "Commercial"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Amasty\\CheckoutGiftWrap\\": ""
+        }
+    }
+}

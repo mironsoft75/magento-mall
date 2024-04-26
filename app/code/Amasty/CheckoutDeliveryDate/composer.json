@@ -1,0 +1,23 @@
+{
+    "name": "amasty/module-checkout-delivery-date",
+    "description": "One Step Checkout Delivery Date by Amasty",
+    "require": {
+        "php": ">=7.3",
+        "amasty/base": ">=1.13.2",
+        "amasty/module-one-step-checkout-core": "*"
+    },
+    "homepage": "https://amasty.com/",
+    "type": "magento2-module",
+    "version": "1.0.2",
+    "license": [
+        "Commercial"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Amasty\\CheckoutDeliveryDate\\": ""
+        }
+    }
+}

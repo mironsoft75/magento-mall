@@ -1,0 +1,28 @@
+<?php
+$product = $block->getDetail();
+?>
+<div class="lucky-draw-redeem-wrapper">
+    <div class="reward-detail-tip">After you have completed the address information, the prize will be shipped within 20 working days, and you will receive a notification email after the shipment.</div>
+    <div class="address-detail-wrapper">
+        <div class="address-user-name"><?= $block->escapeHtml($product['firstname']) ?> <?= $block->escapeHtml($product['lastname']) ?></div>
+        <div class="address-information">
+            <?= $block->escapeHtml($product['street']) ?>,
+            <?= $block->escapeHtml($product['city']) ?>,
+            <?= $block->escapeHtml($product['region']) ?> <?= $block->escapeHtml($product['postcode']) ?>,
+            <?= $block->escapeHtml($product['country_name']) ?>
+            <?php if ($product['telephone']) : ?>
+                , <a href="tel: <?= $block->escapeHtml($product['telephone']) ?>"><?= $block->escapeHtml($product['telephone']) ?></a>
+            <?php endif ?>
+        </div>
+    </div>
+    <div class="reward-detail-wrapper">
+        <div class="reward-detail-icon"><img src="<?= $block->escapeHtml($product['image']) ?>" /></div>
+        <div class="reward-detail-name"><?= $block->escapeHtml($product['label']) ?></div>
+    </div>
+    <div class="lucky-footer">
+        <div class="lucky-footer-container">
+            <div>If you have any questions, please contact us.</div>
+            <a href="mailto:help@service.aidot.com">help@service.aidot.com</a>
+        </div>
+    </div>
+</div>

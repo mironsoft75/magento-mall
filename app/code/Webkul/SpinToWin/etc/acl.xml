@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_SpinToWin
+ * @author    Webkul
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::content">
+                    <resource id="Magento_Backend::content_elements">
+                        <resource id="Webkul_SpinToWin::manage" title="Spin to Win" sortOrder="100"/>
+                    </resource>
+                </resource>    
+                
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Webkul_SpinToWin::config_spintowin" title="Spin to Win Configuration Section" sortOrder="50" />
+                        </resource>
+                    </resource>
+                </resource>
+                <resource id="Magento_Backend::marketing">
+					<resource id="Magento_Backend::marketing_user_content">
+						<resource id="Webkul_SpinToWin::menu" title="Lucky Draw List" sortOrder="60">
+							<resource id="Webkul_SpinToWin::draw_list" title="Lucky Draw List"></resource>
+                            <resource id="Webkul_SpinToWin::code_list" title="Cloud Server Code List"></resource>
+						</resource>
+					</resource>
+				</resource>
+                
+            </resource>
+        </resources>
+    </acl>
+</config>

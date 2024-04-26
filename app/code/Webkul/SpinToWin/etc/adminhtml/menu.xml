@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Webkul Software.
+ *
+ * @category  Webkul
+ * @package   Webkul_SpinToWin
+ * @author    Webkul
+ * @copyright Copyright (c) Webkul Software Private Limited (https://webkul.com)
+ * @license   https://store.webkul.com/license.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Webkul_SpinToWin::manage" title="Spin to Win" module="Webkul_SpinToWin"
+         sortOrder="10" resource="Webkul_SpinToWin::manage" action="spintowin/manage/index" parent="Magento_Backend::content_elements"/>
+        <add id="Webkul_SpinToWin::draw" title="Lucky Draw List" module="Webkul_SpinToWin" sortOrder="130" 
+        action="spintowin/draw/index" resource="Webkul_SpinToWin::menu" parent="Magento_Backend::marketing_user_content"/>
+        <add id="Webkul_SpinToWin::code" title="Cloud Server Code List" module="Webkul_SpinToWin" sortOrder="160" 
+        action="spintowin/code/index" resource="Webkul_SpinToWin::menu" parent="Magento_Backend::marketing_user_content"/>
+    </menu>
+</config>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+        <widget id="webkul_spin-to-win_lottery" class="Webkul\SpinToWin\Block\Widget\Lottery">
+            <label translate="true">Webkul-SpinToWin-lottery</label>
+            <description>lottery</description>
+        </widget>
+</widgets>

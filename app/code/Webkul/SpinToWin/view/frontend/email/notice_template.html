@@ -1,0 +1,13 @@
+<!--@subject {{trans "用户在App使用转盘幸运抽中商品 请查看处理"}} @-->
+<!--@vars {
+"var email": "Email"
+} @-->
+
+{{template config_path="design/email/header_template"}}
+
+<table>
+    <tr>
+        <td>{{trans '用户[%email]在App>Points>Luck Draw >抽中商品,请前往商城后台>Marketing>Lucky Draw List,查看具体中奖信息' email=$email }}</td>
+    </tr>
+</table>
+{{template config_path="design/email/footer_template"}}

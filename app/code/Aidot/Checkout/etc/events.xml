@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="paypal_express_place_order_success">
+        <observer name="aidot_paypal_express_place_order_success" instance="Aidot\Checkout\Observer\OrderSuccessObserver"/>
+    </event>
+    <event name="sales_order_payment_pay_stripe">
+        <observer name="aidot_sales_order_payment_pay_stripe" instance="Aidot\Checkout\Observer\OrderSuccessObserver"/>
+    </event>
+    
+</config>

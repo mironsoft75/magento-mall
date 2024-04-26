@@ -1,0 +1,22 @@
+{
+    "name": "amasty/module-special-promo-pro",
+    "description": "Special Promotions Pro by Amasty",
+    "require": {
+        "php": ">=7.3",
+        "amasty/base": ">=1.13.6",
+        "amasty/module-special-promo": ">=2.7.14"
+    },
+    "type": "magento2-module",
+    "version": "2.9.0",
+    "license": [
+        "Commercial"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "Amasty\\RulesPro\\": ""
+        }
+    }
+}

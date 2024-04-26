@@ -1,0 +1,60 @@
+<div class="shipping-address-wrapper">
+    <?= $block->getChildBlock('spintowin_address_list')->toHtml(); ?>
+    <div class="redeem-link-community selected"><i class="community-select"></i>Share this moment to community</div>
+    <div class="address-save-wrapper">
+        <div class="address-save-btn"><?= $block->escapeHtml(__('Redeem Now')) ?></div>
+    </div>
+    <div class="shipping-address-tips">
+        <div class="shipping-address-tips-container">
+            <div class="shipping-address-tips-text"></div>
+            <div class="shipping-address-tips-btns">
+                <div class="tips-btn">OK</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    require(['jquery', 'domReady!'], function ($) {
+        let loading = false;
+        const reportsId = "<?= $block->getReportsId(); ?>";
+        $('.redeem-link-community').on('click', function () {
+            $('.redeem-link-community').toggleClass('selected');
+        });
+        $('.address-save-btn').on('click', function () {
+            const addressId = $('.address-item.selected').attr('data-id');
+            const form_key = $('input[name="form_key"]').val();
+            const is_share = $('.redeem-link-community').hasClass('selected');
+            if (!form_key || !addressId || loading) {
+                return;
+            }
+            loading = true;
+            $.ajax({
+                url: '/spintowin/ajax/address',
+                type: 'post',
+                dataType: "json",
+                data: {
+                    reports_id: reportsId,
+                    address_id: addressId,
+                    is_share: is_share ? 1 : 0,
+                    form_key: form_key,
+                },
+                showLoader: true,
+            }).done(function (res) {
+                if (res.code === 200) {
+                    if (res.msg) {
+                        $('.shipping-address-tips-text').text(res.msg);
+                        $('.shipping-address-tips').show();
+                    } else {
+                        window.location.reload();
+                    }
+                }
+            }).complete(function () {
+                loading = false;
+            });
+        });
+        $('.shipping-address-tips .tips-btn').on('click',function () {
+            window.location.reload();
+        });
+    });
+</script>

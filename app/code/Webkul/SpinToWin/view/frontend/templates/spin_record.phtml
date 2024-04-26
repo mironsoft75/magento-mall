@@ -1,0 +1,131 @@
+<div class="my-rewards-wrapper">
+    <div id="rewardsListContainer"></div>
+    <div class="my-rewards-empty hidden">No rewards yet!</div>
+    <div class="my-rewards-loading hidden">
+        <div class="aiDot-bubble-list">
+            <div class="bubble-1"></div>
+            <div class="bubble-2"></div>
+            <div class="bubble-3"></div>
+        </div>
+    </div>
+    <div class="my-rewards-no-more hidden">No More</div>
+</div>
+
+<script>
+    // spin_type 1 是优惠券，2是产品，3是积分
+    require(["jquery", 'moment', "domReady!"], function($, moment) {
+        let myRewards = [];
+        let hasNext = -1;
+        let currentPage = 0;
+        let loading = false;
+        let scrollTimeout = 0;
+        let previousScrollTop = $(window).scrollTop();
+
+        function getMyRewardsHtml(list) {
+            return list.map(i => `
+                <div data-id="${i.reports_id}" class="my-rewards-item">
+                    <div class="rewards-item-img">
+                        <img src="${i.image}" />
+                    </div>
+                    <div class="rewards-item-content">
+                        <div class="rewards-item-name">${i.label}</div>
+                        <div class="rewards-item-time">${i.created_at ? moment(i.created_at * 1000).format('MM/DD/YYYY') : ''}</div>
+                    </div>
+                    ${(i.spin_type === '1' || (i.spin_type === '2' && i.address_id)) ? '<div class="fs-enter rewards-item-arrow"></div>' : ''}
+                    ${(i.spin_type === '2' && !i.address_id) ? `<div data-id="${i.reports_id}" class="rewards-item-redeem">Redeem</div>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function startScrollTimeout() {
+            if (scrollTimeout) {
+                clearTimeout(scrollTimeout);
+            }
+            scrollTimeout = setTimeout(function() {
+                scrollTimeout = 0;
+                onScroll();
+            }, 60);
+        }
+
+        function onScroll() {
+            const currentScrollTop = $(window).scrollTop();
+            const wh = $(window).height();
+            const fromBottom = $('body').height() - wh - currentScrollTop;
+
+            const distance = 0.20 * wh;
+            if (fromBottom < distance && currentScrollTop > previousScrollTop) {
+                loadMore();
+            }
+            previousScrollTop = currentScrollTop;
+        }
+
+        function loadMore() {
+            if (hasNext === 0 || loading) {
+                return;
+            }
+            loading = true;
+            $('.my-rewards-loading').removeClass('hidden');
+            $.ajax({
+                url: `/spintowin/ajax/record?page=${currentPage + 1}`,
+                type: 'GET',
+                dataType: "json",
+            }).done(function(res) {
+                if (res.code === 200) {
+                    const newList = (res.data.list || []).filter(i => !myRewards.find(j => j.reports_id === i.reports_id));
+                    newList.forEach(i => {
+                        i.time
+                    });
+                    myRewards = myRewards.concat(newList);
+                    hasNext = res.data.nextPage ? 1 : 0;
+                    currentPage = currentPage + 1;
+                    if (myRewards.length === 0) {
+                        $('.my-rewards-empty').removeClass('hidden');
+                        $('.my-rewards-no-more').addClass('hidden');
+                        $('#rewardsListContainer').html('');
+                    } else {
+                        $('#rewardsListContainer').append(getMyRewardsHtml(newList));
+                        $('.my-rewards-empty').addClass('hidden');
+                        if (!hasNext) {
+                            $('.my-rewards-no-more').removeClass('hidden');
+                        } else {
+                            $('.my-rewards-no-more').addClass('hidden');
+                        }
+                    }
+                }
+            }).always(function() {
+                $('.my-rewards-loading').addClass('hidden');
+                loading = false;
+            });
+        }
+        (function() {
+            $('.my-rewards-wrapper').on('click', '.my-rewards-item', function() {
+                const id = $(this).attr('data-id');
+                const reward = myRewards.find(i => i.reports_id === id);
+                if (reward) {
+                    if (reward.spin_type === '1') {
+                        // 跳转到我的优惠券
+                        window.location.href = '/coupon?key=unused'
+                    } else if (reward.spin_type === '2' && reward.address_id) {
+                        // 跳转到产品兑换详情
+                        window.location.href = `/spintowin/spin/detail/reports_id/${reward.reports_id}`
+                    }
+                }
+            });
+            $('.my-rewards-wrapper').on('click', '.rewards-item-redeem', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const id = $(this).attr('data-id');
+                const reward = myRewards.find(i => i.reports_id === id);
+                if (reward) {
+                    // 跳转到产品兑换添加地址页面
+                    window.location.href = `/spintowin/spin/detail/reports_id/${reward.reports_id}`
+                }
+            });
+            loadMore();
+            $(window).off('scroll', startScrollTimeout).on('scroll', startScrollTimeout);
+            require(['track'], function (track) {
+                track('MyRewardsEntry', {});
+            });
+        })();
+    });
+</script>

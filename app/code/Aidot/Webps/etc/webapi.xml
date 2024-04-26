@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <!-- <route url="/V1/webps/deal" method="GET">
+        <service class="Aidot\Webps\Api\ImageManagerInterface" method="execute"/>
+        <resources>
+            <resource ref="anonymous"></resource>
+        </resources>
+    </route>
+    <route url="/V1/webps/image" method="GET">
+        <service class="Aidot\Webps\Api\ImageManagerInterface" method="manager"/>
+        <resources>
+            <resource ref="anonymous"></resource>
+        </resources>
+    </route> -->
+    <route url="/V1/webps/repair" method="GET">
+        <service class="Aidot\Webps\Api\ImageManagerInterface" method="repair"/>
+        <resources>
+            <resource ref="anonymous"></resource>
+        </resources>
+    </route>
+   
+ </routes>

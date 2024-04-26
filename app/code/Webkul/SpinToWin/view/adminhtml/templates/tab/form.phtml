@@ -1,0 +1,544 @@
+<?php
+$spinEditForm = $block->getSpinEditForm();
+$logoMediaUrl = $block->getMediaUrl($spinEditForm->getLogo());
+?>
+<div class="spin-content-editform admin__scope-old">
+    <fieldset class="fieldset admin__fieldset">
+        <legend class="legend">
+            <span><?= /* @noEscape */ __('Welcome Form') ?></span>
+        </legend>
+        <div class="spin-content-editform-container">
+            <div class="spin-content-editform-edit">
+                <form data-mage-init='{"validation":{}}'
+                class= "spin-form" action="<?= /* @noEscape */ $block->getUrl('spintowin/manage/saveeditform') ?>"
+                enctype="multipart/form-data" method="post" id="spineditformedit">
+                    <input type="hidden" value="<?= /* @noEscape */ $spinEditForm->getId()?>" name="entity_id" />
+                    <?= /* @noEscape */ $block->getBlockHtml('formkey')?>    
+                    <fieldset class="fieldset admin__fieldset">
+                        <legend class="legend">
+                            <span><?= /* @noEscape */ __('Edit Form') ?></span>
+                        </legend>
+                        <div class="field admin__field  field-attribute_label  required _required">
+                            <label class="label" for="edit_background_color">
+                                <span><?= /* @noEscape */ __('Background Color')?></span>
+                            </label>
+                            <div class="control">
+                                <span class="color-pick spin-color-box" data-role="color-pick"
+                                data-mage-init='{"colorPickerFunction":{"spanBackgroundColor"
+                                 : "<?= /* @noEscape */ $spinEditForm->getBackgroundColor()?>",
+                                "getActiveColorPickerStatus" : "1",
+                                "backgroundWidthSelector" : "#edit_background_color"}}'></span>
+                                <input type="text" id="edit_background_color" name="background_color"
+                                value="<?= /* @noEscape */ $spinEditForm->getBackgroundColor()?>"
+                                class="input-text spin-color-input spin-bind-style  required-entry"
+                                data-spin-bind="spin-content-editform-preview-data"
+                                data-spin-bind-prop='background-color' />
+                            </div>
+                        </div>
+                        <div class="field admin__field  field-attribute_label  required _required">
+                            <label class="label" for="edit_text_color">
+                                <span><?= /* @noEscape */ __('Text Color')?></span>
+                            </label>
+                            <div class="control">
+                                <span class="color-pick spin-color-box" data-role="color-pick"
+                                data-mage-init='{"colorPickerFunction":{"spanBackgroundColor" 
+                                : "<?= /* @noEscape */ $spinEditForm->getTextColor()?>", 
+                                "getActiveColorPickerStatus" : "1", 
+                                "backgroundWidthSelector" : "#edit_text_color"}}'></span>
+                                <input type="text" id="edit_text_color" name="text_color"
+                                value="<?= /* @noEscape */ $spinEditForm->getTextColor()?>"
+                                class="input-text spin-color-input spin-bind-style required-entry"
+                                data-spin-bind="spin-content-editform-preview-data"
+                                 data-spin-bind-prop='color' />
+                            </div>
+                        </div>
+                        <div class="field admin__field  field-attribute_label">
+                            <label class="label" for="edit_brand_logo">
+                                <span><?= /* @noEscape */ __('Brand Logo')?></span>
+                            </label>
+                            <div class="control">
+                                <input type="file" id="edit_brand_logo" name="logo" value=""
+                                class="input-text spin-files" data-upload-id="edit_brand_logo_hidden"
+                                data-upload-url="<?= /* @noEscape */ $block->getUploadUrl(); ?>"
+                                data-spin-bind-image="edit_brand_logo_preview" />
+                                <input type="hidden" id="edit_brand_logo_hidden" name="logo"
+                                value="<?= /* @noEscape */ $spinEditForm->getLogo()?>"/>
+                                <button type="button" class="spin-button spin-upload-button spin-files-button"
+                                data-triggerid="edit_brand_logo">Browse Files...</button>
+                                <div class="spin-image-preview-container">
+                                    <img src="<?= /* @noEscape */ ($spinEditForm->getLogo() ? $logoMediaUrl:'') ?>"
+                                     id="banner-img" class="spin-image spin-image-preview">
+                                    <span class="spin-image-delete" data-delete="edit_brand_logo"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field admin__field  field-attribute_label  required _required">
+                            <label class="label" for="edit_heading">
+                                <span><?= /* @noEscape */ __('Heading')?></span>
+                            </label>
+                            <div class="control">
+                                <input type="text" id="edit_heading" name="heading"
+                                value="<?= /* @noEscape */ $spinEditForm->getHeading()?>"
+                                class="input-text spin-bind-text required-entry validate-no-html-tags"
+                                data-spin-bind="edit_heading_preview" />
+                            </div>
+                        </div>
+                        <div class="field admin__field  field-attribute_label  required _required">
+                            <label class="label" for="edit_description">
+                                <span><?= /* @noEscape */ __('Description')?></span>
+                            </label>
+                            <div class="control">
+                                <input type="text" id="edit_description" name="description"
+                                value="<?= /* @noEscape */ $spinEditForm->getDescription()?>"
+                                class="input-text spin-bind-text required-entry validate-no-html-tags"
+                                data-spin-bind="edit_description_preview"  />
+                            </div>
+                        </div>
+                        <div class='spin-edit-cname field admin__field field-attribute_label required _required'>
+                            <label class="label" for="edit_cname_status">
+                                <b><?= /* @noEscape */ __("Customer's Full Name")?></b>
+                            </label>
+                            <div class="spin-25 field admin__field field-attribute_label required _required">
+                                <label class="label" for="edit_cname_status">
+                                    <span><?= /* @noEscape */ __('Enable')?></span>
+                                </label>
+                                <div class="control">
+                                    <select id="edit_cname_status" name="cname_status" type="text"
+                                    class="input-text required-entry" data-spin-bind="edit_cname_status_preview">
+                                        <option <?= /* @noEscape */ $spinEditForm->getCnameStatus()?
+                                        'selected':''; ?> value="1"><?= /* @noEscape */ __('Yes')?></option>
+                                        <option <?= /* @noEscape */ $spinEditForm->getId()
+                                        && !$spinEditForm->getCnameStatus()? 'selected':''; ?>
+                                        value="0"><?= /* @noEscape */ __('No')?></option>                        
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="spin-25 field admin__field field-attribute_label required _required">
+                                <label class="label" for="edit_cname_required">
+                                    <span><?= /* @noEscape */ __('Required')?></span>
+                                </label>
+                                <div class="control">
+                                    <select id="edit_cname_required" name="cname_required" type="text"
+                                    class="input-text required-entry" data-spin-bind="edit_cname_status_preview">
+                                        <option <?= /* @noEscape */ $spinEditForm->getCnameRequired()? 'selected':''; ?>
+                                        value="1"><?= /* @noEscape */ __('Yes')?></option>
+                                        <option <?= /* @noEscape */ $spinEditForm->getId()
+                                        && !$spinEditForm->getCnameRequired()? 'selected':''; ?>
+                                        value="0"><?= /* @noEscape */ __('No')?></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="spin-50 field admin__field  field-attribute_label  required _required">
+                                <label class="label" for="edit_cname_label">
+                                    <span><?= /* @noEscape */ __('Label')?></span>
+                                </label>
+                                <div class="control">
+                                    <input type="text" id="edit_cname_label" name="cname_label"
+                                    value="<?= /* @noEscape */ $spinEditForm->getCnameLabel()?>"
+                                    class="input-text spin-bind-text required-entry validate-no-html-tags"
+                                    data-spin-bind="edit_cname_label_preview"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class='spin-edit-cemail field admin__field field-attribute_label required _required'>
+                            <label class="label" for="edit_cemail_label">
+                                <b><?= /* @noEscape */ __("Customer's Email Address Label")?></b>
+                            </label>
+                            <div class="control">
+                                <input type="text" id="edit_cemail_label" name="cemail_label"
+                                 value="<?= /* @noEscape */ $spinEditForm->getCemailLabel()?>"
+                                class="input-text spin-bind-text required-entry"
+                                data-spin-bind="edit_cemail_label_preview" />
+                            </div>
+                            <input type="hidden" name="cemail_status" value="1"/>
+                            <input type="hidden" name="cemail_required" value="1"/>
+                        </div>
+                        <div class="field admin__field  field-attribute_label  required _required">
+                            <label class="label" for="edit_button_background_color">
+                                <span><?= /* @noEscape */ __('Button Background Color')?></span>
+                            </label>
+                            <div class="control">
+                                <span class="color-pick spin-color-box" data-role="color-pick"
+                                data-mage-init='{"colorPickerFunction":{"spanBackgroundColor" :
+                                "<?= /* @noEscape */ $spinEditForm->getButtonBackgroundColor()?>",
+                                "getActiveColorPickerStatus" : "1",
+                                "backgroundWidthSelector" : "#edit_button_background_color"}}'></span>
+                                <input type="text" id="edit_button_background_color"
+                                name="button_background_color" 
+                                value="<?= /* @noEscape */ $spinEditForm->getButtonBackgroundColor()?>"
+                                class="input-text spin-color-input spin-bind-style required-entry"
+                                data-spin-bind="edit_button_label_preview"
+                                data-spin-bind-prop="background-color"  />
+                            </div>
+                        </div>
+                        <div class="field admin__field  field-attribute_label  required _required">
+                            <label class="label" for="edit_button_text_color">
+                                <span><?= /* @noEscape */ __('Button Text Color')?></span>
+                            </label>
+                            <div class="control">
+                                <span class="color-pick spin-color-box" data-role="color-pick"
+                                data-mage-init='{"colorPickerFunction":{"spanBackgroundColor" :
+                                "<?= /* @noEscape */ $spinEditForm->getBUttonTextColor()?>",
+                                "getActiveColorPickerStatus" : "1",
+                                "backgroundWidthSelector" : "#edit_button_text_color"}}'></span>
+                                <input type="text" id="edit_button_text_color" name="button_text_color"
+                                value="<?= /* @noEscape */ $spinEditForm->getButtonTextColor()?>"
+                                class="input-text spin-color-input spin-bind-style required-entry"
+                                data-spin-bind="edit_button_label_preview" data-spin-bind-prop="color" />
+                            </div>
+                        </div>
+                        <div class="field admin__field  field-attribute_label  required _required">
+                            <label class="label" for="edit_button_label">
+                                <span><?= /* @noEscape */ __('Button Label')?></span>
+                            </label>
+                            <div class="control">
+                                <input type="text" id="edit_button_label" name="button_label"
+                                value="<?= /* @noEscape */ $spinEditForm->getButtonLabel()?>"
+                                class="input-text spin-bind-text required-entry validate-no-html-tags"
+                                data-spin-bind="edit_button_label_text_preview" />
+                            </div>
+                        </div>
+                        <div class="field admin__field field-attribute_label required _required">
+                            <label class="label" for="edit_show_progress">
+                                <span><?= /* @noEscape */ __('Show Progress Meter')?></span>
+                            </label>
+                            <div class="control">
+                                <select id="edit_show_progress" name="show_progress" type="text"
+                                class="input-text required-entry" data-spin-bind="spin-progress-bar-container">
+                                    <option <?= /* @noEscape */ $spinEditForm->getShowProgress()? 'selected':''; ?> 
+                                    value="1"><?= /* @noEscape */ __('Enabled')?></option>
+                                    <option <?= /* @noEscape */ $spinEditForm->getId()
+                                    && !$spinEditForm->getShowProgress()? 'selected':''; ?> value="0">
+                                    <?= /* @noEscape */ __('Disabled')?></option>                        
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field admin__field  field-attribute_label  required _required">
+                            <label class="label" for="edit_progress_percent">
+                                <span><?= /* @noEscape */ __('Progress Percentage')?></span>
+                            </label>
+                            <div class="control">
+                                <input type="text" id="edit_progress_percent"
+                                name="progress_percent"
+                                value="<?= /* @noEscape */ $spinEditForm->getProgressPercent()?>"
+                                class="input-text required-entry validate-number 
+                                validate-number-range number-range-0-100"/>
+                            </div>
+                        </div>
+                        <div class="field admin__field  field-attribute_label  required _required">
+                            <label class="label" for="edit_progress_label">
+                                <span><?= /* @noEscape */ __('Progress Label')?></span>
+                            </label>
+                            <div class="control">
+                                <input type="text" id="edit_progress_label"
+                                name="progress_label"
+                                value="<?= /* @noEscape */ $spinEditForm->getProgressLabel()?>"
+                                class="input-text spin-bind-text required-entry validate-no-html-tags"
+                                data-spin-bind="edit_progress_label_text_preview" />
+                            </div>
+                        </div>
+                        <button title="<?= /* @noEscape */ __('Update Form') ?>"
+                        type="button" id="update-spineditform"
+                        class="action-default save spin-save spin-save-ajax" 
+                        data-spin-bind-form="spineditformedit">
+                            <span><?= /* @noEscape */ __('Update Form') ?></span>
+                            <span class="admin__page-nav-item-messages">
+                                <span class="admin__page-nav-item-message _changed">
+                                    <span class="admin__page-nav-item-message-icon"></span>
+                                    <span class="admin__page-nav-item-message-tooltip" 
+                                    data-bind="i18n:'Changes have been made to this section that have not been saved.'">
+                                    </span>
+                                </span>
+                            </span>
+                        </button>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="spin-content-editform-preview">
+                <fieldset class="fieldset admin__fieldset">
+                    <legend class="legend">
+                        <span><?= /* @noEscape */ __('Preview Form') ?></span>
+                    </legend>
+                </fieldset>
+                <div class='spin-content-editform-preview-data'>
+                    <img src="<?= /* @noEscape */ ($spinEditForm->getLogo()
+                    ? $block->getMediaUrl($spinEditForm->getLogo()):'') ?>"
+                    class="edit_brand_logo_preview"/>
+                    <h1 class="edit_heading_preview"></h1>
+                    <p class="edit_description_preview"></p>
+                    <div class="field admin__field  field-attribute_label 
+                    required _required edit_cname_status_preview">
+                        <label class="label">
+                            <span class="edit_cname_label_preview"></span>
+                        </label>
+                        <div class="control">
+                            <input type="text" class="input-text" value=""/>
+                        </div>
+                    </div>
+                    <div class="field admin__field  field-attribute_label 
+                    required _required edit_cemail_status_preview">
+                        <label class="label">
+                            <span class="edit_cemail_label_preview"></span>
+                        </label>
+                        <div class="control">
+                            <input type="text" class="input-text" value=""/>
+                        </div>
+                    </div>
+                    <button type="button" class="action-default edit_button_label_preview">
+                    <img style=" height: 24px; vertical-align: top; margin-right: 5px; "
+                     src="<?= /* @noEscape */ $block->getMediaUrl('spintowin/image/wheel.png')?>"/>
+                    <span class="edit_button_label_text_preview"></span></button>
+                    <div class="spin-progress-bar-container">
+                        <div class="spin-progress-bar">
+                            <div class="spin-progress-bar-progress" style="width: 35%"></div>
+                        </div>
+                        <span class="spin-progress-bar-message edit_progress_label_text_preview"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+<?php
+$spinResultForm = $block->getSpinResultForm();
+?>
+<div class="spin-content-resultform admin__scope-old">
+    <fieldset class="fieldset admin__fieldset">
+        <legend class="legend">
+            <span><?= /* @noEscape */ __('Result Form') ?></span>
+        </legend>
+        <div class="spin-content-resultform-container">
+            <div class="spin-content-resultform-edit">
+                <form data-mage-init='{"validation":{}}' class= "spin-form"
+                action="<?= /* @noEscape */ $block->getUrl('spintowin/manage/saveresultform') ?>"
+                enctype="multipart/form-data" method="post" id="spinresultformedit">
+                    <input type="hidden" value="<?= /* @noEscape */ $spinResultForm->getId()?>" name="entity_id" />
+                    <?= /* @noEscape */ $block->getBlockHtml('formkey')?>    
+                    <fieldset class="fieldset admin__fieldset">
+                        <legend class="legend">
+                            <span><?= /* @noEscape */ __('Edit Form') ?></span>
+                        </legend>
+                        <div class="field admin__field  field-attribute_label  required _required">
+                            <label class="label" for="result_background_color">
+                                <span><?= /* @noEscape */ __('Background Color')?></span>
+                            </label>
+                            <div class="control">
+                                <span class="color-pick spin-color-box"
+                                data-role="color-pick" data-mage-init='{"colorPickerFunction":{"spanBackgroundColor" :
+                                "<?= /* @noEscape */ $spinResultForm->getBackgroundColor()?>",
+                                "getActiveColorPickerStatus" : "1",
+                                "backgroundWidthSelector" : "#result_background_color"}}'></span>
+                                <input type="text" id="result_background_color"
+                                name="background_color"
+                                value="<?= /* @noEscape */ $spinResultForm->getBackgroundColor()?>"
+                                class="input-text spin-color-input spin-bind-style required-entry"
+                                data-spin-bind="spin-content-resultform-preview-data"
+                                data-spin-bind-prop='background-color' />
+                            </div>
+                        </div>
+                        <div class="field admin__field  field-attribute_label  required _required">
+                            <label class="label" for="result_text_color">
+                                <span><?= /* @noEscape */ __('Text Color')?></span>
+                            </label>
+                            <div class="control">
+                                <span class="color-pick spin-color-box" data-role="color-pick"
+                                data-mage-init='{"colorPickerFunction":{"spanBackgroundColor" :
+                                "<?= /* @noEscape */ $spinResultForm->getTextColor()?>",
+                                "getActiveColorPickerStatus" : "1",
+                                "backgroundWidthSelector" : "#result_text_color"}}'></span>
+                                <input type="text" id="result_text_color" name="text_color"
+                                value="<?= /* @noEscape */ $spinResultForm->getTextColor()?>" 
+                                class="input-text spin-color-input spin-bind-style required-entry"
+                                data-spin-bind="spin-content-resultform-preview-data" data-spin-bind-prop='color' />
+                            </div>
+                        </div>
+                        <div class="field admin__field  field-attribute_label">
+                            <label class="label" for="result_brand_logo">
+                                <span><?= /* @noEscape */ __('Brand Logo')?></span>
+                            </label>
+                            <div class="control">
+                                <input type="file" id="result_brand_logo" name="logo" value=""
+                                class="input-text spin-files" data-spin-bind-image="result_brand_logo_preview"
+                                data-upload-id="result_brand_logo_hidden"
+                                data-upload-url="<?= /* @noEscape */ $block->getUploadUrl(); ?>" />
+                                <input type="hidden" id="result_brand_logo_hidden" name="logo"
+                                value="<?= /* @noEscape */ $spinResultForm->getLogo()?>"/>
+                                <button type="button" class="spin-button spin-upload-button spin-files-button"
+                                data-triggerid="result_brand_logo">Browse Files...</button>
+                                <div class="spin-image-preview-container">
+                                    <img src="<?= /* @noEscape */ ($spinResultForm->getLogo() ?
+                                    $block->getMediaUrl($spinResultForm->getLogo()):'') ?>"
+                                    id="banner-img" class="spin-image spin-image-preview">
+                                    <span class="spin-image-delete" data-delete="result_brand_logo"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field admin__field  field-attribute_label  required _required">
+                            <label class="label" for="result_coupon_background_color">
+                                <span><?= /* @noEscape */ __('Coupon Background Color')?></span>
+                            </label>
+                            <div class="control">
+                                <span class="color-pick spin-color-box" data-role="color-pick"
+                                data-mage-init='{"colorPickerFunction":{"spanBackgroundColor" :
+                                "<?= /* @noEscape */ $spinResultForm->getCouponBackgroundColor()?>",
+                                "getActiveColorPickerStatus" : "1",
+                                "backgroundWidthSelector" : "#result_coupon_background_color"}}'></span>
+                                <input type="text" id="result_coupon_background_color"
+                                name="coupon_background_color"
+                                value="<?= /* @noEscape */ $spinResultForm->getCouponBackgroundColor()?>"
+                                class="input-text spin-color-input spin-bind-style required-entry"
+                                data-spin-bind="spin-coupon-code" data-spin-bind-prop="background-color"  />
+                            </div>
+                        </div>
+                        <div class="field admin__field  field-attribute_label  required _required">
+                            <label class="label" for="result_coupon_text_color">
+                                <span><?= /* @noEscape */ __('Coupon Text Color')?></span>
+                            </label>
+                            <div class="control">
+                                <span class="color-pick spin-color-box" data-role="color-pick"
+                                data-mage-init='{"colorPickerFunction":{"spanBackgroundColor" :
+                                "<?= /* @noEscape */ $spinResultForm->getCouponTextColor()?>",
+                                "getActiveColorPickerStatus" : "1",
+                                "backgroundWidthSelector" : "#result_coupon_text_color"}}'></span>
+                                <input type="text" id="result_coupon_text_color"
+                                name="coupon_text_color"
+                                value="<?= /* @noEscape */ $spinResultForm->getCouponTextColor()?>"
+                                class="input-text spin-color-input spin-bind-style required-entry"
+                                data-spin-bind="spin-coupon-code" data-spin-bind-prop="color"  />
+                            </div>
+                        </div>
+                        <div class="field admin__field  field-attribute_label  required _required">
+                            <label class="label" for="result_coupon_button_background_color">
+                                <span><?= /* @noEscape */ __('Coupon Button Background Color')?></span>
+                            </label>
+                            <div class="control">
+                                <span class="color-pick spin-color-box" data-role="color-pick"
+                                data-mage-init='{"colorPickerFunction":{"spanBackgroundColor" 
+                                : "<?= /* @noEscape */ $spinResultForm->getCouponButtonBackgroundColor()?>",
+                                "getActiveColorPickerStatus" : "1",
+                                "backgroundWidthSelector" : "#result_coupon_button_background_color"}}'>
+                                </span>
+                                <input type="text" id="result_coupon_button_background_color"
+                                name="coupon_button_background_color"
+                                value="<?= /* @noEscape */ $spinResultForm->getCouponButtonBackgroundColor()?>"
+                                class="input-text spin-color-input spin-bind-style required-entry"
+                                data-spin-bind="spin-coupon-code-copy"
+                                data-spin-bind-prop="background-color"  />
+                            </div>
+                        </div>
+                        <div class="field admin__field  field-attribute_label  required _required">
+                            <label class="label" for="result_coupon_button_text_color">
+                                <span><?= /* @noEscape */ __('Coupon Button Text Color')?></span>
+                            </label>
+                            <div class="control">
+                                <span class="color-pick spin-color-box" data-role="color-pick"
+                                data-mage-init='{"colorPickerFunction":{"spanBackgroundColor" 
+                                : "<?= /* @noEscape */ $spinResultForm->getCouponButtonTextColor()?>",
+                                "getActiveColorPickerStatus" : "1",
+                                "backgroundWidthSelector" : "#result_coupon_button_text_color"}}'></span>
+                                <input type="text" id="result_coupon_button_text_color" name="coupon_button_text_color"
+                                value="<?= /* @noEscape */ $spinResultForm->getCouponButtonTextColor()?>"
+                                class="input-text spin-color-input spin-bind-style required-entry"
+                                data-spin-bind="spin-coupon-code-copy" data-spin-bind-prop="color"  />
+                            </div>
+                        </div>
+                        <div class="field admin__field  field-attribute_label  required _required">
+                            <label class="label" for="result_button_background_color">
+                                <span><?= /* @noEscape */ __('Button Background Color')?></span>
+                            </label>
+                            <div class="control">
+                                <span class="color-pick spin-color-box" data-role="color-pick"
+                                data-mage-init='{"colorPickerFunction":{"spanBackgroundColor" :
+                                "<?= /* @noEscape */ $spinResultForm->getButtonBackgroundColor()?>",
+                                "getActiveColorPickerStatus" : "1",
+                                "backgroundWidthSelector" : "#result_button_background_color"}}'>
+                                </span>
+                                <input type="text" id="result_button_background_color"
+                                name="button_background_color"
+                                value="<?= /* @noEscape */ $spinResultForm->getButtonBackgroundColor()?>"
+                                class="input-text spin-color-input spin-bind-style required-entry"
+                                data-spin-bind="result_button_label_preview"
+                                data-spin-bind-prop="background-color"  />
+                            </div>
+                        </div>
+                        <div class="field admin__field  field-attribute_label  required _required">
+                            <label class="label" for="result_button_text_color">
+                                <span><?= /* @noEscape */ __('Button Text Color')?></span>
+                            </label>
+                            <div class="control">
+                                <span class="color-pick spin-color-box" data-role="color-pick"
+                                data-mage-init='{"colorPickerFunction":
+                                {"spanBackgroundColor" : "<?= /* @noEscape */ $spinResultForm->getBUttonTextColor()?>",
+                                "getActiveColorPickerStatus" : "1",
+                                "backgroundWidthSelector" : "#result_button_text_color"}}'>
+                                </span>
+                                <input type="text" id="result_button_text_color" name="button_text_color"
+                                value="<?= /* @noEscape */ $spinResultForm->getButtonTextColor()?>"
+                                class="input-text spin-color-input spin-bind-style required-entry"
+                                data-spin-bind="result_button_label_preview" data-spin-bind-prop="color" />
+                            </div>
+                        </div>
+                        <div class="field admin__field  field-attribute_label  required _required">
+                            <label class="label" for="result_button_label">
+                                <span><?= /* @noEscape */ __('Button Label')?></span>
+                            </label>
+                            <div class="control">
+                                <input type="text" id="result_button_label" name="button_label"
+                                value="<?= /* @noEscape */ $spinResultForm->getButtonLabel()?>"
+                                class="input-text spin-bind-text required-entry validate-no-html-tags"
+                                data-spin-bind="result_button_label_preview" />
+                            </div>
+                        </div>
+                        <button title="<?= /* @noEscape */ __('Update Form') ?>" type="button"
+                        id="update-spinresultform" class="action-default save spin-save spin-save-ajax"
+                        data-spin-bind-form="spinresultformedit">
+                            <span><?= /* @noEscape */ __('Update Form') ?></span>
+                            <span class="admin__page-nav-item-messages">
+                                <span class="admin__page-nav-item-message _changed">
+                                    <span class="admin__page-nav-item-message-icon"></span>
+                                    <span class="admin__page-nav-item-message-tooltip"
+                                    data-bind="i18n:'Changes have been made to this section that have not been saved.'">
+                                    </span>
+                                </span>
+                            </span>
+                        </button>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="spin-content-resultform-preview">
+                <fieldset class="fieldset admin__fieldset">
+                    <legend class="legend">
+                        <span><?= /* @noEscape */ __('Preview Form') ?></span>
+                    </legend>
+                </fieldset>
+                <div class='spin-content-resultform-preview-data'>
+                    <img src="<?= /* @noEscape */ ($spinResultForm->getLogo()
+                    ? $block->getMediaUrl($spinResultForm->getLogo()):'') ?>"
+                     class="result_brand_logo_preview"/>
+                    <h1 class="result_heading_preview">{{Success Title}}</h1>
+                    <p class="result_description_preview">{{Success Description Text}}</p>
+                    <div class="result_coupon_preview spin-coupon-container">
+                        <div>
+                            <span class="spin-coupon-code-label"><?= /* @noEscape */ __('Coupon Code')?></span>
+                            <div class="spin-coupon-code-container">
+                                <input class="spin-coupon-code" readonly value="CA45870BA238"/>>
+                                <div class="spin-coupon-code-copy"><?= /* @noEscape */ __('Copy Code')?></div>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="action-default result_button_label_preview"></button>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "spinform": {}
+        }
+    }
+</script>

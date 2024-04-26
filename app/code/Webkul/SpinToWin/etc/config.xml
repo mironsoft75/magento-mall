@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <spintowin>
+            <general>
+                <manager_email>admin@example.com</manager_email>
+                <send_coupon_to_customer>spintowin_general_send_coupon_to_customer</send_coupon_to_customer>
+                <send_cloud_code_to_customer>spintowin_general_send_cloud_code_to_customer</send_cloud_code_to_customer>
+            </general>
+            <draw_product>
+                <enabled>0</enabled>
+                <notice_template>spintowin_draw_product_notice_template</notice_template>
+                <copy_method>bcc</copy_method>
+            </draw_product>
+        </spintowin>
+    </default>
+</config>

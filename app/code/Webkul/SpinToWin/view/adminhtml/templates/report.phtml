@@ -1,0 +1,44 @@
+<div class="wkspin-inline-parent wkspin-reports">
+    <div class="wkspin-inline wkspin-report">
+        <legend class="wkspin-legend"><?= /* @noEscape */ __('Spin Wheel Statistics') ?></legend>
+        <div class="wkspin-statistics-container wkspin-inline-parent">
+            <div class="wkspin-statistics-detail wkspin-inline">
+                <div class="wkspin-statistics-heading">
+                    <?= /* @noEscape */ __('Total Spins') ?>
+                </div>
+                <div class="wkspin-statistics-value">
+                    <?= /* @noEscape */ $block->getTotalSpins()?>
+                </div>
+            </div>
+            <div class="wkspin-statistics-detail wkspin-inline">
+                <div class="wkspin-statistics-heading">
+                    <?= /* @noEscape */ __('Total Wins') ?>
+                </div>
+                <div class="wkspin-statistics-value">
+                    <?= /* @noEscape */ $block->getTotalWins()?>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wkspin-inline wkspin-report">
+        <legend class="wkspin-legend"><?= /* @noEscape */ __('Sales Statistics') ?></legend>
+        <div class="wkspin-statistics-container wkspin-inline-parent">
+            <div class="wkspin-statistics-detail wkspin-inline">
+                <div class="wkspin-statistics-heading">
+                    <?= /* @noEscape */ __('Total Orders') ?>
+                </div>
+                <div class="wkspin-statistics-value">
+                    <?= /* @noEscape */ $block->getTotalOrders()?>
+                </div>
+            </div>
+            <div class="wkspin-statistics-detail wkspin-inline">
+                <div class="wkspin-statistics-heading">
+                    <?= /* @noEscape */ __('Total Sales') ?>                    
+                </div>
+                <div class="wkspin-statistics-value wkspin-statistics-value-total">
+                    <?= /* @noEscape */ $block->getTotalSales()?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
