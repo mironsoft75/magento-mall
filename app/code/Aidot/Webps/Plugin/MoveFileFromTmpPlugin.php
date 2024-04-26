@@ -1,6 +1,6 @@
 <?php
 namespace Aidot\Webps\Plugin;
-use Silk\Integrations\Utilities\ImageWebpUtil;
+use Aidot\Webps\Utilities\ImageWebpUtil;
 
 
 class MoveFileFromTmpPlugin{
