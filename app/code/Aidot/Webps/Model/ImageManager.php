@@ -6,7 +6,7 @@ use Aidot\Webps\Api\ImageManagerInterface;
 use Aidot\Webps\Model\ResourceModel\ImageWebpsLogFactory;
 use Aidot\Webps\Model\ResourceModel\Log\CollectionFactory;
 use Magento\Framework\Webapi\Rest\Request;
-use Silk\Integrations\Utilities\ImageWebpUtil;
+use Aidot\Webps\Utilities\ImageWebpUtil;
 
 class ImageManager implements ImageManagerInterface {
 

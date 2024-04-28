@@ -1,0 +1,28 @@
+<root>
+    <demos>
+        <demo01>
+            <pages>
+                <item>next_theme_home</item>
+                <item>next_theme_home_2</item>
+            </pages>
+            <blocks>
+                <item>payment-icons</item>
+                <item>home-slider</item>
+                <item>next-above</item>
+                <item>home-images-one</item>
+                <item>next-below</item>
+                <item>home_testimonials</item>
+                <item>home-brands</item>
+                <item>footer_myaccount</item>
+                <item>footer_payment_shipping</item>
+                <item>home_blogs</item>
+                <item>footer-socials</item>
+                <item>home-images-two</item>
+                <item>home-services</item>
+                <item>home-single-images-block</item>
+                <item>sidebar-add-banner</item>
+                <item>footer_quicklinks</item>
+            </blocks>
+        </demo01>
+    </demos>
+</root>

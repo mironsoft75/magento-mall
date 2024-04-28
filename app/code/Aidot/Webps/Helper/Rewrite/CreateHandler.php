@@ -3,7 +3,7 @@
 namespace Aidot\Webps\Helper\Rewrite;
 
 use Magento\Catalog\Model\Product\Gallery\CreateHandler as GralleryCreateHandler;
-use Silk\Integrations\Utilities\ImageWebpUtil;
+use Aidot\Webps\Utilities\ImageWebpUtil;
 
 class CreateHandler extends GralleryCreateHandler{
 
@@ -16,7 +16,7 @@ class CreateHandler extends GralleryCreateHandler{
      * @param \Magento\Catalog\Model\Product\Media\Config $mediaConfig
      * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\MediaStorage\Helper\File\Storage\Database $fileStorageDb
-     * @param \Silk\Integrations\Utilities\ImageWebpUtil
+     * @param \Aidot\Webps\Utilities\ImageWebpUtil
      * @param \Magento\Store\Model\StoreManagerInterface|null $storeManager
      * @throws \Magento\Framework\Exception\FileSystemException
      */

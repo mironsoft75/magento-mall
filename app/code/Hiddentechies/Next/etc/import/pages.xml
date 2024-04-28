@@ -1,0 +1,28 @@
+<root>
+    <pages>
+        <cms_item>
+            <title>Next Theme - Home Page</title>
+            <identifier>next_theme_home</identifier>
+            <content><![CDATA[<span class="display:none;"></span>]]>
+            </content>
+            <is_active>1</is_active>
+            <stores>
+                <item>0</item>
+            </stores>
+            <page_layout>1column</page_layout>
+            <layout_update_xml><![CDATA[]]></layout_update_xml>
+        </cms_item>
+        <cms_item>
+            <title>Next Theme - Home Page Two</title>
+            <identifier>next_theme_home_2</identifier>
+            <content><![CDATA[<span class="display:none;"></span>]]>
+            </content>
+            <is_active>1</is_active>
+            <stores>
+                <item>0</item>
+            </stores>
+            <page_layout>1column</page_layout>
+            <layout_update_xml><![CDATA[]]></layout_update_xml>
+        </cms_item>
+    </pages>
+</root>
