@@ -15,27 +15,23 @@ use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Silk\Referral\Service\ReferralCouponSrv;
 
 class CouponManagement extends \Magento\Quote\Model\CouponManagement
 {
 
-    protected ReferralCouponSrv $referralCouponSrv;
+    
     /**
      * Constructor
      *
      * @param \Magento\Quote\Api\CartRepositoryInterface $quoteRepository
      * @param \Webkul\SpinToWin\Helper\Data $helper
-     * @param ReferralCouponSrv $referralCouponSrv
      */
     public function __construct(
         \Magento\Quote\Api\CartRepositoryInterface $quoteRepository,
-        \Webkul\SpinToWin\Helper\Data $helper,
-        ReferralCouponSrv $referralCouponSrv
+        \Webkul\SpinToWin\Helper\Data $helper
     ) {
         $this->quoteRepository = $quoteRepository;
         $this->helper = $helper;
-        $this->referralCouponSrv = $referralCouponSrv;
         parent::__construct($quoteRepository);
     }
 
@@ -99,12 +95,7 @@ class CouponManagement extends \Magento\Quote\Model\CouponManagement
             }
             return ['is_voucher' => $isVoucher,'couponCode' => $couponCode];
         }else {
-            $oldIsVoucher = $this->referralCouponSrv->validateVoucher($oldCouponCode);
-            if($oldIsVoucher){
-                if($isVoucher){
-                    $couponCode = $oldCouponCode.','.$couponCode;
-                }
-            }
+            
             return ['is_voucher' => $isVoucher,'couponCode' =>$couponCode];
         }
         

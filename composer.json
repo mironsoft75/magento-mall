@@ -20,9 +20,10 @@
     },
     "version": "2.4.3-p1",
     "require": {
-        "magento/product-community-edition": "2.4.3-p1",
+        "google/apiclient": "2.12.1",
+        "magento/composer-dependency-version-audit-plugin": "~0.1",
         "magento/composer-root-update-plugin": "~1.1",
-        "magento/composer-dependency-version-audit-plugin": "~0.1"
+        "magento/product-community-edition": "2.4.3-p1"
     },
     "autoload": {
         "exclude-from-classmap": [
