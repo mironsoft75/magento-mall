@@ -1,0 +1,345 @@
+<?php
+
+/** @var \Silk\Page\Block\Navigation  */
+$config = $this->helper('Silk\Integrations\Helper\Config');
+$configArea = $config->getAreaConfig();
+// $drawMainMenu = $this->drawMainMenu();
+// $drawExtraMenu = $this->drawExtraMenu();
+$data = $block->getBarData();
+$localUrl = $_SERVER["REQUEST_URI"];
+$specialUrl = ['/our-brands','/matter','/matter-product','/contact-us','/app','/'];
+$is_special_url = in_array($localUrl, $specialUrl);
+?>
+<nav class="navigation" role="navigation" data-action="navigation">
+    <ul id="navigation-menu" class="navigation-menu" data-mage-init='{"ui/menu":{}}'>
+    <?php if ($configArea === 'us') : // Our Brands ?>
+            <?php
+                $ImageUrlPrefix = 'https://d1zajr8axnrmfh.cloudfront.net/static/shop/image';
+                $brands = [
+                    'linkind' => [
+                        'title' => 'Linkind',
+                        'logo' => '38054c0693d630b6663636bc72f6558e.svg',
+                        'url' => '/our-brands/linkind.html',
+                        'category' => 'Lighting',
+                    ],
+                    'orein' => [
+                        'title' => 'Orein',
+                        'logo' => '71dc579df65cd3389e5474d56a6eec2e.svg',
+                        'url' => '/our-brands/orein.html',
+                        'category' => 'Lighting',
+                    ],
+                    'mujoy' => [
+                        'title' => 'Mujoy',
+                        'logo' => '86cfc16c84b729a30861ade4c08a14e6.svg',
+                        'url' => '/our-brands/mujoy.html',
+                        'category' => 'Lighting',
+                    ],
+                    'winees' => [
+                        'title' => 'Winees',
+                        'logo' => 'f06b557bfba083e7b56a153506898e45.svg',
+                        'url' => '/our-brands/winees.html',
+                        'category' => 'Security',
+                    ],
+                    'welov' => [
+                        'title' => 'Welov',
+                        'logo' => '593417309bc0b49d1fe11ce2d5c6d29e.svg',
+                        'url' => '/our-brands/welov.html',
+                        'category' => 'Small Appliance',
+                    ],
+                    'syvio' => [
+                        'title' => 'Syvio',
+                        'logo' => '2e87588a7c2f322971a8dba6485118c8.svg',
+                        'url' => '/our-brands/syvio.html',
+                        'category' => 'Small Appliance',
+                    ],
+                    'ganiza' => [
+                        'title' => 'Ganiza',
+                        'logo' => '855bf8c21dc1de10ad08a41b4066c353.svg',
+                        'url' => '/our-brands/ganiza.html',
+                        'category' => 'Small Appliance',
+                    ],
+                    'gogonova' => [
+                        'title' => 'GoGonova',
+                        'logo' => '33ded40cb19802d9d7d9fec5ea520dc6.svg',
+                        'url' => '/our-brands/gogonova.html',
+                        'category' => 'Tool',
+                    ],
+                    'enhulk' => [
+                        'title' => 'Enhulk',
+                        'logo' => '837901e1624d91bca83cd5a2b703001f.svg',
+                        'url' => '/our-brands/enhulk.html',
+                        'category' => 'Tool',
+                    ],
+                ];
+            ?>
+    <?php endif; ?>
+        <?php if(!$is_special_url):?>
+            <li class="category-item level-0 level-topnav-1  hasChild">
+                <a class="level-top" href="/products.html">
+                    <span>Products</span>
+                    <span class="toggler toggler-plus"></span>
+                </a>
+                <div class="level-top-extra level-top-extra-product">
+                    <div class="menus-pop-head">
+                        <div>
+                            <div class="navbar-toggler back"><span></span></div>
+                            <div>Products</div>
+                        </div>
+                    </div>
+                    <div class="container">
+                            <ul class="category-list level-1 clearfix">
+                                <?php
+                                    $index = 1;
+                                ?>
+                                <?php foreach($data as $category):?>
+                                    <?php  $active = $index === 1 ? ' active' : ''; ?>
+                                    <li class="children level-1 category-item <?php echo $active ?>">
+                                        <a href="<?php echo $category['category_url']?>" class="level-1 level-1-name">
+                                            <?php echo $category['category_name']?>
+                                            <span class="toggler toggler-arrow"></span>
+                                            <span class="toggler toggler-arrowRight">></span>
+                                        </a>
+                                        <?php $subCategories = $category['category_children']; ?>
+                                        <?php $products = $category['products'] ?>
+                                        <div class="level-2 level-2-extra level-2-extra-product">
+                                            <div class="level-2-extra-product-container">
+                                                <div class="subcategories">
+                                                    <?php foreach($subCategories as $subCategory): ?>
+                                                        <?php $_url = $subCategory['category_url'].'#category-'.$subCategory['category_id']?>
+                                                        <div class="subcategory">
+                                                            <a href="<?php echo $_url?>"> <?php echo $subCategory['category_name']?> ></a>
+                                                        </div>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                                <div class="products">
+                                                    <ul>
+                                                    <?php foreach($products as $_product): ?>
+                                                        <?php if(!isset($_product['product_id'])){continue;} ?>
+                                                        <li>
+                                                            <a href="<?php echo $_product['product_url']?>" class="product-item-info">
+                                                                <div class="images-container">
+                                                                    <div class="product photo product-item-photo">
+                                                                        <span class="product-image-container product-image-container-3">
+                                                                            <span class="product-image-wrapper">
+                                                                                <img src="<?php echo $_product['image']?>">
+                                                                            </span>
+                                                                        </span>
+                                                                    </div>
+                                                                    <?php if($_product['is_new'] === 1): ?>
+                                                                        <div class="new-label">New</div>
+                                                                    <?php endif; ?>
+                                                                </div>
+                                                                <div class="product details product-item-details">
+                                                                        <strong class="product name product-item-name">
+                                                                            <div class="product-item-link">
+                                                                                <?php echo $_product['name']?>
+                                                                            </div>
+                                                                        </strong>
+                                                                        <div class="price-box">
+                                                                            <div>
+                                                                                <span class="special-price"><?php echo $_product['final_price']?></span>
+                                                                                <span class="old-price"><?php echo $_product['price']?></span>
+                                                                            </div>
+                                                                            <?php $save = empty($_product['coupon_save']) ? $_product['activity_tag']  : 'Save '.$_product['coupon_save'];?>
+                                                                            <?php if(!empty($save)):?>
+                                                                                <span class="save-price"><span><?php echo $save ?></span></span>
+                                                                            <?php endif;?>
+                                                                        </div>
+
+                                                                </div>
+                                                            </a>
+                                                        </li>
+                                                    <?php endforeach; ?>
+                                                    </ul>
+                                                </div>
+                                                <div class="allbtn">
+                                                    <a href="<?php echo $category['category_url']?>">
+                                                        Shop All <?php echo $category['category_name']?>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <?php $index++; ?>
+                                <?php endforeach;?>
+                                <li class="children level-1 category-item" >
+                                    <a href="/our-brands.html" class="level-1 level-1-name">
+                                        Our Brands
+                                        <span class="toggler toggler-arrow"></span>
+                                        <span class="toggler toggler-arrowRight">></span>
+                                    </a>
+                                        <div class="level-2 level-2-extra level-2-extra-product level-2-extra-brands">
+                                            <div class="level-2-extra-product-container  level-2-extra-brands-container">
+                                                <div class="our-brands-list">
+                                                    <?php foreach ($brands as $code => $brand) : ?>
+                                                    <div class="our-brands-item">
+                                                        <a href="<?= $brand['url'] ?>" ct="ClickMenuName" ct-menu_id="our-brands-<?= $brand['title'] ?>" ct-menu_name="<?= $brand['title'] ?>" ct-menu_level="2">
+                                                            <img loading="lazy" fetchpriority="low" class="our-brands-item-b" alt="<?= $brand['title'] ?>" src="<?= $ImageUrlPrefix ?>/<?= $brand['logo'] ?>" />
+                                                            <div class="our-brands-item-c"><?= $brand['category'] ?></div>
+                                                        </a>
+                                                    </div>
+                                                    <?php endforeach; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                    </div>
+                </div>
+            </li>
+        <?php endif; ?>
+        <?php if($is_special_url):?>
+            <li class="level-0 category-item level-top ext  first">
+                <a class="level-top" href="/store"  ct="ClickMenuName" ct-menu_id="Shop" ct-menu_name="Shop" ct-menu_level="1" target="_blank">
+                    <span class="noArrow">
+                        AiDot Store
+                    </span>
+                </a>
+            </li>
+        <?php endif; ?>
+        <?php if($is_special_url):?>
+            <li class="level-0 category-item level-top ext  first">
+                <a class="level-top" href="/our-brands.html"  ct="ClickMenuName" ct-menu_id="Brand" ct-menu_name="Brand" ct-menu_level="1">
+                    <span class="noArrow">
+                        Our Brand
+                    </span>
+                </a>
+            </li>
+        <?php endif; ?>
+        <?php if ($configArea === 'us' && !$is_special_url) : // Deals ?>
+            <li class="level-0 category-item level-top ext  first dropdown hasChild"  data-page="app-deals-page" id="app-deals-page">
+                <a class="level-top" href="https://www.aidot.com/flashsales"  ct="ClickMenuName" ct-menu_id="Deals" ct-menu_name="Deals" ct-menu_level="1">
+                    <span class="noArrow">
+                        Deals
+                        <sup class="hot"></sup>
+                    </span>
+                    <!-- <span class="toggler toggler-plus"></span> -->
+                </a>
+            </li>
+        <?php endif; ?>
+        <?php if (!$is_special_url) : ?>
+            <li class="level-0 category-item level-top ext  first dropdown hasChild" data-page="app-new-releases-page" id="app-new-releases-page">
+                <a class="level-top"  ct="ClickMenuName" ct-menu_id="Deals" ct-menu_name="Deals" ct-menu_level="1">
+                    <span>New Release</span>
+                    <span class="toggler toggler-plus"></span>
+                </a>
+            </li>
+        <?php endif; ?>
+        <?php if ($configArea === 'us' && $is_special_url) : // Matter ?>
+            <li class="category-item level-0 ">
+                <a class="level-top" href="/matter" >
+                    <span>Matter</span>
+                    <!-- <span class="toggler toggler-plus"></span> -->
+                </a>
+                <!-- <div class="level-top-extra simple">
+                    <div class="container">
+                        <ul class="category-list level-1 clearfix">
+                            <li class="children level-1 category-item nav-1-1 ">
+                                <div>
+                                    <a class="level-1" href="/matter" ct="ClickMenuName" ct-menu_id="matter" ct-menu_name="Matter" ct-menu_level="2"><span>Matter</span></a>
+                                </div>
+                            </li>
+                            <li class="children level-1 category-item nav-1-2 ">
+                                <div>
+                                    <a class="level-1" href="/matter-product" ct="ClickMenuName" ct-menu_id="matter-product" ct-menu_name="Matter Product" ct-menu_level="2"><span>Matter Product</span></a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div> -->
+            </li>
+        <?php endif; ?>
+        <?php if($is_special_url):?>
+            <li class="level-0 category-item level-top ext  first">
+                <a class="level-top" href="/contact-us"  ct="ClickMenuName" ct-menu_id="Brand" ct-menu_name="Brand" ct-menu_level="1">
+                    <span class="noArrow">
+                        Contact Us
+                    </span>
+                </a>
+            </li>
+        <?php endif; ?>
+        <?php if (!$is_special_url) : ?>
+            <li class="category-item level-0 hasChild">
+                <a class="level-top"><span>Support</span><span class="toggler toggler-plus"></span></a>
+                <div class="level-top-extra simple">
+                    <div class="container">
+                        <ul class="category-list level-1 clearfix">
+                            <?php $support = [
+                                // 'AiDot App' => '/aidot-app.html',
+                                'Getting Started' => '/page/getting-start',
+                                'Order Tracker' => '/order/track',
+                                'Warranty' => '/warranty',
+                                'Product Registration' => '/warranty/register',
+                                // 'About Us' => '/about-us',
+                                'Blog' => '/blog',
+                            ]; ?>
+                            <?php foreach ($support as $title => $url) : ?>
+                            <li class="children level-1 category-item">
+                                <div>
+                                    <a class="level-1" href="<?= $url ?>" ct="ClickMenuName" ct-menu_id="support-<?= preg_replace('/\s/i', '-', $title) ?>" ct-menu_name="<?= $title ?>" ct-menu_level="2">
+                                        <span><?= $title ?></span></a>
+                                </div>
+                            </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
+            </li>
+        <?php endif; ?>
+        <?php /* echo $drawExtraMenu */ ?>
+    </ul>
+</nav>
+<script>require(['jquery'], function($) {
+    $('.dropdown').click(function (){
+        const _page = $(this).attr('data-page');
+        $(`.${_page}`).toggle();
+        if(document.body.clientWidth < 768 ){
+            const show =  $(`.${_page}`).is(":visible");
+            if(!show){
+                $(`.${_page}`).addClass('active');
+            }else{
+                $(`.${_page}`).removeClass('active');
+            }
+        }
+    });
+    $('.dropdown').hover(function (){
+        const clientWidth = document.body.clientWidth;
+        if (clientWidth < 768) {
+            return;
+        }
+        const _page = $(this).attr('data-page');
+        if(!$(`.${_page}`).hasClass('active')){
+            $(`.${_page}`).addClass('active');
+        }else{
+            $(`.${_page}`).removeClass('active');
+        }
+    })
+    $('.menus-pop').mouseenter(function (){
+        const clientWidth = document.body.clientWidth;
+        if (clientWidth < 768) {
+            return;
+        }
+        $(this).show();
+        $(this).addClass('active');
+        const _page = $(this).attr('data-page');
+        $(`#${_page}`).addClass('active');
+    })
+    $('.menus-pop').mouseleave(function (){
+        const clientWidth = document.body.clientWidth;
+        if (clientWidth < 768) {
+            return;
+        }
+        $(this).hide();
+        $(this).removeClass('active');
+        const _page = $(this).attr('data-page');
+        $(`#${_page}`).removeClass('active');
+    })
+    $('.menus-pop').on('click','.back',function(){
+        const _that = $(this).parent().parent().parent();
+        _that.toggle();
+        const _page = _that.attr('data-page');
+        $(`#${_page}`).removeClass('active');
+        _that.removeClass('active');
+    });
+});</script>

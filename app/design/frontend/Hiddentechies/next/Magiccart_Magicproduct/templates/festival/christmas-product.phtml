@@ -1,0 +1,113 @@
+<?php
+
+use Magento\Framework\App\Action\Action;
+
+/** @var $block \Magento\Catalog\Block\Product\ListProduct */
+
+$_productCollection = $block->getLoadedProductCollection();
+if (!$_productCollection->count()) return;
+
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+$viewMode     = 'grid';
+$image        = 'category_page_grid';
+$templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+$pos          = $block->getPositioned();
+
+$config         = $this->getWidgetCfg();
+
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$media = $objectManager->get('Magento\Store\Model\StoreManagerInterface')
+                    ->getStore()
+                    ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+?>
+<div class="products wrapper grid products-grid">
+    <ol class="list items product-items">
+        <?php if (!empty($config['image'])): ?>
+            <li class="gallery">
+                <span class="inner" style="background-image: url(<?= $media.$config['image'] ?>);"></span>
+            </li>
+        <?php endif; ?>
+        <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+        <?php foreach ($_productCollection as $_product): ?>
+            <li class="item product product-item">
+                <div class="product-item-info" data-container="product-grid">
+                    <?php
+                        $fromDate = $_product->getData('news_from_date');
+                        $toDate = $_product->getData('news_to_date');
+                        $isNew = false;
+                        if ($fromDate){
+                            $fromDate = strtotime($fromDate);
+                            $toDate = strtotime($toDate);
+                            $now = strtotime(date("Y-m-d H:i:s"));
+
+                            if ($toDate){
+                                if ($fromDate <= $now && $now <= $toDate) $isNew = true;
+                            } else {
+                                if ($fromDate <= $now) $isNew = true;
+                            }
+                        } else if($toDate) {
+                            $toDate = strtotime($toDate);
+                            $now = strtotime(date("Y-m-d H:i:s"));
+                            if ($now <= $toDate) $isNew = true;
+                        }
+                        if ($isNew):
+                    ?>
+                        <div class="product-label">
+                            <span class="sticker top-left">
+                                <span class="labelnew"><?= __('New') ?></span>
+                            </span>
+                        </div>
+                    <?php endif; ?>
+                    <?php
+                    $productImage = $block->getImage($_product, $image);
+                    if ($pos != null) {
+                        $position = ' style="left:' . $productImage->getWidth() . 'px;' . 'top:' . $productImage->getHeight() . 'px;"';
+                    }
+                    ?>
+                    <div class="images-container">
+                        <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>"
+                            class="product photo product-item-photo" tabindex="-1">
+                            <?php echo $productImage->toHtml(); ?>
+                        </a>
+                    </div>
+                    <div class="product details product-item-details">
+                        <?php
+                        $_productNameStripped = $block->stripTags($_product->getName(), null, true);
+                        ?>
+                        <strong class="product name product-item-name">
+                            <a class="product-item-link" href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>">
+                                <?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+                            </a>
+                        </strong>
+                        <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
+                        <?php echo $block->getProductDetailsHtml($_product); ?>
+                        <div class="product-item-inner">
+                            <div class="product actions product-item-actions" <?php echo strpos($pos, $viewMode . '-actions') ? $position : ''; ?>>
+                                <div class="actions-primary" <?php echo strpos($pos, $viewMode . '-primary') ? $position : ''; ?>>
+                                    <?php if ($_product->isSaleable()) : ?>
+                                        <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                        <form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $postParams['action']; ?>" method="post">
+                                            <input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
+                                            <input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+                                            <?php echo $block->getBlockHtml('formkey') ?>
+                                            <button type="submit" class="action tocart primary">
+                                                <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                            </button>
+                                        </form>
+                                    <?php else : ?>
+                                        <?php if ($_product->getIsSalable()) : ?>
+                                            <div class="stock available"><span><?php /* @escapeNotVerified */ echo __('In stock') ?></span></div>
+                                        <?php else : ?>
+                                            <div class="stock unavailable"><span><?php /* @escapeNotVerified */ echo __('Out of stock') ?></span></div>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        <?php endforeach; ?>
+    </ol>
+</div>

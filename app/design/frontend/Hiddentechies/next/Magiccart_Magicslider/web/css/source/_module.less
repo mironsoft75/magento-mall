@@ -1,0 +1,97 @@
+& when (@media-common = true) {
+    .magic-slider {
+        &__caption {
+            display: none;
+
+            .figcaption {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+
+                .container-caption {
+                    h3, h4, p {
+                        margin-top: 0;
+                        font-weight: 500;
+                    }
+
+                    h3 {
+                        color: @gray-1;
+                        font-size: 28px;
+                        font-weight: 800;
+                    }
+
+                    h4 {
+                        color: @gray-1;
+                        font-size: 18px;
+                    }
+
+                    p {
+                        color: @gray-2;
+                        font-size: 14px;
+                    }
+
+                    .actions {
+                        display: flex;
+                        margin-top: 20px;
+                    }
+
+                    .action {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        height: 48px;
+                        border-radius: 50px;
+                        font-size: 16px;
+                        font-weight: 500;
+
+                        & + .action {
+                            margin-left: 8px;
+                        }
+
+                        &.outline {
+                            background-color: transparent;
+                            border: 1px solid @gray-1;
+                            color: @gray-1;
+
+                            &:hover {
+                                border-color: @primary-2;
+                                color: @primary-2;
+                            }
+                        }
+                    }
+                }
+            }
+
+            &.mobile .figcaption {
+                .container-caption {
+                    position: absolute;
+                    left: 20px;
+                    right: 20px;
+                    bottom: 80px;
+                    text-align: center;
+
+                    .actions {
+                        justify-content: center;
+                    }
+
+                    .action {
+                        width: 140px;
+                    }
+                }
+            }
+            &.desktop .figcaption {
+                .container-caption {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+
+                    .action {
+                        width: 150px;
+                    }
+                }
+            }
+        }
+    }
+}

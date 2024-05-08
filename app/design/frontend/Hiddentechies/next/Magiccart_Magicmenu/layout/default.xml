@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../lib/internal/Magento/Framework/View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="accordion.sidebar" remove="true" />
+        <referenceBlock name="store.menu">
+            <!-- <block class="Silk\Page\Block\Menu" name="catalog.topnav" template="Magiccart_Magicmenu::topmenu.phtml">
+            </block> -->
+               <block class="Silk\Page\Block\Navigation" name="catalog.topnav" template="Magiccart_Magicmenu::topmenu.phtml">
+            </block>
+                        <block class="Magento\Cms\Block\Block" name="app-deals-page">
+				<arguments>
+					<argument name="block_id" xsi:type="string">app-deals-page</argument>
+				</arguments>
+			</block>
+            <block class="Magento\Cms\Block\Block" name="app-new-releases-page">
+				<arguments>
+					<argument name="block_id" xsi:type="string">app-new-releases-page</argument>
+				</arguments>
+			</block>
+        </referenceBlock>
+    </body>
+</page>

@@ -1,0 +1,99 @@
+<?php
+
+use Magento\Framework\App\Action\Action;
+
+/** @var $block \Magento\Catalog\Block\Product\ListProduct */
+
+$_productCollection = $block->getLoadedProductCollection();
+if (!$_productCollection->count()) return;
+
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+$image = 'category_page_grid';
+
+$currentBlock = $block;
+/*$customBlock = $currentBlock->getLayout()->createBlock(\Magiccart\Magicproduct\Block\Widget\Product::class);
+var_dump($customBlock->getDes());exit;*/
+
+$helper = $currentBlock->getData('helper');
+if (!$helper) {
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $helper = $objectManager->get('Silk\Page\Helper\NavigationHelper');
+    $currentBlock->setData('helper', $helper);
+}
+
+$cfg = $block->getCfg();
+if (!empty($cfg['utmKey'])) {
+    $utmKey = $cfg['utmKey'];
+}
+$mageConf = [
+    "ui/swiper" => [
+        "resizeObserver"=> true,
+        "slidesPerView" => 2,
+        "spaceBetween" =>  12,
+        "breakpoints" => [
+            "200" => ["slidesPerView" => 2,"spaceBetween"=>0],
+            "768" => ["slidesPerView" => 2,"spaceBetween"=>12],
+            "1024" => ["slidesPerView" => 3,"spaceBetween"=>12],
+            "1280" => ["slidesPerView"=> 4,"spaceBetween"=>12],
+            "1440" => ["slidesPerView"=> 4,"spaceBetween"=>16],
+        ],
+        "navigation" => [
+            "nextEl" => ".style__matter .swiper-button-next",
+            "prevEl" => ".style__matter .swiper-button-prev",
+        ],
+    ],
+];
+
+?>
+<div class="products wrapper grid products-grid style__matter">
+    <?php $_index=0; ?>
+    <div class="products-list-swiper productSwiper" id="productSwiper">
+        <ol class="list items product-items swiper-wrapper">
+            <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+
+            <?php foreach ($_productCollection as $_product): ?>
+                <li class="item product product-item swiper-slide" data-sku="<?= $_product->getSku() ?>">
+                    <div class="product-item-info" data-container="product-grid">
+                        <?php $productImage = $block->getImage($_product, $image); ?>
+                        <?php $productUrl = $_product->getProductUrl(); ?>
+                        <?php if (!empty($utmKey)) {
+                            $productUrl = $productUrl . '?utm_term=' . $utmKey . '+'. $_product->getSku();
+                        }?>
+                        <div class="images-container">
+                            <a href="<?php /* @escapeNotVerified */ echo $productUrl ?>"
+                                class="product photo product-item-photo" tabindex="-1" target="_blank">
+                                <?php echo $productImage->toHtml(); ?>
+                            </a>
+                        </div>
+                        <div class="product details product-item-details">
+                            <img class="product-item-icon" src="<?= $this->getViewFileUrl('images/icons/product-matter.png') ?>">
+                            <strong class="product-item-name"></strong>
+                            <div class="product-item-desc">
+                                Requires iOS/iPadOS 16.4 (or later) / Android™ 8.1 (or later), Matter
+                            </div>
+                            <a href="<?php /* @escapeNotVerified */  echo $productUrl?>" class="action more">
+                                Learn More
+                            </a>
+                        </div>
+                    </div>
+                    <div class="comment-item">
+                        <div class="image-container"><img src="https://d1zajr8axnrmfh.cloudfront.net/static/shop/image/e9cf4fcb31cc90babfd6f4daa59e6899.svg" class="comment-item-icon"></div>
+                        <div class="comment-item-content"></div>
+                        <div class="comment-item-auth"></div>
+                    </div>
+                </li>
+                <?php $_index++; ?>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
+</div>
+<script>
+require(['jquery', 'swiper'], function($, S) {
+
+    var swiperProduct = new S('.productSwiper', <?= json_encode($mageConf['ui/swiper']) ?>);
+
+});
+</script>

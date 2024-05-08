@@ -1,0 +1,73 @@
+<?php
+
+use Magento\Framework\App\Action\Action;
+
+/** @var $block \Magento\Catalog\Block\Product\ListProduct */
+
+$_productCollection = $block->getLoadedProductCollection();
+if (!$_productCollection->count()) return;
+
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+$image = 'category_page_grid';
+
+$cfg = $block->getCfg();
+$url = '';
+if (!empty($cfg['utmKey'])) {
+    $utmKey = $cfg['utmKey'];
+}
+$bgImage = $cfg['bgImage'];
+$slogan =$cfg['slogan'];
+if (!empty($cfg['url'])) {
+    $url = $cfg['url'];
+}
+
+?>
+<div class="app-recommend-products">
+    <a href="<?php echo$url?>" class="coverBtn"></a>
+    <a href="<?php echo$url?>" class="partBtn">View More</a>
+    <div class="products wrapper grid products-grid app-recommend-limitBg" style="background-image: url(<?php echo $bgImage ?>)">
+    <div class="app-recommend-products-slogan"><?php echo $slogan ?></div>
+        <ol class="list items product-items">
+            <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+            <?php foreach ($_productCollection as $_product): ?>
+                <li class="item product product-item" data-sku="<?= $_product->getSku() ?>">
+                    <div class="product-item-info">
+                        <?php $productImage = $block->getImage($_product, $image); ?>
+                        <?php $productUrl = $_product->getProductUrl(); ?>
+                        <?php if (!empty($utmKey)) {
+                            $productUrl = $productUrl . '?utm_term=' . $utmKey;
+                        }?>
+                        <div class="product details product-item-details">
+                            <strong class="product name product-item-name">
+                                <div class="product-item-link" target="_blank">
+                                    <?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+                                </div>
+                            </strong>
+                            <div class="product-item-more"><div>Learn More >></div></div>
+                        </div>
+                        <div class="images-container">
+                            <div class="product photo product-item-photo" tabindex="-1" target="_blank">
+                                <?php echo $productImage->toHtml(); ?>
+                            </div>
+                        </div>
+                        <div class="product details product-item-details">
+                        <strong class="product name product-item-name">
+                            <a class="product-item-link" href="<?= $productUrl ?>" target="_blank">
+                                <?= $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+                            </a>
+                        </strong>
+                        <?= $block->getProductPrice($_product) ?>
+                    </div>
+                    </div>
+                </li>
+            <?php endforeach; ?>
+        </ol>
+    </div>
+</div>
+<style>
+    a {
+        text-decoration: none;
+    }
+</style>
+

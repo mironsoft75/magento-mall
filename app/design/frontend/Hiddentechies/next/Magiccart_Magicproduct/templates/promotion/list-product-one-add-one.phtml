@@ -1,0 +1,76 @@
+<?php
+
+use Magento\Framework\App\Action\Action;
+
+/** @var $block \Magento\Catalog\Block\Product\ListProduct */
+
+$_productCollection = $block->getLoadedProductCollection();
+if (!$_productCollection->count()) return;
+
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+$image = 'category_page_grid';
+
+$cfg = $block->getCfg();
+if (!empty($cfg['utmKey'])) {
+    $utmKey = $cfg['utmKey'];
+}
+?>
+<div class="products wrapper grid products-grid style__oneAddOne">
+    <ol class="list items product-items">
+        <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+        <?php foreach ($_productCollection as $_product): ?>
+
+            <?php $productImage = $block->getImage($_product, $image); ?>
+            <?php $productUrl = $_product->getProductUrl(); ?>
+            <?php if (!empty($utmKey)) {
+                        $productUrl = $productUrl . '?utm_term=' . $utmKey . '+'. $_product->getSku();
+                    }?>
+            <li class="item product product-item" data-sku="<?= $_product->getSku() ?>">
+                <div class="product-item-info">
+                    <div class="product-item-images">
+                        <div class="images-container">
+                            <a href="<?php /* @escapeNotVerified */ echo $productUrl ?>" class="product photo product-item-photo">
+                               <div><?php echo $productImage->toHtml(); ?></div>
+                                <span class="icon-add"></span>
+                                <div><?php echo $productImage->toHtml(); ?></div>
+                            </a>
+                        </div>
+                        <div class="product-label">
+                            <div class="product-label-main">Buy one get one free </div>
+                            <strong class="product name product-item-name"><a href="<?php /* @escapeNotVerified */ echo $productUrl ?>" class="product-item-link"></a></strong>
+                            <div class="product-label-secondary"></div>
+                        </div>
+                    </div>
+                    <div class="product-item-buyDetail">
+
+                        <div class="price-box-container">
+
+                            <?php $final =  number_format($_product->getFinalPrice(),2) ?>
+                            <?php $originPrice =  number_format($final * 2, 2) ?>
+                            <div>
+                                <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
+                                <span class="old-price">$<?php /* @escapeNotVerified */ echo $originPrice ?> </span>
+                            </div>
+                            <div class="save-price">Save $<?php /* @escapeNotVerified */ echo  $final ?></div>
+                        </div>
+                        <div class="buymoresavemore-m-actions">
+                            <?php if ($_product->isSaleable()) : ?>
+                                <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                <form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $postParams['action']; ?>" method="post">
+                                    <input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
+                                    <input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+                                    <input type="hidden" name="qty" value="1">
+                                    <?php echo $block->getBlockHtml('formkey') ?>
+                                    <button type="submit" class="action tocart buymoresavemore-m-submit">
+                                        <span><?php /* @escapeNotVerified */ echo __('Add to Bundle Cart') ?></span>
+                                    </button>
+                                </form>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        <?php endforeach; ?>
+    </ol>
+</div>

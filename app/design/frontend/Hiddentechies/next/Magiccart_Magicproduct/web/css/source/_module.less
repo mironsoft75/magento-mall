@@ -1,0 +1,59 @@
+& when (@media-common = true) {
+    .make-responsive-column(@breakpoint, @column) {
+        .w@{breakpoint}-c@{column} {
+            @basis: (100% / @column);
+            .item {
+                flex: 0 0 @basis;
+                width: @basis;
+            }
+        }
+    }
+
+    .make-responsive-class(@breakpoint) {
+        @min-width: (@breakpoint * 1px);
+        @media only screen and (min-width: @min-width) {
+            .make-responsive-column(@breakpoint, 1);
+            .make-responsive-column(@breakpoint, 2);
+            .make-responsive-column(@breakpoint, 3);
+            .make-responsive-column(@breakpoint, 4);
+            .make-responsive-column(@breakpoint, 5);
+            .make-responsive-column(@breakpoint, 6);
+            .make-responsive-column(@breakpoint, 7);
+            .make-responsive-column(@breakpoint, 8);
+            .make-responsive-column(@breakpoint, 9);
+        }
+    }
+
+    .magic-category, .magic-product {
+        .make-responsive-class(360);
+        .make-responsive-class(479);
+        .make-responsive-class(575);
+        .make-responsive-class(767);
+        .make-responsive-class(991);
+        .make-responsive-class(1199);
+        .make-responsive-class(1479);
+        .make-responsive-class(1919);
+        .make-responsive-class(1920);
+
+        ol.list {
+            display: flex;
+        }
+
+        .swiper:hover {
+            .swiper-button-prev {
+                transform: translateX(-10%);
+            }
+            .swiper-button-next {
+                transform: translateX(10%);
+            }
+        }
+
+        .product-image-container {
+            width: 100% !important;
+        }
+
+        // .product-reviews-summary {
+        //     display: none;
+        // }
+    }
+}

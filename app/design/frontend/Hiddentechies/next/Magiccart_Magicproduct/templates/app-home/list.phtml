@@ -1,0 +1,9 @@
+<?php if (!$this->getStatus()) return; ?>
+<div class="magic-product">
+    <div class="content-products">
+        <?php
+            $style = $block->getStyle();
+            echo $this->getContent('app-home/list-recomd-bg.phtml');
+        ?>
+    </div>
+</div>

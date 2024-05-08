@@ -1,0 +1,25 @@
+<?php if (!$this->getStatus()) return; ?>
+<div class="magic-product">
+    <div class="content-products">
+        <?php
+        $style = $block->getStyle();
+        if ($style === 'align-left') {
+            echo $this->getContent('promotion/list-product_align-left.phtml');
+        } else if ($style === 'oneAddOne') {
+            echo $this->getContent('promotion/list-product-one-add-one.phtml');
+        } else if ($style === 'discountTen') {
+            echo $this->getContent('promotion/list-product-discount-ten.phtml');
+        } else if ($style === 'ranking') {
+            echo $this->getContent('promotion/list-product-ranking.phtml');
+        }else if($style === 'oneAddOne2'){
+            echo $this->getContent('promotion/list-product-one-add-one2.phtml');
+        }else if ($style === 'twoBundle') {
+            echo $this->getContent('promotion/list-product-two-discount.phtml');
+        }else if ($style === 'matter') {
+            echo $this->getContent('promotion/list-product_matter.phtml');
+        }else {
+            echo $this->getContent('promotion/list-product.phtml');
+        }
+        ?>
+    </div>
+</div>

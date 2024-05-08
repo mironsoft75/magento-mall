@@ -1,0 +1,106 @@
+<?php
+
+use Magento\Framework\App\Action\Action;
+
+/** @var $block \Magento\Catalog\Block\Product\ListProduct */
+
+$_productCollection = $block->getLoadedProductCollection();
+if (!$_productCollection->count()) return;
+
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+$image = 'category_page_grid';
+
+$currentBlock = $block;
+/*$customBlock = $currentBlock->getLayout()->createBlock(\Magiccart\Magicproduct\Block\Widget\Product::class);
+var_dump($customBlock->getDes());exit;*/
+
+$helper = $currentBlock->getData('helper');
+if (!$helper) {
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $helper = $objectManager->get('Silk\Page\Helper\NavigationHelper');
+    $currentBlock->setData('helper', $helper);
+}
+
+$cfg = $block->getCfg();
+if (!empty($cfg['utmKey'])) {
+    $utmKey = $cfg['utmKey'];
+}
+?>
+<div class="products wrapper grid products-grid">
+    <ol class="list items product-items">
+        <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+        <?php foreach ($_productCollection as $_product): ?>
+            <li class="item product product-item" data-sku="<?= $_product->getSku() ?>">
+                <div class="product-item-info" data-container="product-grid">
+                    <?php
+                        if(!$helper){
+                            //产品活动标签
+                            $activityTag = $helper->getActivityTagInfo($_product->getSku());
+                        }else{
+                            $activityTag = '';
+                        }
+                        $fromDate = $_product->getData('news_from_date');
+                        $toDate = $_product->getData('news_to_date');
+                        $isNew = false;
+                        if ($fromDate){
+                            $fromDate = strtotime($fromDate);
+                            $toDate = strtotime($toDate);
+                            $now = strtotime(date("Y-m-d H:i:s"));
+
+                            if ($toDate){
+                                if ($fromDate <= $now && $now <= $toDate) $isNew = true;
+                            } else {
+                                if ($fromDate <= $now) $isNew = true;
+                            }
+                        } else if($toDate) {
+                            $toDate = strtotime($toDate);
+                            $now = strtotime(date("Y-m-d H:i:s"));
+                            if ($now <= $toDate) $isNew = true;
+                        }
+                        if ($isNew):
+                    ?>
+                        <div class="product-label">
+                            <span class="sticker top-left">
+                                <span class="labelnew"><?= __('New') ?></span>
+                            </span>
+                        </div>
+                    <?php endif; ?>
+                    <?php $productImage = $block->getImage($_product, $image); ?>
+                    <?php $productUrl = $_product->getProductUrl(); ?>
+                    <?php if (!empty($utmKey)) {
+                        $productUrl = $productUrl . '?utm_term=' . $utmKey . '+'. $_product->getSku();
+                    }?>
+                    <div class="images-container">
+                        <a href="<?php /* @escapeNotVerified */ echo $productUrl ?>"
+                            class="product photo product-item-photo" tabindex="-1" target="_blank">
+                            <?php echo $productImage->toHtml(); ?>
+                        </a>
+                    </div>
+                    <div class="product details product-item-details">
+                        <strong class="product name product-item-name">
+                            <a class="product-item-link" href="<?php /* @escapeNotVerified */ echo $productUrl ?>" target="_blank">
+                                <?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+                            </a>
+                        </strong>
+                        <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
+                        <div class="promotion-product-m-actions">
+                            <?php if ($_product->isSaleable()) : ?>
+                                <div class="progress"><div class="progress__bar"><div class="progress__fill"></div></div></div>
+                                <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                <form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $postParams['action']; ?>" method="post">
+                                    <input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
+                                    <input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+                                    <?php echo $block->getBlockHtml('formkey') ?>
+                                    <button type="submit" class="action tocart promotion-product-m-submit">
+                                        <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                    </button>
+                                </form>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        <?php endforeach; ?>
+    </ol>
+</div>

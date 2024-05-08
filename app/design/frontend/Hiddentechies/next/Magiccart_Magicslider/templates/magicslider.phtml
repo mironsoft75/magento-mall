@@ -1,0 +1,108 @@
+<?php
+if (!$this->getStatus()) return;
+$slider = $this->getSlider();
+if (!count($slider)) return;
+$notLazyload = (int) $this->getData('exclude_lazyload_visible');
+if ($notLazyload) $notLazyload = (int) $this->getData('visible');
+$imageAsBackground = (int) $this->getData('background-image');
+
+$config = $this->getData();
+$webp = $this->helper('Silk\Page\Helper\Webp');
+$pageConfig = $this->helper('Silk\Page\Helper\Magiccart\Magicproduct')->buildPageConfig($config);
+$mageConf = [
+    "ui/swiper" => [
+        "pagination" => [
+            "el" => ".swiper-pagination",
+        ],
+        "navigation" => [
+            "nextEl" => ".swiper-button-next",
+            "prevEl" => ".swiper-button-prev",
+        ],
+        "autoplay" => [
+            "delay" => 5000,
+        ],
+    ],
+];
+$useSlider = count($slider) > 1;
+?>
+<div class="magic-slider swiper"<?php if ($useSlider): ?> data-mage-init='<?= json_encode($pageConfig['scriptConfig']) ?>'<?php endif; ?>>
+    <div class="swiper-wrapper">
+        <?php foreach ($slider as $key => $image) : ?>
+        <div class="swiper-slide">
+            <?php
+                $classImage = $this->getData('image-class');
+                if ($notLazyload) {
+                    $classImage .= ' loaded';
+                    $notLazyload--;
+                }
+                if ($imageAsBackground) {
+                    $classImage .= ' background-image';
+                }
+                $link = '#';
+                if (isset($image['link'])) {
+                    $link = $image['link'];
+                    if (!empty($link)) {
+                        if (!preg_match('/\?/i', $image['link'])) {
+                            $link = $link . '?';
+                        } else {
+                            $link = $link . '&';
+                        }
+                        // source from
+                        $link = $link . 'sf=' . urlencode('slide-' . ($key + 1));
+                    }
+                }
+            ?>
+            <a href="<?php echo $link; ?>" ct="ClickHomeSlides" ct-url="<?= $link ?>" ct-slide_location="<?= $key + 1 ?>">
+                <picture>
+                    <?php // mobile
+                        $mobileImage = $image->getMobile();
+                        if (!empty($mobileImage)) :
+                        $mobileImageWidth = $mobileImage->getWidth() / 2;
+                        $mobileImageHeight = $mobileImage->getHeight() / 2;
+                        $mobileImageUrl = $mobileImage->getUrl();
+                        $mobileImageWebpUrl = $webp->getWebpUrl($mobileImageUrl);
+                       
+                    ?>
+                        <?php if ($mobileImageWebpUrl) :?>
+                            <source type="image/webp" media="(max-width:<?= $mobileImageWidth ?>px)" srcset="<?= $mobileImageWebpUrl ?>" width="<?= $mobileImageWidth ?>" height="<?= $mobileImageHeight ?>">
+                        <?php endif; ?>
+                        <source media="(max-width:<?= $mobileImageWidth ?>px)" srcset="<?= $mobileImageUrl ?>" width="<?= $mobileImageWidth ?>" height="<?= $mobileImageHeight ?>">
+                    <?php endif; ?>
+                    <?php // desktop
+                        $imageWidth = $image->getWidth() / 2;
+                        $imageHeight = $image->getHeight() / 2;
+                        $imageUrl = $image->getUrl();
+                        $imageWebpUrl = $webp->getWebpUrl($imageUrl);
+                    ?>
+                    <?php if ($imageWebpUrl) :?>
+                        <source type="image/webp" srcset="<?= $imageWebpUrl ?>" width="<?= $imageWidth ?>" height="<?= $imageHeight ?>">
+                    <?php endif; ?>
+                    <img class="img-responsive <?php /* @escapeNotVerified */ echo $classImage ?>" src="<?= $imageUrl ?>" alt="<?php echo __($image->getLabel()) ?>" title="<?php echo __($image->getLabel()) ?>" width="<?= $imageWidth ?>" height="<?= $imageHeight ?>"<?php if($key > 0):?> loading="lazy"<?php endif ?> />
+                </picture>
+            </a>
+            <?php
+                if ($mobileImage && (!empty($image['caption']) || !empty($mobileImage['caption']))) {
+                    $classes = 'caption-' . uniqid();
+                    $width   = $mobileImage->getWidth() / 2;
+                    echo isset($mobileImage['caption']) ? '<div class="magic-slider__caption mobile ' . $classes . '" >' . $mobileImage['caption'] . '</div>' : '';
+                    echo isset($image['caption']) ? '<div class="magic-slider__caption desktop ' . $classes . '" >' . $image['caption'] . '</div>' : '';
+                    $style = '<style>';
+                    $style .= '@media only screen and (max-width: ' . $width . 'px){ .mobile.' .$classes . '{display:block}}';
+                    $style .= '@media only screen and (min-width: ' . ++$width . 'px){ .desktop.' . $classes . ' {display:block}}';
+                    $style .= '</style>';
+                    echo $style;
+                } else if (!empty($image['caption'])) {
+                    echo isset($image['caption']) ? '<div class="magic-slider__caption mobile desktop" >' . $image['caption'] . '</div>' : '';
+                }
+            ?>
+        </div>
+        <?php endforeach ?>
+    </div>
+    <?php if ($useSlider && $pageConfig['dots']) : ?>
+        <div class="swiper-pagination"></div>
+    <?php endif; ?>
+    <?php if ($useSlider && $pageConfig['arrows']) : ?>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    <?php endif; ?>
+</div>

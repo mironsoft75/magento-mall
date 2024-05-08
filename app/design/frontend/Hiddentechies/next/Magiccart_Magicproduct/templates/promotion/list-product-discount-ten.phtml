@@ -1,0 +1,75 @@
+<?php
+
+use Magento\Framework\App\Action\Action;
+
+/** @var $block \Magento\Catalog\Block\Product\ListProduct */
+
+$_productCollection = $block->getLoadedProductCollection();
+if (!$_productCollection->count()) return;
+
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+$image = 'category_page_grid';
+
+$cfg = $block->getCfg();
+if (!empty($cfg['utmKey'])) {
+    $utmKey = $cfg['utmKey'];
+}
+?>
+<div class="products wrapper grid products-grid style__discountTen">
+    <ol class="list items product-items">
+        <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+        <?php foreach ($_productCollection as $_product) : ?>
+            <li class="item product product-item" data-sku="<?= $_product->getSku() ?>">
+                <div class="product-item-info" data-container="product-grid">
+                    <div class="product-label">
+                        <span class="sticker top-left">
+                            <span class="labelnew"><?= __('Best Sellers') ?></span>
+                        </span>
+                    </div>
+                    <?php $productImage = $block->getImage($_product, $image); ?>
+                    <?php $productUrl = $_product->getProductUrl(); ?>
+                    <?php if (!empty($utmKey)) {
+                        $productUrl = $productUrl . '?utm_term=' . $utmKey . '+' . $_product->getSku();
+                    } ?>
+                    <div class="images-container">
+                        <a href="<?php /* @escapeNotVerified */ echo $productUrl ?>" class="product photo product-item-photo" tabindex="-1" target="_blank">
+                            <?php echo $productImage->toHtml(); ?>
+                        </a>
+                    </div>
+                    <div class="product details product-item-details">
+                        <strong class="product name product-item-name">
+                            <a class="product-item-link" href="<?php /* @escapeNotVerified */ echo $productUrl ?>" target="_blank">
+                                <?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+                            </a>
+                        </strong>
+                        <div class="price-box price-final_price">
+                            <?php $final =  number_format($_product->getFinalPrice() * 0.90, 2) ?>
+                            <span class="special-price"><span class="price"><span class="label">New user:</span> $<?php echo $final ?></span></span>
+                            <span class="old-price"><span class="price"><span class="label">$<?php echo number_format($_product->getFinalPrice(), 2) ?></span></span>
+                        </div>
+
+                        <div class="promotion-product-m-actions">
+                            <?php if ($_product->isSaleable()) : ?>
+                                <div class="progress">
+                                    <div class="progress__bar">
+                                        <div class="progress__fill"></div>
+                                    </div>
+                                </div>
+                                <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                <form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $postParams['action']; ?>" method="post">
+                                    <input type="hidden" name="product" value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
+                                    <input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>" value="<?php /* @escapeNotVerified */ echo $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+                                    <?php echo $block->getBlockHtml('formkey') ?>
+                                    <button type="submit" class="action tocart promotion-product-m-submit">
+                                        <span><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></span>
+                                    </button>
+                                </form>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        <?php endforeach; ?>
+    </ol>
+</div>

@@ -1,0 +1,34 @@
+<?php if (!$this->getStatus()) return; ?>
+<?php $uuid = uniqid('mp-'); ?>
+<?php $hasLoadMore = $this->getData('loadmore'); ?>
+<div class="magic-product" id="<?= $uuid ?>">
+    <div class="content-products">
+        <?php echo $this->getContent('partial/grid.phtml'); ?>
+    </div>
+    <?php if ($hasLoadMore): ?>
+    <div class="action-loading" style="display: none; height: 30px;">
+        <div class="loading loading-icon-center"></div>
+    </div>
+    <?php endif; ?>
+</div>
+<?php if ($hasLoadMore): ?>
+<?php
+    $url = $this->getUrl('magicproduct/index/product', array('_secure'=>$this->getRequest()->isSecure()));
+    $tabs = $this->getTabs();
+    $currentType = '';
+    foreach ($tabs as $type => $name) {
+        $currentType = $type;
+    }
+
+    $conf = [
+        '#'.$uuid => [
+            'Magiccart_Magicproduct/js/app-loadmore' => [
+                'infotabs' => json_decode($this->getAjaxCfg(), true),
+                'type' => $currentType,
+                'url' => $url,
+            ],
+        ],
+    ];
+?>
+<script type="text/x-magento-init"><?= json_encode($conf) ?></script>
+<?php endif; ?>

@@ -1,0 +1,68 @@
+<?php
+
+use Magento\Framework\App\Action\Action;
+
+/** @var $block \Magento\Catalog\Block\Product\ListProduct */
+
+$_productCollection = $block->getLoadedProductCollection();
+if (!$_productCollection->count()) return;
+
+$image = 'category_page_grid';
+$config = $this->getWidgetCfg();
+$showReview     = $config['review']   ?? '';
+$outputHelper   = $this->helper('Magento\Catalog\Helper\Output');
+$magicHelper    = $this->helper('Silk\Page\Helper\Magiccart\Magicproduct');
+$templateType   = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
+?>
+<div class="products wrapper grid products-grid" data-id="<?= $config['identifier'] ?>">
+    <ol class="list items product-items" data-identifier="<?= $config['identifier'] ?>">
+        <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+        <?php foreach ($_productCollection as $key => $_product) : ?>
+            <?php $productSKU = $_product->getSku(); ?>
+            <?php $productName = $outputHelper->productAttribute($_product, $_product->getName(), 'name'); ?>
+            <li class="item product product-item">
+                <div class="product-item-info" data-sku="<?= $productSKU ?>">
+                    <?php if ($magicHelper->isNew($_product)) : ?><div class="product-label"><?= __('NEW') ?></div><?php endif; ?>
+                    <?php $productImage = $block->getImage($_product, $image); ?>
+                    <div class="images-container" width="<?= $productImage->getWidth() ?>" height="<?= $productImage->getHeight() ?>">
+                        <a href="<?= $_product->getProductUrl() ?>" class="product photo product-item-photo" tabindex="-1" ct="ClickWebHomeGoodsList" ct-product_location="<?= $config['identifier'] ?>-<?= $key + 1 ?>" ct-product_name="<?=$productName?>" ct-sku_id="<?=$productSKU?>">
+                            <?php echo $productImage->toHtml(); ?>
+                        </a>
+                    </div>
+                    <div class="product details product-item-details">
+                        <strong class="product name product-item-name">
+                            <a class="product-item-link" href="<?= $_product->getProductUrl() ?>" ct="ClickWebHomeGoodsList" ct-product_location="<?= $config['identifier'] ?>-<?= $key + 1 ?>" ct-product_name="<?=$productName?>" ct-sku_id="<?=$productSKU?>">
+                                <?= $productName ?>
+                            </a>
+                        </strong>
+                        <?php echo $showReview ? $block->getReviewsSummaryHtml($_product, $templateType) : ''; ?>
+                        <?= $block->getProductPrice($_product) ?>
+                        <div class="product-item-inner">
+                            <div class="product actions product-item-actions">
+                                <div class="actions-primary">
+                                    <?php if ($_product->isSaleable()) : ?>
+                                        <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+                                        <form data-role="tocart-form" action="<?= $postParams['action']; ?>" method="post">
+                                            <input type="hidden" name="product" value="<?= $postParams['data']['product']; ?>">
+                                            <input type="hidden" name="<?= Action::PARAM_NAME_URL_ENCODED; ?>" value="<?= $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+                                            <?php echo $block->getBlockHtml('formkey') ?>
+                                            <button type="submit" title="<?php echo $block->escapeHtml(__('Add to Cart')); ?>" class="action tocart primary">
+                                                <span><?= __('Add to Cart') ?></span>
+                                            </button>
+                                        </form>
+                                    <?php else : ?>
+                                        <?php if ($_product->getIsSalable()) : ?>
+                                            <div class="stock available"><span><?= __('In stock') ?></span></div>
+                                        <?php else : ?>
+                                            <div class="stock unavailable"><span><?= __('Out of stock') ?></span></div>
+                                        <?php endif; ?>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        <?php endforeach; ?>
+    </ol>
+</div>

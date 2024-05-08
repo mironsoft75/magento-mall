@@ -1,0 +1,43 @@
+<?php
+
+use Magento\Framework\App\Action\Action;
+
+/** @var $block \Magento\Catalog\Block\Product\ListProduct */
+
+$_productCollection = $block->getLoadedProductCollection();
+if (!$_productCollection->count()) return;
+
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+?>
+<?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+<?php foreach ($_productCollection as $_product): ?>
+<div class="springsale-m-product" data-sku="<?= $_product->getSku() ?>">
+    <a class="springsale-m-name" href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>">
+        <?php /* @escapeNotVerified */ echo $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+    </a>
+    <div class="springsale-m-tip"><?php /* @escapeNotVerified */ echo __('Blend artistry and practicality for joy.') ?>
+    </div>
+    <div class="springsale-m-bottom">
+        <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
+        <div class="springsale-m-actions">
+            <?php if ($_product->isSaleable()) : ?>
+            <?php $postParams = $block->getAddToCartPostParams($_product); ?>
+            <form data-role="tocart-form" action="<?php /* @escapeNotVerified */ echo $postParams['action']; ?>"
+                method="post">
+                <input type="hidden" name="product"
+                    value="<?php /* @escapeNotVerified */ echo $postParams['data']['product']; ?>">
+                <input type="hidden" name="<?php /* @escapeNotVerified */ echo Action::PARAM_NAME_URL_ENCODED; ?>"
+                    value="<?php /* @escapeNotVerified */ echo $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+                <?php echo $block->getBlockHtml('formkey') ?>
+                <button type="submit"
+                    class="action tocart springsale-m-submit"><?php /* @escapeNotVerified */ echo __('Add to Cart') ?></button>
+            </form>
+            <?php endif; ?>
+            <a class="springsale-m-more" href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>">
+                <?php /* @escapeNotVerified */ echo __('Learn More') ?>
+            </a>
+        </div>
+    </div>
+</div>
+<?php endforeach; ?>

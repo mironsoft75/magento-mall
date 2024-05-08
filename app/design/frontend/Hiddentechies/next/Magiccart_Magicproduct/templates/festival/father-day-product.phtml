@@ -1,0 +1,27 @@
+<?php
+    $_productCollection = $block->getLoadedProductCollection();
+    if (!$_productCollection->count()) return;
+    $image        = 'category_page_grid';
+?>
+<div class="father-products-list">
+    <?php /** @var $_product \Magento\Catalog\Model\Product */ ?>
+    <?php foreach ($_productCollection as $_product): ?>
+    <div data-sku="<?= $_product->getSku() ?>" class="product-item-wrapper">
+        <a href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>" class="product-image" tabindex="-1">
+            <?php $productImage = $block->getImage($_product, $image); ?>
+            <?php echo $productImage->toHtml(); ?>
+        </a>
+        <div class="product-detail-wrapper">
+            <a class="product-name" href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>">
+                <?php /* @escapeNotVerified */ echo $_product->getName() ?>
+            </a>
+            <?php /* @escapeNotVerified */ echo $block->getProductPrice($_product) ?>
+            <div class="product-actions">
+                <a class="product-buy-now" href="<?php /* @escapeNotVerified */ echo $_product->getProductUrl() ?>">
+                    <?= __('Buy Now') ?>
+                </a>
+            </div>
+        </div>
+    </div>
+    <?php endforeach; ?>
+</div>

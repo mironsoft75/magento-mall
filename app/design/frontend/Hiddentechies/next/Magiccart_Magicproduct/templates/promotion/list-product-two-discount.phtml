@@ -1,0 +1,119 @@
+<?php
+
+use Magento\Framework\App\Action\Action;
+
+/** @var $block \Magento\Catalog\Block\Product\ListProduct */
+
+$_productCollection = $block->getLoadedProductCollection();
+if (!$_productCollection->count()) return;
+
+$_helper = $this->helper('Magento\Catalog\Helper\Output');
+
+$image = 'category_page_grid';
+
+$currentBlock = $block;
+/*$customBlock = $currentBlock->getLayout()->createBlock(\Magiccart\Magicproduct\Block\Widget\Product::class);
+var_dump($customBlock->getDes());exit;*/
+
+$helper = $currentBlock->getData('helper');
+if (!$helper) {
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+    $helper = $objectManager->get('Silk\Page\Helper\NavigationHelper');
+    $currentBlock->setData('helper', $helper);
+}
+
+$cfg = $block->getCfg();
+if (!empty($cfg['utmKey'])) {
+    $utmKey = $cfg['utmKey'];
+}
+if (!empty($cfg['discount'])) {
+    $discount = explode(',',$cfg['discount']);
+}
+$list = [];
+$listItem =[];
+$_index = 0;
+
+foreach ($_productCollection as $_product){
+    $listItem[]= $_product;
+    ++$_index;
+    if($_index%2 === 0){
+        $list[] =$listItem;
+        $listItem = [];
+     }
+}
+?>
+<div class="products wrapper grid products-grid style__bundle">
+    <div class="list items product-items">
+    <?php $index = 0; ?>
+    <?php foreach ($list as $item): ?>
+        <?php $_key = 0; ?>
+        <li class="product-item-content">
+            <div class="product-item-images">
+                <?php foreach($item as $_product): ?>
+                    <?php $productImage = $block->getImage($_product, $image); ?>
+                    <?php $productUrl = $_product->getProductUrl(); ?>
+                    <?php if (!empty($utmKey)) {
+                        $productUrl = $productUrl . '?utm_term=' . $utmKey . '+' . $_product->getSku();
+                    } ?>
+                    <div class="item product product-item" data-sku="<?= $_product->getSku() ?>" data-type="<?= $_product->getTypeId() ?>">
+                        <div class="images-container">
+                            <a href="<?= $productUrl ?>" class="product photo product-item-photo" tabindex="-1" target="_blank">
+                                <?php echo $productImage->toHtml(); ?>
+                            </a>
+                        </div>
+                        <div class="product details product-item-details">
+                            <strong class="product name product-item-name">
+                                <a class="product-item-link" href="<?= $productUrl ?>" target="_blank">
+                                    <?= $_helper->productAttribute($_product, $_product->getName(), 'name'); ?>
+                                </a>
+                            </strong>
+                            <div class="price-box">
+                                <span class="price"><?= $_product->isSaleable()?sprintf('%.2f',$_product->getPrice()): 'Sold Out' ?></span>
+                            </div>
+                        </div>
+                    </div>
+                   <?php if($_key===0): ?> <span class="icon-add"></span> <?php endif; ?>
+                    <?php $_key++ ?>
+                <?php endforeach; ?>
+            </div>
+            <?php
+                  $_firstProduct =  $item[0];
+                  $_secondProduct = $item[1];
+                  $_discount = empty($cfg['discount']) ? 1 : $discount[$index];
+                  $_firstProduct_price = $item[0]->isSaleable() ? $_firstProduct->getPrice() : 0;
+                  $_secondProduct_price = $item[1]->isSaleable() ? $_secondProduct->getPrice() : 0;
+                  $_firstProduct_FinalPrice = $item[0]->isSaleable() ? $_firstProduct->getFinalPrice() : 0;
+                  $_secondProduct_FinalPrice = $item[1]->isSaleable() ? $_secondProduct->getFinalPrice() : 0;
+                  $originTotal =  sprintf('%.2f',($_firstProduct_price + $_secondProduct_price));
+                  $total =  sprintf('%.2f',($_firstProduct_FinalPrice + $_secondProduct_FinalPrice) * $_discount);
+                  $save =  sprintf('%.2f',($originTotal - $total));
+                  $_secondProductPostParams = $block->getAddToCartPostParams($_secondProduct);
+            ?>
+            <div class="product-item-action">
+                <div class="prices">
+                    <div class="price-box"><span class="special-price">$<?=$total?></span> <span class="old-price">$<?=$originTotal?></span></div>
+                    <div class="save-price"><span>You Save $</span><?=$save?></div>
+                </div>
+                <div>
+                    <div class="actions promotion-product-m-actions">
+                        <?php $postParams = $block->getAddToCartPostParams($_firstProduct); ?>
+                        <form class="tocart-form" data-role="tocart-form" action="<?= $postParams['action']; ?>" method="post">
+                            <input type="hidden" name="product" value="<?= $postParams['data']['product']; ?>">
+                            <input type="hidden" name="qty" value="1">
+                            <input type="hidden" name="bundle_product[<?=$_secondProductPostParams['data']['product']?>]" value="1">
+                            <input type="hidden" name="<?= Action::PARAM_NAME_URL_ENCODED; ?>" value="<?= $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+                            <?php echo $block->getBlockHtml('formkey') ?>
+                            <button type="button" class="action primary buynow" data-default-label="<?= __('Buy Now') ?>"
+                                <?php if ($_product->getTypeId() == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE): ?>
+                                data-type="configurable" data-id="<?= $postParams['data']['product']; ?>"
+                                <?php endif; ?>
+                            ><?= __('Buy Now') ?></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <?php $index++; ?>
+        <?php endforeach; ?>
+    </div>
+</div>

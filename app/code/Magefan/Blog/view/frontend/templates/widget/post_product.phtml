@@ -1,0 +1,120 @@
+<?php
+/**
+ * Blog recent posts widget
+ *
+ * @var $block \Magefan\Blog\Block\Widget\PostProduct
+ */
+use Magento\Framework\App\Action\Action;
+?>
+<?php
+
+$post = $block->getPost();
+$configProduct = $block->getPostProductInfo();
+$_product = $block->getProductById($configProduct['product_id']);
+$objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+$listBlock = $objectManager->get('\Magento\Catalog\Block\Product\ListProduct');
+?>
+
+<?php if (!empty($configProduct['product_id'])):?>
+
+<div id="product_<?php echo $configProduct['product_id']; ?>" name="product_<?php echo $configProduct['product_id']; ?>" class="post-content" data-mage-init='{"Magefan_Blog/js/blog-post-view":{}}'>
+    <!-- Insert product patch -->
+    <div class="post-content-product">
+        <div class="product__photo">
+            <div class="product__photo__innr">
+                <img src="<?php echo $configProduct['image']; ?>" alt="">
+            </div>
+            <div class="product__detail__code">
+                <img src="<?= $this->getViewFileUrl('images/icons/copy.svg'); ?>" alt="copy" class="btn-copy" />
+                <span class="copy-code"><?php echo $configProduct['code']; ?></span>
+            </div>
+        </div>
+        <div class="product__detail">
+            <div class="product__detail__name"><?php echo $configProduct['name']; ?></div>
+            <div class="product__detail__priceBox">
+                <div class="currentSave">
+                    <div class="current"><?php echo $configProduct['final_price']; ?></div>
+                    <div class="origin"><?php echo $configProduct['price']; ?></div>
+                    <?php if(!empty($configProduct['discount'])): ?>
+                        <div class="save"><?php echo $configProduct['discount']; ?></div>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="product__detail__code">
+                <img src="<?= $this->getViewFileUrl('images/icons/copy.svg'); ?>" alt="copy" class="btn-copy">
+                <span class="copy-code"><?php echo $configProduct['code']; ?></span>
+            </div>
+            <div class="product__detail__desc">
+               <div class="product__detail__desc__content">
+                    <?php echo $configProduct['short_description']; ?>
+               </div>
+            </div>
+            <div class="product__detail__btn">
+                <div class="product__detail__more">
+                    <a href="<?php echo $configProduct['product_url']; ?>" target="_blank">
+                        Learn More
+                    </a>
+                </div>
+                <div class=" product__detail__buyBtns">
+                <?php $postParams = $listBlock->getAddToCartPostParams($_product); ?>
+                <form class="tocart-form" data-role="tocart-form" action="<?= $postParams['action']; ?>" method="post">
+                        <input type="hidden" name="product" value="<?= $postParams['data']['product']; ?>">
+                        <input type="hidden" name="qty" value="1">
+                        <input type="hidden" name="<?= Action::PARAM_NAME_URL_ENCODED; ?>" value="<?= $postParams['data'][Action::PARAM_NAME_URL_ENCODED]; ?>">
+                        <?php echo $block->getBlockHtml('formkey') ?>
+                        <button type="button" class="action primary buynow" data-default-label="<?= __('Buy Now') ?>"
+                            <?php if ($_product->getTypeId() == \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE): ?>
+                                data-type="configurable" data-id="<?= $postParams['data']['product']; ?>"
+                            <?php endif; ?>
+                        ><?= __('Buy Now') ?>
+                         </button>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+            require(['jquery'], function($) {
+                $('.btn-copy').click(function (){
+                    const _text = $(this).siblings('.copy-code').text();
+                    navigator.clipboard.writeText(_text);
+                    $(this).attr('src','<?= $this->getViewFileUrl('images/icons/copy-selected.svg'); ?>');
+                    setTimeout(()=>{
+                        $(this).attr('src','<?= $this->getViewFileUrl('images/icons/copy.svg'); ?>');
+                    },5000)
+                })
+
+                var $desc = $('.post-content-product');
+                $desc.each(function() {
+                    const _this = $(this);
+                    const _url = _this.find('.product__detail__more').find('a').attr('href');
+                    const $wrap = _this.find('.product__detail__desc');
+                    const $value = $wrap.find('.product__detail__desc__content');
+                    $value.on('change', function() {
+                        if ($value.outerHeight() > 112) {
+                            _this.addClass('foldable').removeClass('expanded');
+                            $wrap.css({
+                                height: 112,
+                                'max-height': 'none',
+                            });
+                            const $open = $wrap.find('.product__detail__desc__switcher__open');
+                            const $close = $wrap.find('.product__detail__desc__switcher__close');
+                            if (!$open.length) {
+                                $wrap.after('<div class="product__detail__desc__switcher__container">' +
+                                    `<a href="${_url}" class="product__detail__desc__switcher__open"><span>Learn More</span> <i class="fs-arrow-right"></i></a>` +
+                                    '<a href="javascript:void(0);" class="product__detail__desc__switcher__close"><span>Read Less</span> <i class="fs-arrow-up"></i></a>' +
+                                    '</div>');
+                            }
+                        } else {
+                            $wrap.css({
+                                height: 'auto'
+                            });
+                            _this.removeClass('foldable');
+                        }
+                    }).trigger('change');
+                })
+            });
+        </script>
+<?php endif; ?>
+
